@@ -1,7 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+/* ------------- General --------------- */
+
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
-        "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: "Quicksand";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -17,26 +20,98 @@ a {
     text-decoration: none;
 }
 
-.footer {
+input {
+    font-family: "Quicksand";
+    width: 260px;
+    height: 30px;
     font-size: 1.8vh;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-    text-align: center;
-    
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+    border: 1px solid rgb(34, 33, 33);
+    border-radius: 6px;
 }
 
-.footer a {
-    padding-bottom: 12px;
+/* ------------- Item(s) --------------- */
+
+.all-items {
+    max-width: 1200px;
+    margin: 20px auto;
+
+    display: grid;
+    /* grid-template-columns: auto auto auto; */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    /* gap: 20px; */
 }
+
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: maroon;
+    border-radius: 10px;
+    box-shadow: 3px 3px gray;
+
+    width: 300px;
+    height: 450px;
+    /* top right bottom left */
+    margin: auto auto 30px auto;
+}
+
+.item .item-info {
+    width: 250px;
+    gap: 5px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.item h2, .item h4 {
+    margin: 8px auto;
+}
+
+.item img {
+    width: 250px;
+    height: 250px;
+}
+
+/* ------------- Footer --------------- */
+
+.footer {
+    font-size: 1.8vh;
+    position: absolute;
+    width: 100%;
+    background-color: lightgrey;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.footer ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 50px;
+    margin-right: 50px;
+    gap: 9px;
+}
+
+.footer li {
+    width: fit-content;
+}
+
+/* ------------- Navbar --------------- */
 
 .navbar-div {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    border-bottom: 1px solid rgb(194, 61, 61);
+    padding: 0 180px;
 }
 
 .navbar-links li {

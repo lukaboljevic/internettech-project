@@ -1,0 +1,3 @@
+Required global packages
+
+nodemon => npm install -g nodemon

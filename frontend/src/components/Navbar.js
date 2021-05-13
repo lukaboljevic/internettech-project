@@ -10,6 +10,9 @@ const Navbar = () => {
                     <li>
                         <a href="/about">About</a>
                     </li>
+                    <li>
+                        <input type="text" placeholder=" Search" name="" id="" />
+                    </li>
                 </ul>
             </nav>
             <nav className="navbar-links">
