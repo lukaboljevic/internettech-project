@@ -10,19 +10,17 @@ app.use(express.json());
 
 router.get("/items", async (request, response) => {
     try {
-        // console.log(request);
         const items = await dynamoOperations.getAllItems();
         response.status(200).json(items.Items);
     } catch (error) {
         console.error(error);
-        response.status(500).json({ error });
+        response.json({ error });
     }
 });
 
 router.get("/items/:itemId", async (request, response) => {
     const itemId = request.params.itemId;
     try {
-        // console.log(request);
         const item = await dynamoOperations.getItem(itemId);
         if (!item.Item) {
             response.status(404).json({ message: "Item with the id " + itemId + " not found!" });
@@ -31,14 +29,13 @@ router.get("/items/:itemId", async (request, response) => {
         response.status(200).json(item.Item);
     } catch (error) {
         console.error(error);
-        response.status(500).json({ error });
+        response.json({ error });
     }
 });
 
 router.post("/items", async (request, response) => {
     const item = request.body;
     try {
-        // console.log(request);
         const newItem = await dynamoOperations.insertItem(item);
         if (!newItem) {
             // if it returned undefined after it tried x times
@@ -49,7 +46,33 @@ router.post("/items", async (request, response) => {
         response.status(200).json(newItem);
     } catch (error) {
         console.error(error);
-        response.status(500).json({ error });
+        response.json({ error });
+    }
+});
+
+router.delete("/items/:itemId", async (request, response) => {
+    const itemId = request.params.itemId;
+    try {
+        const result = await dynamoOperations.deleteItem(itemId);
+        const message = result.Attributes
+            ? "Item " + itemId + " found and deleted"
+            : "Item " + itemId + " was not found but I won't throw an error for now";
+        response.status(200).json({ message });
+    } catch (error) {
+        console.error(error);
+        response.json({ error });
+    }
+});
+
+router.put("/items", async (request, response) => {
+    const updatedItem = request.body;
+    try {
+        const result = await dynamoOperations.updateItem(updatedItem);
+        response.status(200).json(result.Attributes);
+    }
+    catch (error) {
+        console.error(error);
+        response.json({ error });
     }
 });
 
