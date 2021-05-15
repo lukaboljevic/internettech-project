@@ -27,103 +27,6 @@ ul {
     list-style-type: none;
 }
 
-/* ------------- Item(s) --------------- */
-
-.loading {
-    margin: 0 auto;
-    font-size: 2.5em;
-}
-
-.all-items {
-    max-width: 1200px;
-    margin: 20px auto;
-
-    display: grid;
-    /* grid-template-columns: auto auto auto; */
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    /* gap: 20px; */
-}
-
-.item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    border-width: 2px;
-    border-style: solid;
-    border-color: maroon;
-    border-radius: 10px;
-    box-shadow: 3px 3px gray;
-
-    width: 300px;
-    min-height: 480px;
-    /* top right bottom left */
-    margin: auto auto 30px auto;
-}
-
-.item .item-info {
-    width: 250px;
-    gap: 5px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.item h2, .item h4 {
-    margin: 8px auto;
-}
-
-.item img {
-    width: 250px;
-    height: 250px;
-}
-
-/* ------------- Footer --------------- */
-
-.footer {
-    font-size: 1.1em;
-    position: absolute;
-    width: 100%;
-    background-color: lightgrey;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-.footer ul {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 60px;
-    margin-right: 60px;
-    gap: 9px;
-}
-
-.footer li {
-    width: fit-content;
-}
-
-/* ------------- Home --------------- */
-
-.home {
-    max-width: 300px;
-    text-align: center;
-    font-size: 2em;
-    margin: 20px auto;
-}
-
-/* ------------- About --------------- */
-
-.about {
-    max-width: 300px;
-    text-align: center;
-    font-size: 2em;
-    margin: 20px auto;
-}
-
 /* ------------- Navbar --------------- */
 
 .navbar-div {
@@ -155,3 +58,161 @@ ul {
     padding-left: 30px;
 }
 
+/* ------------- Home --------------- */
+
+.home {
+    max-width: 300px;
+    text-align: center;
+    font-size: 2em;
+    margin: 20px auto;
+}
+
+/* ------------- About --------------- */
+
+.about {
+    max-width: 300px;
+    text-align: center;
+    font-size: 2em;
+    margin: 20px auto;
+}
+
+/* ------------- (Single) Item page --------------- */
+
+.item-page {
+    max-width: 1200px;
+    margin: 20px auto;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.item-page-info {
+    margin-left: 30px;
+    width: 50%;
+    padding-left: 10px;
+    min-height: 420px;
+
+    background-color:#d3d3d3;
+    border: 3px solid rgb(179, 0, 0);
+    border-radius: 10px;
+    box-shadow: 4px 4px darkgray;
+}
+
+.item-page h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+.item-page h2 {
+    font-size: 1.8em;
+}
+
+.item-page span {
+    font-size: 0.8em;
+    font-weight: normal;
+}
+
+.item-page img {
+    margin-left: 8%;
+    max-width: 500px;
+    max-height: 500px;
+
+    border: 3px solid rgb(179, 0, 0);
+    border-radius: 25px;
+    box-shadow: 4px 4px darkgray;
+}
+
+.item-page button {
+    /* position: relative;
+    bottom: 5px; */
+    width: 150px;
+    height: 45px;
+
+    font-family: "Quicksand";
+    font-size: 1.3em;
+    font-weight: bold;
+
+    color: white;
+    background-color:#007bff;
+    border: none;
+    border-radius: 5px;
+}
+
+/* ------------- List items (all items page) --------------- */
+
+.loading {
+    margin: 0 auto;
+    font-size: 2.5em;
+}
+
+.all-items {
+    max-width: 1200px;
+    margin: 20px auto;
+
+    display: grid;
+    /* grid-template-columns: auto auto auto; */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    /* gap: 20px; */
+}
+
+.item-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border: 2px solid rgb(179, 0, 0);;
+    border-radius: 10px;
+    box-shadow: 3px 3px gray;
+    background-color: #d3d3d3;
+
+    width: 300px;
+    min-height: 480px;
+    /* top right bottom left */
+    margin: auto auto 30px auto;
+}
+
+.item-box .item-info {
+    width: 250px;
+    gap: 5px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.item-box h2, .item-box h4 {
+    margin: 8px auto;
+}
+
+.item-box img {
+    width: 250px;
+    height: 250px;
+}
+
+/* ------------- Footer --------------- */
+
+.footer {
+    font-size: 1.1em;
+    position: absolute;
+    width: 100%;
+    background-color: lightgrey;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.footer ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 60px;
+    margin-right: 60px;
+    gap: 9px;
+}
+
+.footer li {
+    width: fit-content;
+}
