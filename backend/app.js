@@ -8,6 +8,8 @@ const router = express.Router();
 app.use(cors()); // I'll leave the default settings for cors for now
 app.use(express.json());
 
+// Good explanation of the difference between POST and PUT: https://stackoverflow.com/a/18243587
+
 router.get("/items", async (request, response) => {
     try {
         const items = await dynamoOperations.getAllItems();

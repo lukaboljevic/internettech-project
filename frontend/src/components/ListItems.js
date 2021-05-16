@@ -69,7 +69,7 @@ const ListItems = () => {
                 items.map(item => (
                     <div key={item.id} className="item-box">
                         <Link to={`/items/${item.id}`}>
-                            {/* not how I will add images probably but it's okay for now */}
+                            {/* TODO: not how I will add images probably but it's okay for now */}
                             <img src={item.images ? item.images[0] : "images/noimage.png"} alt="" />
                             <div className="item-info">
                                 <h2>{item.name}</h2>

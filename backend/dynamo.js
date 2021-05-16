@@ -1,5 +1,6 @@
 const AWS = require("aws-sdk");
 const uuid = require("uuid");
+const algolia = require("./algolia");
 
 AWS.config.update({
     region: "eu-central-1",
@@ -42,8 +43,15 @@ const insertItem = async item => {
             };
             await client.put(params).promise();
             insertSuccess = true;
-            // console.log(params.Item);
-            console.log("successfully inserted!");
+
+            // Save the same item in Algolia so we can search it later
+            const itemsIndex = await algolia.getItemsIndex();
+            await itemsIndex.saveObjects([{
+                ...params.Item,
+                objectID: itemId, // Algolia records are required to have an objectID parameter
+            }])
+
+            // console.log("successfully inserted!");
             return params.Item;
         } catch (error) {
             console.error(error);
@@ -66,6 +74,11 @@ const deleteItem = async id => {
         ReturnValues: "ALL_OLD",
     };
     const result = await client.delete(params).promise();
+
+    // Delete it from Algolia as well
+    const itemsIndex = await algolia.getItemsIndex();
+    await itemsIndex.deleteObjects([id]);
+
     return result;
 };
 
@@ -76,7 +89,7 @@ const updateItem = async updatedItem => {
             id: updatedItem.id,
         },
         ReturnValues: "ALL_NEW",
-        // TODO: games are missing rn
+        // TODO: improve update logic
         UpdateExpression: "SET #city = :city, hourPrice = :hourPrice, #name = :name, #phone = :phone",
         ExpressionAttributeNames: {
             "#city": "city",
@@ -90,6 +103,7 @@ const updateItem = async updatedItem => {
             ":phone": updatedItem.phone,
         },
     };
+    // TODO: update in algolia too.
     const result = client.update(params).promise();
     return result;
 };
