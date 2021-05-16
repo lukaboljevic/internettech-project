@@ -67,8 +67,8 @@ const ListItems = () => {
                 })}
             {items &&
                 items.map(item => (
-                    <div key={item.id} className="item-box">
-                        <Link to={`/items/${item.id}`}>
+                    <Link key={item.id} to={`/items/${item.id}`}>
+                        <div key={item.id} className="item-box">
                             {/* TODO: not how I will add images probably but it's okay for now */}
                             <img src={item.images ? item.images[0] : "images/noimage.png"} alt="" />
                             <div className="item-info">
@@ -86,8 +86,8 @@ const ListItems = () => {
                                 <h4>Price per hour: {item.hourPrice + " euros"}</h4>
                                 <h4>City: {item.city}</h4>
                             </div>
-                        </Link>
-                    </div>
+                        </div>
+                    </Link>
                 ))}
         </div>
     );

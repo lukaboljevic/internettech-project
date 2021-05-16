@@ -6,6 +6,7 @@ import ListItems from "./ListItems";
 import Home from "./Home";
 import About from "./About";
 import ItemPage from "./ItemPage";
+import ErrorPage from "./ErrorPage";
 
 function App() {
     return (
@@ -24,6 +25,9 @@ function App() {
                     </Route>
                     <Route exact path="/about">
                         <About />
+                    </Route>
+                    <Route path="*">
+                        <ErrorPage />
                     </Route>
                 </Switch>
                 <Footer />

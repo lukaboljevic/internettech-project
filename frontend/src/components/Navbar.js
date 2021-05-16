@@ -1,16 +1,18 @@
+import { Link } from "react-router-dom";
+
 const Navbar = () => {
     return (
         <div className="navbar-wrapper">
             <h1 className="navbar-title">
-                <a href="/">Renting</a>
+                <Link to="/">Renting</Link>
             </h1>
             <nav className="navbar-links">
                 <ul>
                     <li>
-                        <a href="/">Home</a>
+                        <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <a href="/items">Items</a>
+                        <Link to="/items">Items</Link>
                     </li>
                     <li>
                         <input
@@ -24,13 +26,13 @@ const Navbar = () => {
             <nav className="navbar-links">
                 <ul>
                     <li>
-                        <a href="/about">About</a>
+                        <Link to="/about">About</Link>
                     </li>
                     <li>
-                        <a href="/login">Login</a>
+                        <Link to="/login">Login</Link>
                     </li>
                     <li>
-                        <a href="/signup">Sign up</a>
+                        <Link to="/signup">Sign up</Link>
                     </li>
                 </ul>
             </nav>

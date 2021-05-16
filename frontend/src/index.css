@@ -28,6 +28,21 @@ ul {
     list-style-type: none;
 }
 
+.general-button {
+    font-family: "Quicksand";
+    font-size: 1.3em;
+    font-weight: bold;
+
+    color: white;
+    background-color:#007bff;
+    border: none;
+    border-radius: 5px;
+}
+
+.general-button:hover {
+    background-color:#006ce0;
+}
+
 /* ------------- Navbar --------------- */
 
 .navbar-wrapper {
@@ -97,7 +112,7 @@ ul {
 
 .item-page-wrapper {
     max-width: 1200px;
-    margin: 40px auto 20px auto;
+    margin: 40px auto 30px auto;
 
     display: flex;
     justify-content: space-around;
@@ -141,25 +156,12 @@ ul {
     box-shadow: 4px 4px darkgray;
 }
 
-.item-page-wrapper button {
+.item-page-wrapper .item-page-button {
     /* position: relative;
     bottom: 5px; */
     margin-bottom: 0.9em;
     width: 150px;
     height: 45px;
-
-    font-family: "Quicksand";
-    font-size: 1.3em;
-    font-weight: bold;
-
-    color: white;
-    background-color:#007bff;
-    border: none;
-    border-radius: 5px;
-}
-
-.item-page-wrapper button:hover {
-    background-color:#006ce0;
 }
 
 /* ------------- List items (all items page) --------------- */
@@ -171,7 +173,7 @@ ul {
 
 .all-items {
     max-width: 1200px;
-    margin: 20px auto;
+    margin: 30px auto;
 
     display: grid;
     /* grid-template-columns: auto auto auto; */
@@ -241,4 +243,27 @@ ul {
 
 .footer a:hover {
     color: rgb(106, 158, 255);
+}
+
+/* ------------- Error page --------------- */
+
+.error-page {
+    max-width: 1200px;
+    margin: 40px auto 30px auto;
+    text-align: center;
+}
+
+.error-page > * {
+    margin: 0;
+    margin-bottom: 30px;
+}
+
+.error-page p {
+    font-size: 1.3em;
+    line-height: 1.6em;
+}
+
+.error-page-button {
+    height: 50px;
+    width: 300px;
 }

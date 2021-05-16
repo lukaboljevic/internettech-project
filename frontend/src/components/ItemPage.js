@@ -4,6 +4,9 @@ const ItemPage = () => {
     const { itemId } = useParams(); // Grab the item id from the URL/route
 
     // TODO: useEffect to the endpoint to fetch the item
+    // useEffect cleanup too
+    // TODO: if the item does not exist (look at the corresponding function in app.js)
+    // send him to the error page
     const item = {
         city: "Herceg Novi",
         games: [
@@ -46,7 +49,7 @@ const ItemPage = () => {
                 <h2>
                     Phone number: <span>{item.phone}</span>
                 </h2>
-                <button>Rent now</button>
+                <button className="general-button item-page-button">Rent now</button>
             </div>
         </div>
     );
