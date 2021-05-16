@@ -8,13 +8,16 @@ const ItemPage = () => {
         city: "Herceg Novi",
         games: [
             "Shadow of the Colossus",
-            // "Middle Earth: Shadow of Mordor",
-            // "Rise of the Tomb Raider",
-            // "FIFA 2021",
-            // "NBA 2K20",
-            // "God of War 3",
-            // "DOOM Eternal",
-            // "DOOM 2016",
+            "Middle Earth: Shadow of Mordor",
+            "Rise of the Tomb Raider",
+            "FIFA 2021",
+            "NBA 2K20",
+            "God of War 3",
+            "DOOM Eternal",
+            "DOOM 2016",
+            "God of War 3",
+            "DOOM Eternal",
+            "DOOM 2016",
         ],
         hourPrice: 5,
         id: "0cbf4d56-a581-4651-b6e1-55c75b30ff79",
@@ -23,9 +26,9 @@ const ItemPage = () => {
     };
 
     return (
-        <div className="item-page">
+        <div className="item-page-wrapper">
             <img src="/images/ps4.png" alt="" />
-            <div className="item-page-info">
+            <div className="item-information">
                 <h1>{item.name}</h1>
                 <h2>
                     City: <span>{item.city}</span>
@@ -43,7 +46,7 @@ const ItemPage = () => {
                 <h2>
                     Phone number: <span>{item.phone}</span>
                 </h2>
-                <button>Order now</button>
+                <button>Rent now</button>
             </div>
         </div>
     );

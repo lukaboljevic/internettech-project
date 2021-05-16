@@ -1,6 +1,6 @@
 const Navbar = () => {
     return (
-        <div className="navbar-div">
+        <div className="navbar-wrapper">
             <h1 className="navbar-title">
                 <a href="/">Renting</a>
             </h1>
@@ -15,10 +15,8 @@ const Navbar = () => {
                     <li>
                         <input
                             type="text"
-                            className="navbar-text"
+                            className="navbar-input-text"
                             placeholder="Search right away"
-                            name=""
-                            id=""
                         />
                     </li>
                 </ul>
