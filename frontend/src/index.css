@@ -2,6 +2,14 @@
 
 /* ------------- General --------------- */
 
+:root {
+    --border-color-red: rgb(179, 0, 0);
+    --box-shadow-color: gray;
+    --background-color-light-gray: #e7e7e7;
+    --button-primary: #007bff;
+    --button-link-hover: #006ce0;
+}
+
 body {
     margin: 0;
     background-color: rgb(218, 238, 255);
@@ -34,13 +42,24 @@ ul {
     font-weight: bold;
 
     color: white;
-    background-color:#007bff;
+    background-color: var(--button-primary);
     border: none;
     border-radius: 5px;
 }
 
 .general-button:hover {
-    background-color:#006ce0;
+    background-color: var(--button-link-hover);
+}
+
+.general-search {
+    font-family: "Quicksand";
+    font-size: .9em;
+    border: 2px solid black;
+    border-radius: 6px;
+}
+
+.general-search:focus-visible {
+    outline: none;
 }
 
 /* ------------- Navbar --------------- */
@@ -49,25 +68,22 @@ ul {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    border-bottom: 2px solid rgb(179, 0, 0);
+    border-bottom: 2px solid var(--border-color-red);
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
     font-weight: 700;
     padding: 0 180px;
-    background-color: #005ec2;
+    /* it's called button-link-hover cause that was it's first intention but I like it for the navbar too */
+    background-color: var(--button-link-hover);
 }
 
 .navbar-wrapper a {
-    color: rgb(238, 238, 238);
+    color: white;
 }
 
-.navbar-input-text {
-    font-family: "Quicksand";
+.navbar-search {
     width: 260px;
     height: 30px;
-    font-size: .9em;
-    border: 2px solid rgb(34, 33, 33);
-    border-radius: 6px;
     /* offset the text to the left a bit */
     padding-left: 10px;
 }
@@ -84,10 +100,6 @@ ul {
 
 .navbar-links a:hover {
     color: black;
-}
-
-.navbar-input-text:focus-visible {
-    outline: none;
 }
 
 /* ------------- Home --------------- */
@@ -125,10 +137,10 @@ ul {
     padding-left: 20px;
     min-height: 420px;
 
-    background-color:#e7e7e7;
-    border: 3px solid rgb(179, 0, 0);
+    background-color: var(--background-color-light-gray);
+    border: 3px solid var(--border-color-red);
     border-radius: 10px;
-    box-shadow: 4px 4px darkgray;
+    box-shadow: 5px 5px var(--box-shadow-color)
 }
 
 .item-page-wrapper h1 {
@@ -146,14 +158,14 @@ ul {
 }
 
 .item-page-wrapper img {
-    margin-left: 8%;
+    /* margin-left: 8%; */
     max-width: 500px;
     max-height: 500px;
     background-color: white;
 
-    border: 3px solid rgb(179, 0, 0);
+    border: 3px solid var(--border-color-red);
     border-radius: 25px;
-    box-shadow: 4px 4px darkgray;
+    box-shadow: 5px 5px var(--box-shadow-color)
 }
 
 .item-page-wrapper .item-page-button {
@@ -166,15 +178,33 @@ ul {
 
 /* ------------- List items (all items page) --------------- */
 
+.all-items-wrapper {
+    max-width: 1200px;
+    margin: 30px auto;
+}
+
 .loading {
     margin: 0 auto;
     font-size: 2.5em;
 }
 
-.all-items {
-    max-width: 1200px;
-    margin: 30px auto;
+.all-items-search-div {
+    display: flex;
+    margin-bottom: 30px;
+    padding-left: 50px;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
 
+.all-items-search {
+    width: 450px;
+    height: 30px;
+    padding-left: 10px;
+    font-size: 1.4em;
+}
+
+.all-items {
     display: grid;
     /* grid-template-columns: auto auto auto; */
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -186,10 +216,10 @@ ul {
     flex-direction: column;
     align-items: center;
 
-    border: 2px solid rgb(179, 0, 0);
+    border: 2px solid var(--border-color-red);
     border-radius: 10px;
-    box-shadow: 3px 3px gray;
-    background-color: #d3d3d3;
+    box-shadow: 5px 5px var(--box-shadow-color);
+    background-color: var(--background-color-light-gray);
 
     width: 300px;
     min-height: 480px;
@@ -222,14 +252,14 @@ ul {
     font-size: 1.1em;
     position: absolute;
     width: 100%;
-    background-color: lightgrey;
+    background-color: var(--background-color-light-gray);
     font-weight: 700;
 
     display: flex;
     flex-direction: row;
     justify-content: center;
 
-    border-top: 2px solid rgb(179, 0, 0);
+    border-top: 2px solid var(--border-color-red);
 }
 
 .footer ul {
@@ -242,7 +272,7 @@ ul {
 }
 
 .footer a:hover {
-    color: rgb(106, 158, 255);
+    color: var(--button-link-hover);
 }
 
 /* ------------- Error page --------------- */

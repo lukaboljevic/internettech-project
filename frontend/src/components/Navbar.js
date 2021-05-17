@@ -17,7 +17,7 @@ const Navbar = () => {
                     <li>
                         <input
                             type="text"
-                            className="navbar-input-text"
+                            className="general-search navbar-search"
                             placeholder="Search right away"
                         />
                     </li>

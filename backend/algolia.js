@@ -34,7 +34,16 @@ const getItemsIndex = async () => {
     return itemsIndex;
 };
 
+const search = async (query, limit) => {
+    // TODO: don't think I'll need to do it like this in the future
+    // this is only like this for testing purposes.
+    const index = await getItemsIndex();
+    const { hits } = await index.search(query, { hitsPerPage: limit });
+    return hits;
+};
+
 module.exports = {
     getParameters,
     getItemsIndex,
+    search,
 };

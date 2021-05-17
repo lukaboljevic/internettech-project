@@ -1,7 +1,7 @@
-import { useParams } from "react-router";
+// import { useParams } from "react-router";
 
 const ItemPage = () => {
-    const { itemId } = useParams(); // Grab the item id from the URL/route
+    // const { itemId } = useParams(); // Grab the item id from the URL/route
 
     // TODO: useEffect to the endpoint to fetch the item
     // useEffect cleanup too
@@ -36,11 +36,12 @@ const ItemPage = () => {
                 <h2>
                     City: <span>{item.city}</span>
                 </h2>
-                <h2 style={{"maxWidth": "90%"}}>
+                <h2 style={{ paddingRight: "30px" }}>
                     Offered games:{" "}
                     {item.games.map((game, index) => {
-                        if (index === item.games.length - 1) return <span>{game}</span>;
-                        return <span>{game + ", "}</span>;
+                        if (index === item.games.length - 1)
+                            return <span key={index}>{game}</span>;
+                        return <span key={index}>{game + ", "}</span>;
                     })}
                 </h2>
                 <h2>
@@ -53,6 +54,6 @@ const ItemPage = () => {
             </div>
         </div>
     );
-}
- 
+};
+
 export default ItemPage;
