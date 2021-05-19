@@ -134,9 +134,9 @@ ul {
     margin: 20px auto;
 }
 
-/* ------------- Signup --------------- */
+/* ------------- Signup and login --------------- */
 
-.signup-wrapper {
+.signup-login-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -148,34 +148,54 @@ ul {
     font-size: 1.4em;
 }
 
-.signup-form { 
+.signup-login-name {
+    margin-bottom: 20px;
+}
+
+.signup-login-form { 
     display: flex;
     flex-direction: column;
     width: 65%;
 }
 
-.signup-form label {
+.signup-login-form label {
+    font-weight: 600;
     margin-bottom: 10px;
 }
 
-.signup-form input {
+.signup-login-form input {
     height: 30px;
     margin-bottom: 30px;
     font-size: 0.85em;
 }
 
-.signup-button {
+.signup-login-button {
     margin-top: 10px;
     margin-bottom: 30px;
     height: 50px;
 }
 
-.after-signup-text {
+.after-form-text {
+    font-weight: 600;
     max-width: 600px;
     margin: 0 auto;
     text-align: center;
     font-size: 1.4em;
     margin-bottom: 30px;
+}
+
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* same width as the form */
+    width: 65%;
+    height: 50px;
+    background-color: rgb(255, 50, 50, 0.75);
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-weight: 600;
 }
 
 /* ------------- (Single) Item page --------------- */

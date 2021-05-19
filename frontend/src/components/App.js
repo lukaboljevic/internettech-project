@@ -8,6 +8,7 @@ import About from "./About";
 import ItemPage from "./ItemPage";
 import ErrorPage from "./ErrorPage";
 import Signup from "./Signup";
+import Login from "./Login";
 import { AuthProvider } from "../contexts/AuthContext";
 
 function App() {
@@ -32,6 +33,9 @@ function App() {
                 <AuthProvider>
                     <Route exact path="/signup">
                         <Signup />
+                    </Route>
+                    <Route exact path="/login">
+                        <Login />
                     </Route>
                 </AuthProvider>
                 <Route path="*">
