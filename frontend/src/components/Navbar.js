@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+    // TODO: add search functionality here
     return (
         <div className="navbar-wrapper">
-            <h1 className="navbar-title">
-                <Link to="/">Renting</Link>
-            </h1>
             <nav className="navbar-links">
                 <ul>
                     <li>
-                        <Link to="/">Home</Link>
+                        <h1 className="navbar-title">
+                            <Link to="/">Renting</Link>
+                        </h1>
                     </li>
                     <li>
                         <Link to="/items">Items</Link>
@@ -17,14 +17,14 @@ const Navbar = () => {
                     <li>
                         <input
                             type="text"
-                            className="general-search navbar-search"
+                            className="general-text-input navbar-search"
                             placeholder="Search right away"
                         />
                     </li>
-                </ul>
-            </nav>
-            <nav className="navbar-links">
-                <ul>
+                    <li>
+                        <button className="general-button navbar-button">Go</button>
+                    </li>
+                    <div className="navbar-spacer"></div>
                     <li>
                         <Link to="/about">About</Link>
                     </li>

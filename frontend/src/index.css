@@ -5,14 +5,14 @@
 :root {
     --border-color-red: rgb(179, 0, 0);
     --box-shadow-color: gray;
-    --background-color-light-gray: #e7e7e7;
-    --button-primary: #007bff;
-    --button-link-hover: #006ce0;
+    --item-information-background: rgb(214, 214, 214);
+    --lighter-blue: #006ce0;
+    --darker-blue: #004794;
 }
 
 body {
     margin: 0;
-    background-color: rgb(218, 238, 255);
+    background-color: white;
     font-family: "Quicksand";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -42,23 +42,25 @@ ul {
     font-weight: bold;
 
     color: white;
-    background-color: var(--button-primary);
+    background-color: var(--lighter-blue);
     border: none;
     border-radius: 5px;
 }
 
 .general-button:hover {
-    background-color: var(--button-link-hover);
+    background-color: var(--darker-blue);
 }
 
-.general-search {
+.general-text-input {
     font-family: "Quicksand";
-    font-size: .9em;
+    font-size: .95em;
     border: 2px solid black;
     border-radius: 6px;
+    /* offset the text to the left a bit */
+    padding-left: 10px;
 }
 
-.general-search:focus-visible {
+.general-text-input:focus-visible {
     outline: none;
 }
 
@@ -66,15 +68,28 @@ ul {
 
 .navbar-wrapper {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: space-evenly;
+
     border-bottom: 2px solid var(--border-color-red);
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
     font-weight: 700;
-    padding: 0 180px;
-    /* it's called button-link-hover cause that was it's first intention but I like it for the navbar too */
-    background-color: var(--button-link-hover);
+    padding: 0 160px;
+    background-color: var(--darker-blue);
+}
+
+.navbar-spacer {
+    width: 16em;
+}
+
+.navbar-button {
+    margin-left: -77px;
+    font-size: 0.99em;
+}
+
+.navbar-title {
+    margin: 0;
+    font-size: 1.9em;
 }
 
 .navbar-wrapper a {
@@ -82,10 +97,8 @@ ul {
 }
 
 .navbar-search {
-    width: 260px;
+    width: 300px;
     height: 30px;
-    /* offset the text to the left a bit */
-    padding-left: 10px;
 }
 
 .navbar-links ul {
@@ -95,10 +108,11 @@ ul {
 
 .navbar-links li {
     font-size: 1.2em;
-    padding-left: 30px;
+    padding-left: 20px;
+    padding-right: 15px;
 }
 
-.navbar-links a:hover {
+.navbar-links li:not(:first-child) a:hover {
     color: black;
 }
 
@@ -120,6 +134,50 @@ ul {
     margin: 20px auto;
 }
 
+/* ------------- Signup --------------- */
+
+.signup-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    max-width: 600px;
+    margin: 30px auto 20px auto;
+    border: 2px solid var(--border-color-red);
+    border-radius: 25px;
+    font-size: 1.4em;
+}
+
+.signup-form { 
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+}
+
+.signup-form label {
+    margin-bottom: 10px;
+}
+
+.signup-form input {
+    height: 30px;
+    margin-bottom: 30px;
+    font-size: 0.85em;
+}
+
+.signup-button {
+    margin-top: 10px;
+    margin-bottom: 30px;
+    height: 50px;
+}
+
+.after-signup-text {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1.4em;
+    margin-bottom: 30px;
+}
+
 /* ------------- (Single) Item page --------------- */
 
 .item-page-wrapper {
@@ -137,9 +195,9 @@ ul {
     padding-left: 20px;
     min-height: 420px;
 
-    background-color: var(--background-color-light-gray);
+    background-color: var(--item-information-background);
     border: 3px solid var(--border-color-red);
-    border-radius: 10px;
+    border-radius: 25px;
     box-shadow: 5px 5px var(--box-shadow-color)
 }
 
@@ -200,7 +258,6 @@ ul {
 .all-items-search {
     width: 450px;
     height: 30px;
-    padding-left: 10px;
     font-size: 1.4em;
 }
 
@@ -217,9 +274,9 @@ ul {
     align-items: center;
 
     border: 2px solid var(--border-color-red);
-    border-radius: 10px;
+    border-radius: 25px;
     box-shadow: 5px 5px var(--box-shadow-color);
-    background-color: var(--background-color-light-gray);
+    background-color: var(--item-information-background);
 
     width: 300px;
     min-height: 480px;
@@ -252,7 +309,7 @@ ul {
     font-size: 1.1em;
     position: absolute;
     width: 100%;
-    background-color: var(--background-color-light-gray);
+    background-color: var(--darker-blue);
     font-weight: 700;
 
     display: flex;
@@ -271,8 +328,12 @@ ul {
     gap: 9px;
 }
 
+.footer a {
+    color: white;
+}
+
 .footer a:hover {
-    color: var(--button-link-hover);
+    color: black;
 }
 
 /* ------------- Error page --------------- */

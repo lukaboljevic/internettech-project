@@ -62,14 +62,6 @@ const ListItems = () => {
         performSearch(event.target.value);
     };
 
-    const onKeyDown = event => {
-        if (event.key !== "Enter") {
-            return;
-        }
-        performSearch(event.target.value);
-        // console.log(event.target.value);
-    };
-
     const performSearch = (query) => {
         if (loading || !query) {
             return;
@@ -101,9 +93,8 @@ const ListItems = () => {
                     <span style={{ fontSize: "2em" }}>Search </span>
                     <input
                         type="text"
-                        className="general-search all-items-search"
+                        className="general-text-input all-items-search"
                         onChange={onTextChange}
-                        onKeyDown={onKeyDown}
                     />
                 </div>
                 <div className="all-items">
@@ -121,9 +112,8 @@ const ListItems = () => {
                 <span style={{ fontSize: "2em" }}>Search </span>
                 <input
                     type="text"
-                    className="general-search all-items-search"
+                    className="general-text-input all-items-search"
                     onChange={onTextChange}
-                    onKeyDown={onKeyDown}
                 />
             </div>
             <div className="all-items">
