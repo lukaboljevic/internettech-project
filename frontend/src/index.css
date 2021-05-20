@@ -32,7 +32,7 @@ a {
 
 ul {
     /* without this inline-start, it offsets the contents weirdly */
-    padding-inline-start: 0; 
+    padding-inline-start: 0;
     list-style-type: none;
 }
 
@@ -53,7 +53,7 @@ ul {
 
 .general-text-input {
     font-family: "Quicksand";
-    font-size: .95em;
+    font-size: 0.95em;
     border: 2px solid black;
     border-radius: 6px;
     /* offset the text to the left a bit */
@@ -152,7 +152,7 @@ ul {
     margin-bottom: 20px;
 }
 
-.signup-login-form { 
+.signup-login-form {
     display: flex;
     flex-direction: column;
     width: 65%;
@@ -170,7 +170,7 @@ ul {
 }
 
 .signup-login-button {
-    margin-top: 10px;
+    margin-top: 5px;
     margin-bottom: 30px;
     height: 50px;
 }
@@ -184,18 +184,45 @@ ul {
     margin-bottom: 30px;
 }
 
-.error {
+.forgot-password {
+    font-weight: 600;
+    margin-top: -5px;
+    margin-bottom: 20px;
+}
+
+.remembered-password {
+    font-weight: 600;
+    margin-top: -5px;
+    margin-bottom: 20px;
+}
+
+.forgot-password:hover,
+.after-form-text a:hover,
+.remembered-password a:hover {
+    text-decoration: underline;
+}
+
+.message {
     display: flex;
     justify-content: center;
     align-items: center;
 
     /* same width as the form */
     width: 65%;
-    height: 50px;
-    background-color: rgb(255, 50, 50, 0.75);
     border-radius: 6px;
     margin-bottom: 20px;
     font-weight: 600;
+    text-align: center;
+}
+
+.error {
+    min-height: 60px;
+    background-color: rgb(255, 50, 50, 0.75);
+}
+
+.success {
+    min-height: 80px;
+    background-color: rgba(44, 196, 39, 0.75);
 }
 
 /* ------------- (Single) Item page --------------- */
@@ -218,7 +245,7 @@ ul {
     background-color: var(--item-information-background);
     border: 3px solid var(--border-color-red);
     border-radius: 25px;
-    box-shadow: 5px 5px var(--box-shadow-color)
+    box-shadow: 5px 5px var(--box-shadow-color);
 }
 
 .item-page-wrapper h1 {
@@ -243,7 +270,7 @@ ul {
 
     border: 3px solid var(--border-color-red);
     border-radius: 25px;
-    box-shadow: 5px 5px var(--box-shadow-color)
+    box-shadow: 5px 5px var(--box-shadow-color);
 }
 
 .item-page-wrapper .item-page-button {
@@ -314,7 +341,8 @@ ul {
     align-items: center;
 }
 
-.item-box h2, .item-box h4 {
+.item-box h2,
+.item-box h4 {
     margin: 8px auto;
 }
 

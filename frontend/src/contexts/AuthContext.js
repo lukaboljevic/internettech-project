@@ -3,6 +3,7 @@ import { auth } from "../firebase";
 
 const AuthContext = React.createContext();
 
+// custom hook
 export const useAuth = () => {
     return useContext(AuthContext);
 };
@@ -17,7 +18,15 @@ export const AuthProvider = ({ children }) => {
 
     const login = (email, password) => {
         return auth.signInWithEmailAndPassword(email, password);
-    }
+    };
+
+    const logout = () => {
+        return auth.signOut();
+    };
+
+    const resetPassword = email => {
+        return auth.sendPasswordResetEmail(email);
+    };
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
@@ -27,16 +36,16 @@ export const AuthProvider = ({ children }) => {
         return unsubscribe;
     }, []);
 
-    // these will be exported somehow
+    // these will be exported
     const value = {
         currentUser,
         login,
         signup,
+        logout,
+        resetPassword,
     };
 
     return (
-        <AuthContext.Provider value={value}>
-            {!loading && children}
-        </AuthContext.Provider>
+        <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>
     );
 };

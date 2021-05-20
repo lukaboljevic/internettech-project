@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 const Signup = () => {
@@ -9,6 +9,7 @@ const Signup = () => {
     const { signup } = useAuth();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const history = useHistory();
 
     const handleSubmit = async event => {
         event.preventDefault(); // prevent from refreshing
@@ -20,6 +21,7 @@ const Signup = () => {
             setError("");
             setLoading(true);
             await signup(emailRef.current.value, passwordRef.current.value);
+            history.push("/");
         } catch {
             setError("Failed to create an account.");
         }
@@ -31,14 +33,15 @@ const Signup = () => {
         <div>
             <div className="signup-login-wrapper">
                 <h1 className="signup-login-name">Sign Up</h1>
-                {error && <div className="error">{error}</div>}
+                {error && <div className="message error">{error}</div>}
                 <form className="signup-login-form" onSubmit={handleSubmit}>
                     <label htmlFor="email">Email</label>
                     <input
-                        type="text"
+                        type="email"
                         className="general-text-input"
                         id="email"
                         ref={emailRef}
+                        required
                     />
                     <label htmlFor="password">Password</label>
                     <input
@@ -46,6 +49,7 @@ const Signup = () => {
                         className="general-text-input"
                         id="password"
                         ref={passwordRef}
+                        required
                     />
                     <label htmlFor="confirm">Confirm password</label>
                     <input
@@ -53,6 +57,7 @@ const Signup = () => {
                         className="general-text-input"
                         id="confirm"
                         ref={passwordConfirmRef}
+                        required
                     />
                     <button
                         type="submit"
@@ -64,7 +69,7 @@ const Signup = () => {
                 </form>
             </div>
             <div className="after-form-text">
-                Already have an account? <Link to="/login">Login</Link>
+                Already have an account? <Link to="/login">Log in</Link>
             </div>
         </div>
     );
