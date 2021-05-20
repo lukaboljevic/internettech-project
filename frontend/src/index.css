@@ -5,7 +5,7 @@
 :root {
     --border-color-red: rgb(179, 0, 0);
     --box-shadow-color: gray;
-    --item-information-background: rgb(214, 214, 214);
+    --item-information-background: rgb(235, 235, 235);
     --lighter-blue: #006ce0;
     --darker-blue: #004794;
 }

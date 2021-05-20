@@ -1,10 +1,10 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 const ForgotPassword = () => {
     const emailRef = useRef();
-    const { resetPassword } = useAuth();
+    const { currentUser, resetPassword } = useAuth();
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
@@ -24,6 +24,10 @@ const ForgotPassword = () => {
 
         setLoading(false);
     };
+
+    if (!currentUser) {
+        return <Redirect to="/login" />
+    }
 
     return (
         <div>
