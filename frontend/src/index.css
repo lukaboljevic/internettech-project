@@ -116,10 +116,25 @@ ul {
     color: black;
 }
 
+.navbar-logout-button {
+    /* ugh */
+    padding: 0;
+    background-color: var(--darker-blue);
+    border: none;
+    color: white;
+    font-family: "Quicksand";
+    font-size: 1em;
+    font-weight: 700;
+}
+
+.navbar-logout-button:hover {
+    color: black;
+}
+
 /* ------------- Home --------------- */
 
 .home {
-    max-width: 300px;
+    max-width: 1000px;
     text-align: center;
     font-size: 2em;
     margin: 20px auto;

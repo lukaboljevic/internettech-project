@@ -1,7 +1,24 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const Navbar = () => {
     // TODO: add search functionality here
+
+    const { currentUser, logout } = useAuth();
+    const history = useHistory();
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+            // TODO: don't alert, do something else
+            alert("Successfully logged out!");
+            history.push("/login");
+        } catch {
+            // setError("Failed to log out.");
+            alert("Failed to log out.");
+        }
+    };
+
     return (
         <div className="navbar-wrapper">
             <nav className="navbar-links">
@@ -28,12 +45,34 @@ const Navbar = () => {
                     <li>
                         <Link to="/about">About</Link>
                     </li>
-                    <li>
-                        <Link to="/login">Login</Link>
-                    </li>
-                    <li>
-                        <Link to="/signup">Sign up</Link>
-                    </li>
+                    {currentUser ? (
+                        // if there's a current user, show Profile and Log out
+                        <>
+                            <li>
+                                {/* is this only /profile ? */}
+                                <Link to="/profile">Profile</Link>
+                            </li>
+                            <li>
+                                <button
+                                    className="navbar-logout-button"
+                                    style={{ cursor: "pointer" }}
+                                    onClick={handleLogout}
+                                >
+                                    Log out
+                                </button>
+                            </li>
+                        </>
+                    ) : (
+                        // otherwise show Log in and Signup
+                        <>
+                            <li>
+                                <Link to="/login">Log in</Link>
+                            </li>
+                            <li>
+                                <Link to="/signup">Sign up</Link>
+                            </li>
+                        </>
+                    )}
                 </ul>
             </nav>
         </div>

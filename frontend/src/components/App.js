@@ -11,14 +11,13 @@ import Signup from "./Signup";
 import Login from "./Login";
 import { AuthProvider } from "../contexts/AuthContext";
 import ForgotPassword from "./ForgotPassword";
+import Profile from "./Profile";
 
 function App() {
     return (
         <Router>
-            <Navbar />
-            {/* TODO: maybe I need to configure these paths, not sure if AuthProvider
-                should go here */}
             <AuthProvider>
+                <Navbar />
                 <Switch>
                     <Route exact path="/">
                         <Home />
@@ -29,14 +28,17 @@ function App() {
                     <Route exact path="/items/:itemId">
                         <ItemPage />
                     </Route>
-                    <Route exact path="/about">
+                    <Route path="/about">
                         <About />
                     </Route>
-                    <Route exact path="/signup">
+                    <Route path="/signup">
                         <Signup />
                     </Route>
-                    <Route exact path="/login">
+                    <Route path="/login">
                         <Login />
+                    </Route>
+                    <Route path="/profile">
+                        <Profile />
                     </Route>
                     <Route exact path="/forgot-password">
                         <ForgotPassword />

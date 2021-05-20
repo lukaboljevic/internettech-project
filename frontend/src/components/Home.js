@@ -28,8 +28,9 @@ const Home = () => {
         <div className="home">
             Home!
             <br></br>
-            {error}
+            {error + "\n"}
             {currentUser && currentUser.email}
+            <br></br>
             <button className="general-button" onClick={handleLogout}>
                 Log out
             </button>
