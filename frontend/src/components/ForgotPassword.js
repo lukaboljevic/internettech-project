@@ -1,14 +1,15 @@
 import { useRef, useState } from "react";
-import { Link /*, Redirect*/ } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
-const ForgotPassword = () => {
+const ForgotPassword = (props) => {
     const emailRef = useRef();
-    const { /* currentUser,*/ resetPassword } = useAuth();
+    const { currentUser, resetPassword } = useAuth();
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
-
+    const history = useHistory();
+    
     const handleSubmit = async event => {
         event.preventDefault(); // prevent from refreshing
 
@@ -25,10 +26,17 @@ const ForgotPassword = () => {
         setLoading(false);
     };
 
-    // TODO:
-    // if (!currentUser) {
-    //     return <Redirect to="/login" />
-    // }
+    // with these two checks below, I make forgot-password as private as it can be
+    // (or, as private as my knowledge of react allows me to make it)
+
+    if (currentUser) {
+        history.goBack();
+    }
+
+    // props.location.data is sent from login
+    if (!currentUser && props.location?.data !== "came from login") {
+        return <Redirect to="/login" />;
+    }
 
     return (
         <div>

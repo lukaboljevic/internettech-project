@@ -1,10 +1,18 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect/*, useHistory*/ } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const ReviewOrder = ({ location }) => {
+    const { currentUser } = useAuth();
     const [message, setMessage] = useState("");
     const [submitted, setSubmitted] = useState(false);
+    // const history = useHistory();
     const data = location.formData;
+
+    // TODO: uncomment this when I'm done with testing
+    // if (!data) {
+    //     history.goBack();
+    // }
 
     // TODO: preserve the order information when going back to /order
 
@@ -15,6 +23,10 @@ const ReviewOrder = ({ location }) => {
         );
         setSubmitted(true);
     };
+
+    if (!currentUser) {
+        return <Redirect to="/login" />
+    }
 
     return (
         <div>

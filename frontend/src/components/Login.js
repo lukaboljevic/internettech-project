@@ -5,10 +5,24 @@ import { useAuth } from "../contexts/AuthContext";
 const Login = () => {
     const emailRef = useRef();
     const passwordRef = useRef();
-    const { login } = useAuth();
+    const { login, currentUser } = useAuth();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const history = useHistory();
+
+    // there's a bug with Login:
+    /*
+    Can't perform a React state update on an unmounted component. 
+    This is a no-op, but it indicates a memory leak in your application. 
+    To fix, cancel all subscriptions and asynchronous tasks in a useEffect 
+    cleanup function.
+
+    But there is no useEffect? and it's saying the error is on the line "const emailRef = useRef()"
+    */
+    
+    if (currentUser) {
+        history.goBack();
+    }
 
     const handleSubmit = async event => {
         event.preventDefault(); // prevent from refreshing
@@ -55,7 +69,10 @@ const Login = () => {
                         Log in
                     </button>
                 </form>
-                <Link to="/forgot-password" className="forgot-password">
+                <Link
+                    to={{ pathname: "/forgot-password", data: "came from login" }}
+                    className="forgot-password"
+                >
                     Forgot password?
                 </Link>
             </div>

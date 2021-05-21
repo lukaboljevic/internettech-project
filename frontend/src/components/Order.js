@@ -54,7 +54,11 @@ const Order = () => {
         return <Redirect to={{ pathname: "/review-order", formData }} />;
     }
 
-    // TODO: order needs to be a private route
+    // TODO: disallow going here if no item was passed in as a prop
+
+    if (!currentUser) {
+        return <Redirect to="/login" />
+    }
 
     return (
         <div>

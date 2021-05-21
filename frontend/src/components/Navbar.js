@@ -2,7 +2,8 @@ import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 const Navbar = () => {
-    // TODO: add search functionality here
+    // TODO: add search functionality here (not real time, but do a search
+    // when enter is pressed or when the button "Go" is pressed)
 
     const { currentUser, logout } = useAuth();
     const history = useHistory();
