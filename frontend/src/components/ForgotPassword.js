@@ -1,10 +1,10 @@
 import { useRef, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link /*, Redirect*/ } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 const ForgotPassword = () => {
     const emailRef = useRef();
-    const { currentUser, resetPassword } = useAuth();
+    const { /* currentUser,*/ resetPassword } = useAuth();
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
@@ -17,7 +17,7 @@ const ForgotPassword = () => {
             setError("");
             setLoading(true);
             await resetPassword(emailRef.current.value);
-            setMessage("Check your inbox for further instructions.")
+            setMessage("Check your inbox for further instructions.");
         } catch {
             setError("Failed to reset password.");
         }
@@ -25,17 +25,18 @@ const ForgotPassword = () => {
         setLoading(false);
     };
 
-    if (!currentUser) {
-        return <Redirect to="/login" />
-    }
+    // TODO:
+    // if (!currentUser) {
+    //     return <Redirect to="/login" />
+    // }
 
     return (
         <div>
-            <div className="signup-login-wrapper">
-                <h1 className="signup-login-name">Password reset</h1>
+            <div className="form-wrapper">
+                <h1 className="form-name">Password reset</h1>
                 {message && <div className="message success">{message}</div>}
                 {error && <div className="message error">{error}</div>}
-                <form className="signup-login-form" onSubmit={handleSubmit}>
+                <form className="actual-form" onSubmit={handleSubmit}>
                     <label htmlFor="email">Email</label>
                     <input
                         type="email"
@@ -46,7 +47,7 @@ const ForgotPassword = () => {
                     />
                     <button
                         type="submit"
-                        className="general-button signup-login-button"
+                        className="general-button form-button"
                         disabled={loading}
                     >
                         Reset password

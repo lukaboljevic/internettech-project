@@ -12,6 +12,8 @@ import Login from "./Login";
 import { AuthProvider } from "../contexts/AuthContext";
 import ForgotPassword from "./ForgotPassword";
 import Profile from "./Profile";
+import Order from "./Order";
+import ReviewOrder from "./ReviewOrder";
 
 function App() {
     return (
@@ -19,36 +21,20 @@ function App() {
             <AuthProvider>
                 <Navbar />
                 <Switch>
-                    <Route exact path="/">
-                        <Home />
-                    </Route>
-                    <Route exact path="/items">
-                        <ListItems />
-                    </Route>
-                    <Route exact path="/items/:itemId">
-                        <ItemPage />
-                    </Route>
-                    <Route path="/about">
-                        <About />
-                    </Route>
-                    <Route path="/signup">
-                        <Signup />
-                    </Route>
-                    <Route path="/login">
-                        <Login />
-                    </Route>
-                    <Route path="/profile">
-                        <Profile />
-                    </Route>
-                    <Route exact path="/forgot-password">
-                        <ForgotPassword />
-                    </Route>
-                    <Route path="*">
-                        <ErrorPage />
-                    </Route>
+                    <Route exact path="/" component={Home} />
+                    <Route exact path="/items" component={ListItems} />
+                    <Route exact path="/items/:itemId" component={ItemPage} />
+                    <Route path="/about" component={About} />
+                    <Route path="/signup" component={Signup} />
+                    <Route path="/login" component={Login} />
+                    <Route path="/profile" component={Profile} />
+                    <Route path="/order" component={Order} />
+                    <Route path="/review-order" component={ReviewOrder} />
+                    <Route exact path="/forgot-password" component={ForgotPassword} />
+                    <Route path="*" component={ErrorPage} />
                 </Switch>
+                <Footer />
             </AuthProvider>
-            <Footer />
         </Router>
     );
 }

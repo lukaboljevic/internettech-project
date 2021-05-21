@@ -1,7 +1,10 @@
-// import { useParams } from "react-router";
+import { useAuth } from "../contexts/AuthContext";
+import { useHistory } from "react-router-dom";
 
 const ItemPage = () => {
     // const { itemId } = useParams(); // Grab the item id from the URL/route
+    const { currentUser } = useAuth();
+    const history = useHistory();
 
     // TODO: useEffect to the endpoint to fetch the item
     // useEffect cleanup too
@@ -28,6 +31,13 @@ const ItemPage = () => {
         phone: "+38267123123",
     };
 
+    const handleClick = event => {
+        // I'll probably use a state later, to see if the button was submitted
+        // and if so, I'll return a Redirect with this product's data
+        if (!currentUser) history.push("/login");
+        else history.push("/order");
+    };
+
     return (
         <div className="item-page-wrapper">
             <img src="/images/ps4.png" alt="" />
@@ -50,7 +60,9 @@ const ItemPage = () => {
                 <h2>
                     Phone number: <span>{item.phone}</span>
                 </h2>
-                <button className="general-button item-page-button">Rent now</button>
+                <button className="general-button item-page-button" onClick={handleClick}>
+                    Rent now
+                </button>
             </div>
         </div>
     );

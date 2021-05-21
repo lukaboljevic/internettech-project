@@ -49,15 +49,15 @@ const Profile = () => {
 
     return (
         <div>
-            <div className="signup-login-wrapper">
-                <h1 className="signup-login-name">Profile</h1>
+            <div className="form-wrapper">
+                <h1 className="form-name">Profile</h1>
                 {message && (
                     <div className="message success" style={{ minHeight: "60px" }}>
                         {message}
                     </div>
                 )}
                 {error && <div className="message error">{error}</div>}
-                <form className="signup-login-form" onSubmit={handleSubmit}>
+                <form className="actual-form" onSubmit={handleSubmit}>
                     <label htmlFor="email">Email</label>
                     <input
                         type="email"
@@ -67,7 +67,7 @@ const Profile = () => {
                         defaultValue={currentUser.email}
                         required
                     />
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">Change password</label>
                     <input
                         type="password"
                         className="general-text-input"
@@ -75,7 +75,7 @@ const Profile = () => {
                         ref={passwordRef}
                         placeholder="Leave blank to keep your password"
                     />
-                    <label htmlFor="confirm">Confirm password</label>
+                    <label htmlFor="confirm">Confirm changed password</label>
                     <input
                         type="password"
                         className="general-text-input"
@@ -85,7 +85,7 @@ const Profile = () => {
                     />
                     <button
                         type="submit"
-                        className="general-button signup-login-button"
+                        className="general-button form-button"
                         disabled={loading}
                     >
                         Update profile

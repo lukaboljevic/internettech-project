@@ -62,7 +62,7 @@ const ListItems = () => {
         performSearch(event.target.value);
     };
 
-    const performSearch = (query) => {
+    const performSearch = query => {
         if (loading || !query) {
             return;
         }
@@ -84,7 +84,7 @@ const ListItems = () => {
         //         console.error(error);
         //         // TODO: show the error to the user maybe through alert or redirect him
         //     });
-    }
+    };
 
     if (loading) {
         return (

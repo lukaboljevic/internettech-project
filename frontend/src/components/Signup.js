@@ -31,10 +31,10 @@ const Signup = () => {
 
     return (
         <div>
-            <div className="signup-login-wrapper">
-                <h1 className="signup-login-name">Sign Up</h1>
+            <div className="form-wrapper">
+                <h1 className="form-name">Sign Up</h1>
                 {error && <div className="message error">{error}</div>}
-                <form className="signup-login-form" onSubmit={handleSubmit}>
+                <form className="actual-form" onSubmit={handleSubmit}>
                     <label htmlFor="email">Email</label>
                     <input
                         type="email"
@@ -61,7 +61,7 @@ const Signup = () => {
                     />
                     <button
                         type="submit"
-                        className="general-button signup-login-button"
+                        className="general-button form-button"
                         disabled={loading}
                     >
                         Sign up
