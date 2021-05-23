@@ -54,11 +54,8 @@ const Order = () => {
         return <Redirect to={{ pathname: "/review-order", formData }} />;
     }
 
-    // TODO: disallow going here if no item was passed in as a prop
-
-    if (!currentUser) {
-        return <Redirect to="/login" />
-    }
+    // TODO: disallow going here (to /order) if no item was passed in as a prop
+    // because I'll most probably do it like that
 
     return (
         <div>

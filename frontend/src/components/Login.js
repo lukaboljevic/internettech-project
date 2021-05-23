@@ -19,10 +19,12 @@ const Login = () => {
 
     But there is no useEffect? and it's saying the error is on the line "const emailRef = useRef()"
     */
-    
-    if (currentUser) {
-        history.goBack();
-    }
+
+    // /login isn't accessible if we're logged in
+    // TODO: maybe make another version of PrivateRoute
+    // if (currentUser) {
+    //     history.goBack();
+    // }
 
     const handleSubmit = async event => {
         event.preventDefault(); // prevent from refreshing

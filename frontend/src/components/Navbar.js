@@ -1,22 +1,40 @@
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { performSearch } from "../performSearch";
 
 const Navbar = () => {
-    // TODO: add search functionality here (not real time, but do a search
-    // when enter is pressed or when the button "Go" is pressed)
-
     const { currentUser, logout } = useAuth();
     const history = useHistory();
 
     const handleLogout = async () => {
         try {
             await logout();
-            // TODO: don't alert, do something else
             alert("Successfully logged out!");
             history.push("/login");
         } catch {
-            // setError("Failed to log out.");
             alert("Failed to log out.");
+        }
+    };
+
+    const handleKeyDown = async event => {
+        if (event.code !== "Enter") {
+            return;
+        }
+        try {
+            const hits = await performSearch(event.target.value);
+            console.log("hits!", hits);
+        }
+        catch (error) {
+            alert(error.message);
+        }
+    };
+
+    const handleClick = async () => {
+        try {
+            const hits = await performSearch(document.querySelector(".navbar-search").value);
+            console.log("hits!", hits);
+        } catch (error) {
+            alert(error.message);
         }
     };
 
@@ -37,10 +55,16 @@ const Navbar = () => {
                             type="text"
                             className="general-text-input navbar-search"
                             placeholder="Search right away"
+                            onKeyDown={handleKeyDown}
                         />
                     </li>
                     <li>
-                        <button className="general-button navbar-button">Go</button>
+                        <button
+                            className="general-button navbar-button"
+                            onClick={handleClick}
+                        >
+                            Go
+                        </button>
                     </li>
                     <div className="navbar-spacer"></div>
                     <li>

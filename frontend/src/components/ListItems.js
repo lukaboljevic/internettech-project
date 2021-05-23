@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { performSearch } from "../performSearch";
 
 const ListItems = () => {
     // item - id, name, games list, hour price, image(s), city, phone number
@@ -57,33 +58,17 @@ const ListItems = () => {
     //     performSearch();
     // }, [searchQuery]);
 
-    const onTextChange = event => {
+    const handleTextChange = async event => {
         // setSearchQuery(event.target.value);
-        performSearch(event.target.value);
-    };
-
-    const performSearch = query => {
-        if (loading || !query) {
+        if (loading) {
             return;
         }
-        // TODO: searching when query === ""?
-        console.log("Searching for", query);
-        // fetch(`http://localhost:5000/search/query=${query}&limit=${1000}`)
-        //     .then(response => {
-        //         if (!response.ok) {
-        //             throw new Error(
-        //                 "There was an error fetching the items from Algolia."
-        //             );
-        //         }
-        //         return response.json();
-        //     })
-        //     .then(data => {
-        //         console.log(data.hits);
-        //     })
-        //     .catch(error => {
-        //         console.error(error);
-        //         // TODO: show the error to the user maybe through alert or redirect him
-        //     });
+        try {
+            const hits = await performSearch(event.target.value);
+            console.log("hits!", hits);
+        } catch (error) {
+            alert(error.message);
+        }
     };
 
     if (loading) {
@@ -94,7 +79,7 @@ const ListItems = () => {
                     <input
                         type="text"
                         className="general-text-input all-items-search"
-                        onChange={onTextChange}
+                        onChange={handleTextChange}
                     />
                 </div>
                 <div className="all-items">
@@ -113,7 +98,7 @@ const ListItems = () => {
                 <input
                     type="text"
                     className="general-text-input all-items-search"
-                    onChange={onTextChange}
+                    onChange={handleTextChange}
                 />
             </div>
             <div className="all-items">

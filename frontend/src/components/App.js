@@ -14,6 +14,7 @@ import ForgotPassword from "./ForgotPassword";
 import Profile from "./Profile";
 import Order from "./Order";
 import ReviewOrder from "./ReviewOrder";
+import PrivateRoute from "./PrivateRoute";
 
 function App() {
     return (
@@ -27,9 +28,9 @@ function App() {
                     <Route path="/about" component={About} />
                     <Route path="/signup" component={Signup} />
                     <Route path="/login" component={Login} />
-                    <Route path="/profile" component={Profile} />
-                    <Route path="/order" component={Order} />
-                    <Route path="/review-order" component={ReviewOrder} />
+                    <PrivateRoute path="/profile" component={Profile} />
+                    <PrivateRoute path="/order" component={Order} />
+                    <PrivateRoute path="/review-order" component={ReviewOrder} />
                     <Route exact path="/forgot-password" component={ForgotPassword} />
                     <Route path="*" component={ErrorPage} />
                 </Switch>

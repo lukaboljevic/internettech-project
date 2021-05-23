@@ -26,12 +26,14 @@ const ForgotPassword = (props) => {
         setLoading(false);
     };
 
-    // with these two checks below, I make forgot-password as private as it can be
-    // (or, as private as my knowledge of react allows me to make it)
+    // with these two checks below, I make forgot-password not accessible if we have a
+    // current user, or if we don't and we didn't come from /login, then redirect to /login
 
-    if (currentUser) {
-        history.goBack();
-    }
+    // /forgot-password isn't accessible if we're logged in
+    // TODO: maybe make another version of PrivateRoute
+    // if (currentUser) {
+    //     history.goBack();
+    // }
 
     // props.location.data is sent from login
     if (!currentUser && props.location?.data !== "came from login") {

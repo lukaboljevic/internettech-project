@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { Link, Redirect/*, useHistory*/ } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { Link/*, useHistory*/ } from "react-router-dom";
 
 const ReviewOrder = ({ location }) => {
-    const { currentUser } = useAuth();
     const [message, setMessage] = useState("");
     const [submitted, setSubmitted] = useState(false);
     // const history = useHistory();
@@ -23,10 +21,6 @@ const ReviewOrder = ({ location }) => {
         );
         setSubmitted(true);
     };
-
-    if (!currentUser) {
-        return <Redirect to="/login" />
-    }
 
     return (
         <div>

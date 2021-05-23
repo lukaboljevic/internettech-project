@@ -6,7 +6,9 @@ const algolia = require("./algolia");
 const app = express();
 const router = express.Router();
 
-app.use(cors()); // I'll leave the default settings for cors for now
+app.use(cors({
+    origin: "http://localhost:3000"
+}));
 app.use(express.json());
 
 // Good explanation of the difference between POST and PUT: https://stackoverflow.com/a/18243587

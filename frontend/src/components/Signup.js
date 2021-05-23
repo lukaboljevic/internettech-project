@@ -29,9 +29,11 @@ const Signup = () => {
         setLoading(false);
     };
 
-    if (currentUser) {
-        history.goBack();
-    }
+    // /signup isn't accessible if we're logged in
+    // TODO: maybe make another version of PrivateRoute
+    // if (currentUser) {
+    //     history.goBack();
+    // }
 
     return (
         <div>

@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 const Profile = () => {
@@ -42,10 +42,6 @@ const Profile = () => {
                 setLoading(false);
             });
     };
-
-    if (!currentUser) {
-        return <Redirect to="/login" />;
-    }
 
     return (
         <div>
