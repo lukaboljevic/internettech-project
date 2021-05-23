@@ -186,6 +186,13 @@ ul {
     font-size: 0.85em;
 }
 
+.actual-form textarea {
+    /* only found in NewItem.js */
+    margin-bottom: 30px;
+    font-size: 0.85em;
+    resize: vertical;
+}
+
 .form-button {
     margin-top: 5px;
     margin-bottom: 30px;
@@ -330,7 +337,7 @@ ul {
 
 /* ------------- List items (all items page) --------------- */
 
-.all-items-wrapper {
+.list-items-wrapper {
     max-width: 1200px;
     margin: 30px auto;
 }
@@ -340,7 +347,7 @@ ul {
     font-size: 2.5em;
 }
 
-.all-items-search-div {
+.search-wrapper {
     display: flex;
     margin-bottom: 30px;
     padding-left: 50px;
@@ -349,10 +356,16 @@ ul {
     gap: 20px;
 }
 
-.all-items-search {
+.list-items-search-box {
     width: 450px;
     height: 30px;
     font-size: 1.4em;
+}
+
+.add-item-button {
+    width: 270px;
+    height: 40px;
+    font-size: 1.6em;
 }
 
 .all-items {

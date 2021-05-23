@@ -28,41 +28,25 @@ const getItem = async id => {
 };
 
 const insertItem = async item => {
-    let insertSuccess = false;
-    let retry = 5;
-    while (!insertSuccess) {
-        try {
-            const itemId = uuid.v4();
-            const params = {
-                TableName: tableName,
-                Item: {
-                    ...item,
-                    id: itemId,
-                },
-                ConditionExpression: "attribute_not_exists(id)",
-            };
-            await client.put(params).promise();
-            insertSuccess = true;
+    const itemId = uuid.v4();
+    const params = {
+        TableName: tableName,
+        Item: {
+            ...item,
+            id: itemId,
+        },
+        ConditionExpression: "attribute_not_exists(id)",
+    };
+    await client.put(params).promise();
 
-            // Save the same item in Algolia so we can search it later
-            const itemsIndex = await algolia.getItemsIndex();
-            await itemsIndex.saveObjects([{
-                ...params.Item,
-                objectID: itemId, // Algolia records are required to have an objectID parameter
-            }])
+    // Save the same item in Algolia so we can search it later
+    const itemsIndex = await algolia.getItemsIndex();
+    await itemsIndex.saveObjects([{
+        ...params.Item,
+        objectID: itemId, // Algolia records are required to have an objectID parameter
+    }])
 
-            // console.log("successfully inserted!");
-            return params.Item;
-        } catch (error) {
-            console.error(error);
-            if (retry === 0) {
-                // I think this will work?
-                return undefined;
-            }
-            retry--;
-            console.log("Retries left for inserting:", retry);
-        }
-    }
+    return params.Item;
 };
 
 const deleteItem = async id => {

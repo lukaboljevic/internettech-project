@@ -15,6 +15,7 @@ import Profile from "./Profile";
 import Order from "./Order";
 import ReviewOrder from "./ReviewOrder";
 import PrivateRoute from "./PrivateRoute";
+import NewItem from "./NewItem";
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
                     <Route exact path="/" component={Home} />
                     <Route exact path="/items" component={ListItems} />
                     <Route exact path="/items/:itemId" component={ItemPage} />
+                    <PrivateRoute path="/new-item" component={NewItem} />
                     <Route path="/about" component={About} />
                     <Route path="/signup" component={Signup} />
                     <Route path="/login" component={Login} />

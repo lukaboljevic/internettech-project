@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { performSearch } from "../performSearch";
 
 const ListItems = () => {
@@ -40,6 +40,7 @@ const ListItems = () => {
     ]);
     const [loading, setLoading] = useState(false); // TODO: change to true when you uncomment useEffect
     // const [searchQuery, setSearchQuery] = useState(null);
+    const [newItem, setNewItem] = useState(false);
 
     // useEffect(() => {
     //     const endpoint = "http://localhost:5000/items";
@@ -71,16 +72,31 @@ const ListItems = () => {
         }
     };
 
+    const handleClick = event => {
+        setNewItem(true);
+    };
+
+    if (newItem) {
+        return <Redirect to="/new-item" />;
+    }
+
     if (loading) {
         return (
-            <div className="all-items-wrapper">
-                <div className="all-items-search-div">
+            <div className="list-items-wrapper">
+                <div className="search-wrapper">
                     <span style={{ fontSize: "2em" }}>Search </span>
                     <input
                         type="text"
-                        className="general-text-input all-items-search"
+                        className="general-text-input list-items-search-box"
                         onChange={handleTextChange}
                     />
+                    <button
+                        className="general-button add-item-button"
+                        disabled
+                        onClick={handleClick}
+                    >
+                        Add a new item
+                    </button>
                 </div>
                 <div className="all-items">
                     <div></div>
@@ -92,44 +108,41 @@ const ListItems = () => {
     }
 
     return (
-        <div className="all-items-wrapper">
-            <div className="all-items-search-div">
+        <div className="list-items-wrapper">
+            <div className="search-wrapper">
                 <span style={{ fontSize: "2em" }}>Search </span>
                 <input
                     type="text"
-                    className="general-text-input all-items-search"
+                    className="general-text-input list-items-search-box"
                     onChange={handleTextChange}
                 />
+                <button className="general-button add-item-button" onClick={handleClick}>
+                    Add a new item
+                </button>
             </div>
             <div className="all-items">
                 {items &&
                     items.map(item => (
-                        <Link key={item.id} to={`/items/${item.id}`}>
-                            <div key={item.id} className="item-box">
-                                {/* TODO: not how I will add images probably but it's okay for now */}
-                                <img
-                                    src={
-                                        item.images
-                                            ? item.images[0]
-                                            : "images/noimage.png"
-                                    }
-                                    alt=""
-                                />
-                                <div className="item-info">
-                                    <h2>{item.name}</h2>
-                                    <h4>
-                                        Some games :{" "}
-                                        {item.games.slice(0, 3).map((game, index) => {
-                                            if (index === item.games.length - 1) {
-                                                return game;
-                                            }
-                                            return game + ", ";
-                                        })}
-                                        {"..."}
-                                    </h4>
-                                    <h4>Price per hour: {item.hourPrice + " euros"}</h4>
-                                    <h4>City: {item.city}</h4>
-                                </div>
+                        <Link key={item.id} className="item-box" to={`/items/${item.id}`}>
+                            {/* TODO: not how I will add images probably but it's okay for now */}
+                            <img
+                                src={item.images ? item.images[0] : "images/noimage.png"}
+                                alt=""
+                            />
+                            <div className="item-info">
+                                <h2>{item.name}</h2>
+                                <h4>
+                                    Some games :{" "}
+                                    {item.games.slice(0, 3).map((game, index) => {
+                                        if (index === item.games.length - 1) {
+                                            return game;
+                                        }
+                                        return game + ", ";
+                                    })}
+                                    {"..."}
+                                </h4>
+                                <h4>Price per hour: {item.hourPrice + " euros"}</h4>
+                                <h4>City: {item.city}</h4>
                             </div>
                         </Link>
                     ))}

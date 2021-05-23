@@ -82,11 +82,12 @@ const Order = () => {
                     <label htmlFor="phone-number">Phone number</label>
                     <input
                         // make this type="tel" and add pattern or smt
-                        type="text"
+                        type="tel"
                         className="general-text-input"
                         id="phone-number"
                         ref={phoneRef}
                         required
+                        // TODO: pattern
                         pattern="[0-9]+"
                     />
                     <label htmlFor="email">Email</label>

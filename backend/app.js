@@ -26,8 +26,8 @@ router.get("/items", async (request, response) => {
 });
 
 router.get("/items/:itemId", async (request, response) => {
-    const itemId = request.params.itemId;
     try {
+        const itemId = request.params.itemId;
         const item = await dynamoOperations.getItem(itemId);
         if (!item.Item) {
             response
@@ -43,18 +43,9 @@ router.get("/items/:itemId", async (request, response) => {
 });
 
 router.post("/items", async (request, response) => {
-    const item = request.body;
     try {
+        const item = request.body;
         const newItem = await dynamoOperations.insertItem(item);
-        if (!newItem) {
-            // if it returned undefined after it tried x times
-            response
-                .status(500)
-                .json({
-                    message:
-                        "Tried inserting the item multiple times, but failed every single time",
-                });
-        }
         response.status(200).json(newItem);
     } catch (error) {
         // console.error(error);
@@ -63,8 +54,8 @@ router.post("/items", async (request, response) => {
 });
 
 router.delete("/items/:itemId", async (request, response) => {
-    const itemId = request.params.itemId;
     try {
+        const itemId = request.params.itemId;
         const result = await dynamoOperations.deleteItem(itemId);
         const message = result.Attributes
             ? "Item " + itemId + " found and deleted"
@@ -77,8 +68,8 @@ router.delete("/items/:itemId", async (request, response) => {
 });
 
 router.put("/items", async (request, response) => {
-    const updatedItem = request.body;
     try {
+        const updatedItem = request.body;
         const result = await dynamoOperations.updateItem(updatedItem);
         response.status(200).json(result.Attributes);
     } catch (error) {
@@ -88,8 +79,8 @@ router.put("/items", async (request, response) => {
 });
 
 router.get("/search/query=:query&limit=:limit", async (request, response) => {
-    const { query, limit } = request.params;
     try {
+        const { query, limit } = request.params;
         const hits = await algolia.search(query, limit);
         response.status(200).json({ hits });
     } catch (error) {
