@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link/*, useHistory*/ } from "react-router-dom";
+import { Link /*, useHistory*/ } from "react-router-dom";
 
 const ReviewOrder = ({ location }) => {
     const [message, setMessage] = useState("");
@@ -26,16 +26,7 @@ const ReviewOrder = ({ location }) => {
         <div>
             <div className="form-wrapper">
                 <h1 className="form-name">Review your order</h1>
-                {message && (
-                    <div
-                        className="message success"
-                        style={{
-                            minHeight: "120px",
-                        }}
-                    >
-                        {message}
-                    </div>
-                )}
+                {message && <div className="message success">{message}</div>}
                 <div className="actual-form">
                     {data && (
                         <>

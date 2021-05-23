@@ -20,17 +20,15 @@ const Login = () => {
     But there is no useEffect? and it's saying the error is on the line "const emailRef = useRef()"
     */
 
-    // /login isn't accessible if we're logged in
-    // TODO: maybe make another version of PrivateRoute
-    // if (currentUser) {
-    //     history.goBack();
-    // }
-
     const handleSubmit = async event => {
         event.preventDefault(); // prevent from refreshing
+        setError("");
+        if (currentUser) {
+            setError("You are already logged in.");
+            return;
+        }
 
         try {
-            setError("");
             setLoading(true);
             await login(emailRef.current.value, passwordRef.current.value);
             history.push("/");

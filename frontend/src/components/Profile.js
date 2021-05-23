@@ -47,11 +47,7 @@ const Profile = () => {
         <div>
             <div className="form-wrapper">
                 <h1 className="form-name">Profile</h1>
-                {message && (
-                    <div className="message success" style={{ minHeight: "60px" }}>
-                        {message}
-                    </div>
-                )}
+                {message && <div className="message success">{message}</div>}
                 {error && <div className="message error">{error}</div>}
                 <form className="actual-form" onSubmit={handleSubmit}>
                     <label htmlFor="email">Email</label>

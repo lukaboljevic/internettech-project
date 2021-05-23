@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 const ForgotPassword = (props) => {
@@ -8,14 +8,18 @@ const ForgotPassword = (props) => {
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
-    const history = useHistory();
     
     const handleSubmit = async event => {
         event.preventDefault(); // prevent from refreshing
+        setMessage("");
+        setError("");
+        if (currentUser) {
+            setError("You can change your password through your profile page. Click " + 
+                "the \"Profile\" button in the navigation bar.");
+            return;
+        }
 
         try {
-            setMessage("");
-            setError("");
             setLoading(true);
             await resetPassword(emailRef.current.value);
             setMessage("Check your inbox for further instructions.");
@@ -25,15 +29,6 @@ const ForgotPassword = (props) => {
 
         setLoading(false);
     };
-
-    // with these two checks below, I make forgot-password not accessible if we have a
-    // current user, or if we don't and we didn't come from /login, then redirect to /login
-
-    // /forgot-password isn't accessible if we're logged in
-    // TODO: maybe make another version of PrivateRoute
-    // if (currentUser) {
-    //     history.goBack();
-    // }
 
     // props.location.data is sent from login
     if (!currentUser && props.location?.data !== "came from login") {

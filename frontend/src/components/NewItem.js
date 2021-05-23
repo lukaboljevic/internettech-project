@@ -38,8 +38,7 @@ const NewItem = () => {
             console.log("json response:", jsonResponse);
             // TODO: check out the item
             setMessage("Successfully inserted your item. Check it out here");
-        }
-        catch (error) {
+        } catch (error) {
             setError("Failed to add your item :(\nError: " + error);
         }
 
@@ -50,7 +49,7 @@ const NewItem = () => {
         // TODO: CSS refactor required
         <div className="form-wrapper">
             <h1 className="form-name">New item</h1>
-            {error && <div className="message error" style={{minHeight: "80px"}}>{error}</div>}
+            {error && <div className="message error">{error}</div>}
             {message && <div className="message success">{message}</div>}
             <form className="actual-form" onSubmit={handleSubmit}>
                 <label htmlFor="item-name" title="Name of the item you want to rent.">

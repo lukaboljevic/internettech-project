@@ -258,8 +258,7 @@ ul {
     align-items: center;
 
     box-sizing: border-box;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 20px;
 
     /* same width as the form */
     width: 65%;
@@ -270,12 +269,10 @@ ul {
 }
 
 .error {
-    min-height: 60px;
     background-color: rgb(255, 50, 50, 0.75);
 }
 
 .success {
-    min-height: 80px;
     background-color: rgba(44, 196, 39, 0.75);
 }
 

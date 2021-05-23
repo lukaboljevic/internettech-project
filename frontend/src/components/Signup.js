@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 const Signup = () => {
@@ -8,20 +8,26 @@ const Signup = () => {
     const passwordConfirmRef = useRef();
     const { signup, currentUser } = useAuth();
     const [error, setError] = useState("");
+    const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
-    const history = useHistory();
 
     const handleSubmit = async event => {
         event.preventDefault(); // prevent from refreshing
+        setError("");
+        setMessage("");
+        if (currentUser) {
+            setError("Please log out of your current account.");
+            return;
+        }
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-            return setError("Passwords do not match.");
+            setError("Passwords do not match.");
+            return;
         }
 
         try {
-            setError("");
             setLoading(true);
             await signup(emailRef.current.value, passwordRef.current.value);
-            history.push("/");
+            setMessage("You have successfully signed up. You can now login.");
         } catch {
             setError("Failed to create an account.");
         }
@@ -29,17 +35,12 @@ const Signup = () => {
         setLoading(false);
     };
 
-    // /signup isn't accessible if we're logged in
-    // TODO: maybe make another version of PrivateRoute
-    // if (currentUser) {
-    //     history.goBack();
-    // }
-
     return (
         <div>
             <div className="form-wrapper">
                 <h1 className="form-name">Sign Up</h1>
                 {error && <div className="message error">{error}</div>}
+                {message && <div className="message success">{message}</div>}
                 <form className="actual-form" onSubmit={handleSubmit}>
                     <label htmlFor="email">Email</label>
                     <input
