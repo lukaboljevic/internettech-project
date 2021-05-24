@@ -1,66 +1,50 @@
 import { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { performSearch } from "../performSearch";
+import { getFiles, performSearch } from "../helper-functions";
 
 const ListItems = () => {
     // item - id, name, games list, hour price, image(s), city, phone number
-    const [items, setItems] = useState([
-        {
-            city: "Herceg Novi",
-            games: [],
-            hourPrice: 5,
-            id: "0cbf4d56-a581-4651-b6e1-55c75b30ff79",
-            name: "Xbox updated",
-            phone: "+38267123123",
-        },
-        {
-            city: "Pljevlja",
-            games: [],
-            hourPrice: 6,
-            id: "3734651a-ca3f-4abe-ba96-8661b99d6db6",
-            name: "PS4",
-            phone: "+38267123123",
-        },
-        {
-            city: "Danilovgrad",
-            games: [],
-            hourPrice: 1,
-            id: "61fd24ae-d489-4a82-b17a-a5380867fbdc",
-            name: "Gaming chair",
-            phone: "+38267123123",
-        },
-        {
-            city: "Herceg Novi",
-            games: [],
-            hourPrice: 5,
-            id: "79ec3079-c79e-43be-9720-ad657c9ec02e",
-            name: "PS4",
-            phone: "+38267123123",
-        },
-    ]);
-    const [loading, setLoading] = useState(false); // TODO: change to true when you uncomment useEffect
-    // const [searchQuery, setSearchQuery] = useState(null);
-    const [newItem, setNewItem] = useState(false);
+    const [items, setItems] = useState([]);
+    const [itemImages, setItemImages] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [addNewItem, setAddNewItem] = useState(false);
 
-    // useEffect(() => {
-    //     const endpoint = "http://localhost:5000/items";
-    //     fetch(endpoint, {
-    //         method: "GET",
-    //     })
-    //         .then(response => {
-    //             return response.json();
-    //         })
-    //         .then(data => {
-    //             setItems(data);
-    //             setLoading(false);
-    //         });
-    // }, []);
-    // useEffect(() => {
-    //     performSearch();
-    // }, [searchQuery]);
+    const fetchItems = async () => {
+        try {
+            setLoading(true);
+            setError("");
+            const endpoint = "http://localhost:5000/items";
+            const response = await fetch(endpoint, {
+                method: "GET",
+            });
+            if (!response.ok) {
+                throw new Error(
+                    "There was an error getting the items from the database. Fetch returned status " +
+                        response.status
+                );
+            }
+            const items = await response.json(); // items is a list
+            const images = {};
+            for (const item of items) {
+                const itemId = item.id;
+                const urls = await getFiles(item.images, itemId);
+                images[itemId] = urls; // itemId: [downloadURL1, downloadURL2, ...]
+            }
+            setItemImages(images);
+            setItems(items);
+        } catch (error) {
+            setError(error.message);
+        }
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        fetchItems();
+        // TODO: cleanup!
+    }, []);
 
     const handleTextChange = async event => {
-        // setSearchQuery(event.target.value);
         if (loading) {
             return;
         }
@@ -73,10 +57,10 @@ const ListItems = () => {
     };
 
     const handleClick = event => {
-        setNewItem(true);
+        setAddNewItem(true);
     };
 
-    if (newItem) {
+    if (addNewItem) {
         return <Redirect to="/new-item" />;
     }
 
@@ -120,13 +104,26 @@ const ListItems = () => {
                     Add a new item
                 </button>
             </div>
+            {error && (
+                <div className="list-items-error">
+                    <div
+                        className="message error"
+                        style={{ width: "45%", fontWeight: "700", margin: "0" }}
+                    >
+                        {error}
+                    </div>
+                </div>
+            )}
             <div className="all-items">
                 {items &&
                     items.map(item => (
                         <Link key={item.id} className="item-box" to={`/items/${item.id}`}>
-                            {/* TODO: not how I will add images probably but it's okay for now */}
                             <img
-                                src={item.images ? item.images[0] : "images/noimage.png"}
+                                src={
+                                    itemImages[item.id].length > 0
+                                        ? itemImages[item.id][0]
+                                        : "images/noimage.png"
+                                }
                                 alt=""
                             />
                             <div className="item-info">

@@ -1,6 +1,6 @@
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { performSearch } from "../performSearch";
+import { performSearch } from "../helper-functions";
 
 const Navbar = () => {
     const { currentUser, logout } = useAuth();
@@ -23,15 +23,16 @@ const Navbar = () => {
         try {
             const hits = await performSearch(event.target.value);
             console.log("hits!", hits);
-        }
-        catch (error) {
+        } catch (error) {
             alert(error.message);
         }
     };
 
     const handleClick = async () => {
         try {
-            const hits = await performSearch(document.querySelector(".navbar-search").value);
+            const hits = await performSearch(
+                document.querySelector(".navbar-search").value
+            );
             console.log("hits!", hits);
         } catch (error) {
             alert(error.message);

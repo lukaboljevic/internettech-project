@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/auth";
+import "firebase/storage";
 
 // Everything related to user authentication and authorization is found here:
 // https://www.youtube.com/watch?v=PKwu15ldZ7k&t=533s&ab_channel=WebDevSimplifiedWebDevSimplified
@@ -13,5 +14,6 @@ const app = firebase.initializeApp({
     appId: process.env.REACT_APP_FIREBASE_APP_ID,
 });
 
+export const storage = app.storage();
 export const auth = app.auth();
 export default app;

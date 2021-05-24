@@ -229,7 +229,7 @@ ul {
     font-size: 1.3em;
 }
 
-.link-to-item:hover{
+.link-to-item:hover {
     text-decoration: underline;
 }
 
@@ -289,7 +289,7 @@ ul {
 
 .item-page-wrapper {
     max-width: 1200px;
-    margin: 40px auto 30px auto;
+    margin: 30px auto;
 
     display: flex;
     justify-content: space-around;
@@ -324,8 +324,8 @@ ul {
 
 .item-page-wrapper img {
     /* margin-left: 8%; */
-    max-width: 500px;
-    max-height: 500px;
+    width: 500px;
+    height: 500px;
     background-color: white;
 
     border: 3px solid var(--border-color-red);
@@ -350,7 +350,7 @@ ul {
 
 .loading {
     margin: 0 auto;
-    font-size: 2.5em;
+    font-size: 3em;
 }
 
 .search-wrapper {
@@ -372,6 +372,13 @@ ul {
     width: 270px;
     height: 40px;
     font-size: 1.6em;
+}
+
+.list-items-error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
 }
 
 .all-items {

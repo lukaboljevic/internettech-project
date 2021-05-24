@@ -1,17 +1,19 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { uploadFiles } from "../helper-functions";
 
 const NewItem = () => {
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
-    const [receivedItem, setReceivedItem] = useState(null);
+    const [item, setItem] = useState(null);
 
     const itemNameRef = useRef();
     const cityRef = useRef();
     const phoneRef = useRef();
     const gamesRef = useRef();
     const rentPriceRef = useRef();
+    const imagesRef = useRef();
 
     const handleSubmit = async event => {
         event.preventDefault();
@@ -20,9 +22,14 @@ const NewItem = () => {
             setError("");
             setMessage("");
             setLoading(true);
-            setReceivedItem(null);
+            setItem(null);
+
             const games = gamesRef.current.value.split("\n");
-            const item = {
+            const imageNames = [];
+            for (const file of imagesRef.current.files) {
+                imageNames.push(file.name);
+            }
+            const itemToPut = {
                 city: cityRef.current.value,
                 games: games,
                 hourPrice: rentPriceRef.current.value,
@@ -30,20 +37,27 @@ const NewItem = () => {
                 phone: phoneRef.current.value,
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString(),
+                images: imageNames,
             };
+
             const response = await fetch(`http://localhost:5000/items`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(item),
+                body: JSON.stringify(itemToPut),
             });
             if (!response.ok) {
-                throw new Error("Error while creating the item. Fetch returned status " + response.status);
+                throw new Error(
+                    "Error while creating the item. Fetch returned status " +
+                        response.status
+                );
             }
-            const jsonResponse = await response.json();
+            const createdItem = await response.json();
+
+            await uploadFiles(imagesRef.current.files, createdItem.id);
             setMessage("Successfully inserted your item. Here is the link to your item:");
-            setReceivedItem(jsonResponse);
+            setItem(createdItem);
         } catch (error) {
             setError("Failed to add your item :(\nError: " + error);
         }
@@ -52,14 +66,15 @@ const NewItem = () => {
     };
 
     return (
-        // TODO: CSS refactor required
         <div className="form-wrapper">
             <h1 className="form-name">New item</h1>
             {error && <div className="message error">{error}</div>}
-            {message && receivedItem && (
+            {message && item && (
                 <div className="message success">
                     {message}
-                    <Link to={`/items/${receivedItem.id}`} className="link-to-item">Click</Link>
+                    <Link to={`/items/${item.id}`} className="link-to-item">
+                        Click
+                    </Link>
                 </div>
             )}
             <form className="actual-form" onSubmit={handleSubmit}>
@@ -123,6 +138,22 @@ const NewItem = () => {
                     required
                     pattern="[1-9][0-9]*"
                     ref={rentPriceRef}
+                />
+                <label
+                    htmlFor="images"
+                    title="(Optional) Upload the images of your item."
+                >
+                    Images
+                </label>
+                <input
+                    type="file"
+                    id="images"
+                    title="(Optional) Upload the images of your item."
+                    // className="general-text-input"
+                    style={{ fontFamily: "Quicksand" }}
+                    ref={imagesRef}
+                    multiple
+                    accept="image/*"
                 />
                 <button
                     type="submit"
