@@ -1,9 +1,11 @@
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 const NewItem = () => {
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
+    const [receivedItem, setReceivedItem] = useState(null);
 
     const itemNameRef = useRef();
     const cityRef = useRef();
@@ -12,13 +14,13 @@ const NewItem = () => {
     const rentPriceRef = useRef();
 
     const handleSubmit = async event => {
-        // TODO: add item
         event.preventDefault();
 
         try {
             setError("");
             setMessage("");
             setLoading(true);
+            setReceivedItem(null);
             const games = gamesRef.current.value.split("\n");
             const item = {
                 city: cityRef.current.value,
@@ -26,6 +28,8 @@ const NewItem = () => {
                 hourPrice: rentPriceRef.current.value,
                 name: itemNameRef.current.value,
                 phone: phoneRef.current.value,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
             };
             const response = await fetch(`http://localhost:5000/items`, {
                 method: "POST",
@@ -34,10 +38,12 @@ const NewItem = () => {
                 },
                 body: JSON.stringify(item),
             });
+            if (!response.ok) {
+                throw new Error("Error while creating the item. Fetch returned status " + response.status);
+            }
             const jsonResponse = await response.json();
-            console.log("json response:", jsonResponse);
-            // TODO: check out the item
-            setMessage("Successfully inserted your item. Check it out here");
+            setMessage("Successfully inserted your item. Here is the link to your item:");
+            setReceivedItem(jsonResponse);
         } catch (error) {
             setError("Failed to add your item :(\nError: " + error);
         }
@@ -50,7 +56,12 @@ const NewItem = () => {
         <div className="form-wrapper">
             <h1 className="form-name">New item</h1>
             {error && <div className="message error">{error}</div>}
-            {message && <div className="message success">{message}</div>}
+            {message && receivedItem && (
+                <div className="message success">
+                    {message}
+                    <Link to={`/items/${receivedItem.id}`} className="link-to-item">Click</Link>
+                </div>
+            )}
             <form className="actual-form" onSubmit={handleSubmit}>
                 <label htmlFor="item-name" title="Name of the item you want to rent.">
                     Item name
@@ -82,7 +93,7 @@ const NewItem = () => {
                     id="phone"
                     title="Your phone number."
                     className="general-text-input"
-                    // TODO: pattern
+                    pattern="06[789][0-9]{6}"
                     required
                     ref={phoneRef}
                 />

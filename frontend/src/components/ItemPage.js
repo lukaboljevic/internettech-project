@@ -32,8 +32,10 @@ const ItemPage = () => {
     };
 
     const handleClick = event => {
-        // I'll probably use a state later, to see if the button was submitted
-        // and if so, I'll return a Redirect with this product's data
+        // TODO: I'll probably use a state later, to see if the form was submitted
+        // and if so, I'll return a Redirect with this product's data to order
+        // 'cause I'll have to know what item to 'submit'
+        // maybe I could use a context too
         if (!currentUser) history.push("/login");
         else history.push("/order");
     };

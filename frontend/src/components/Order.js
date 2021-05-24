@@ -87,8 +87,7 @@ const Order = () => {
                         id="phone-number"
                         ref={phoneRef}
                         required
-                        // TODO: pattern
-                        pattern="[0-9]+"
+                        pattern="06[789][0-9]{6}"
                     />
                     <label htmlFor="email">Email</label>
                     <input

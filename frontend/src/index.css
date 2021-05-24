@@ -225,6 +225,14 @@ ul {
     justify-content: space-between;
 }
 
+.link-to-item {
+    font-size: 1.3em;
+}
+
+.link-to-item:hover{
+    text-decoration: underline;
+}
+
 .two-elements-one-row button {
     width: 45%;
     font-size: 1.2em;
@@ -254,6 +262,7 @@ ul {
 
 .message {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 

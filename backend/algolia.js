@@ -1,29 +1,17 @@
-const AWS = require("aws-sdk");
 const algoliasearch = require("algoliasearch");
-
-const ssm = new AWS.SSM({
-    region: "eu-central-1",
+const path = require("path");
+require("dotenv").config({
+    path: path.resolve(process.cwd(), ".env.local"),
 });
 
-const getParameters = async () => {
-    const response = await ssm
-        .getParameters({
-            Names: ["/itproject/dev/algoliaAdminKey", "/itproject/dev/algoliaAppID"],
-            WithDecryption: true,
-        })
-        .promise();
-    return {
-        adminKey: response.Parameters[0].Value,
-        appId: response.Parameters[1].Value,
-    };
-};
+const adminKey = process.env.ALGOLIA_ADMIN_KEY;
+const appId = process.env.ALGOLIA_APP_ID;
 
 let itemsIndex;
 const getItemsIndex = async () => {
     if (!itemsIndex) {
         console.log("THIS MESSAGE SHOULD NOT SHOW MORE THAN ONCE");
-        const keys = await getParameters();
-        const application = algoliasearch(keys.appId, keys.adminKey);
+        const application = algoliasearch(appId, adminKey);
         itemsIndex = await application.initIndex(`dev-items`);
 
         await itemsIndex.setSettings({
@@ -43,7 +31,6 @@ const search = async (query, limit) => {
 };
 
 module.exports = {
-    getParameters,
     getItemsIndex,
     search,
 };
