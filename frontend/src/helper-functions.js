@@ -2,9 +2,9 @@ import { storage } from "./firebase";
 
 export const performSearch = async query => {
     if (!query) {
-        return undefined;
+        // if it's empty/null, just set it to " " cause we want to get all results
+        query = " ";
     }
-    // TODO: searching when query === ""?
     console.log("Searching for", query);
     const response = await fetch(
         `http://localhost:5000/search/query=${query}&limit=${1000}`

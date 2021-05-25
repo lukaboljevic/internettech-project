@@ -345,11 +345,11 @@ ul {
 
 .list-items-wrapper {
     max-width: 1200px;
-    margin: 30px auto;
+    margin: 30px auto 0px auto;
 }
 
 .loading {
-    margin: 0 auto;
+    margin: 0 auto 30px auto;
     font-size: 3em;
 }
 

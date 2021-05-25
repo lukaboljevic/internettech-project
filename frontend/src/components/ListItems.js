@@ -49,10 +49,12 @@ const ListItems = () => {
             return;
         }
         try {
+            setError("");
             const hits = await performSearch(event.target.value);
-            console.log("hits!", hits);
+            // console.log("hits!", hits);
+            setItems(hits);
         } catch (error) {
-            alert(error.message);
+            setError(error.message);
         }
     };
 
@@ -108,7 +110,12 @@ const ListItems = () => {
                 <div className="list-items-error">
                     <div
                         className="message error"
-                        style={{ width: "45%", fontWeight: "700", margin: "0" }}
+                        style={{
+                            width: "45%",
+                            fontWeight: "700",
+                            margin: "0",
+                            marginBottom: "30px",
+                        }}
                     >
                         {error}
                     </div>
