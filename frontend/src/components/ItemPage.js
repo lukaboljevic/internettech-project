@@ -15,13 +15,14 @@ const ItemPage = () => {
 
     const { setItemToOrder } = useOrder();
 
-    const fetchItem = async () => {
+    const fetchItem = async (abortController) => {
         try {
             setLoading(true);
             setError("");
             const endpoint = `http://localhost:5000/items/${itemId}`;
             const response = await fetch(endpoint, {
                 method: "GET",
+                signal: abortController.signal
             });
             if (!response.ok) {
                 throw new Error(
@@ -34,14 +35,17 @@ const ItemPage = () => {
             setItem(item);
             setItemToOrder(item);
         } catch (error) {
-            setError(error.message);
+            if (error.name !== "AbortError") {
+                setError(error.message);
+            }
         }
         setLoading(false);
     };
 
     useEffect(() => {
-        fetchItem();
-        // TODO: cleanup!
+        const abortController = new AbortController();
+        fetchItem(abortController);
+        return () => abortController.abort();
     }, []);
 
     const handleClick = () => {

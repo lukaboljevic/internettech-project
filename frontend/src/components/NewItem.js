@@ -72,7 +72,7 @@ const NewItem = () => {
             {message && item && (
                 <div className="message success">
                     {message}
-                    <Link to={`/items/${item.id}`} className="link-to-item">
+                    <Link to={`/order-context/items/${item.id}`} className="link-to-item">
                         Click
                     </Link>
                 </div>

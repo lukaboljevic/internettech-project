@@ -10,13 +10,14 @@ const ListItems = () => {
     const [error, setError] = useState("");
     const [addNewItem, setAddNewItem] = useState(false);
 
-    const fetchItems = async () => {
+    const fetchItems = async (abortController) => {
         try {
             setLoading(true);
             setError("");
             const endpoint = "http://localhost:5000/items";
             const response = await fetch(endpoint, {
                 method: "GET",
+                signal: abortController.signal,
             });
             if (!response.ok) {
                 throw new Error(
@@ -34,14 +35,17 @@ const ListItems = () => {
             setItemImages(images);
             setItems(items);
         } catch (error) {
-            setError(error.message);
+            if (error.name !== "AbortError") {
+                setError(error.message);
+            }
         }
         setLoading(false);
     };
 
     useEffect(() => {
-        fetchItems();
-        // TODO: cleanup!
+        const abortController = new AbortController();
+        fetchItems(abortController);
+        return () => abortController.abort();
     }, []);
 
     const handleTextChange = async event => {
@@ -51,7 +55,6 @@ const ListItems = () => {
         try {
             setError("");
             const hits = await performSearch(event.target.value);
-            // console.log("hits!", hits);
             setItems(hits);
         } catch (error) {
             setError(error.message);

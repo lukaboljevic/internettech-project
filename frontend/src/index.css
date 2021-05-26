@@ -327,6 +327,7 @@ ul {
     width: 500px;
     height: 500px;
     background-color: white;
+    object-fit: contain;
 
     border: 3px solid var(--border-color-red);
     border-radius: 25px;
@@ -399,12 +400,12 @@ ul {
     background-color: var(--item-information-background);
 
     width: 300px;
-    min-height: 480px;
+    min-height: 490px;
     /* top right bottom left */
     margin: auto auto 30px auto;
 }
 
-.item-box .item-info {
+.item-info {
     width: 250px;
     gap: 5px;
 
@@ -414,14 +415,20 @@ ul {
     align-items: center;
 }
 
-.item-box h2,
-.item-box h4 {
+.item-info h2 {
+    text-align: center;
+    margin: 8px auto 0px auto;
+}
+
+.item-info h4 {
+    text-align: center;
     margin: 8px auto;
 }
 
 .item-box img {
     width: 250px;
     height: 250px;
+    object-fit: contain;
 }
 
 /* ------------- Footer --------------- */

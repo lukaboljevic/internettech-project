@@ -1,17 +1,17 @@
 import { useState } from "react";
-import { Link /*, useHistory*/ } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useOrder } from "../contexts/OrderContext";
 
 const ReviewOrder = () => {
     const [message, setMessage] = useState("");
     const [submitted, setSubmitted] = useState(false);
-    // const history = useHistory();
     const { itemToOrder, orderInformation } = useOrder();
-    console.log(itemToOrder);
-    // TODO: uncomment this when I'm done with testing
-    // if (!data) {
-    //     history.goBack();
-    // }
+    const [error, setError] = useState(
+        itemToOrder || orderInformation
+            ? ""
+            : "There is no item to order and/or no order information. Please return to the items page, select " +
+                  "your item and try again. If you aren't logged in, be sure to do so."
+    );
 
     const mapOrderKey = {
         nameSurname: "Name and surname",
@@ -24,21 +24,41 @@ const ReviewOrder = () => {
         cardholderName: "Cardholder name",
     };
 
+    const mapMonth = {
+        1: "January",
+        2: "February",
+        3: "March",
+        4: "April",
+        5: "May",
+        6: "June",
+        7: "July",
+        8: "August",
+        9: "September",
+        10: "October",
+        11: "November",
+        12: "December",
+    };
+
     const submitOrder = event => {
         // TODO: actually submit the order
+        setError("");
         setMessage(
             "Order successfully submitted. View it on your profile, or continue searching."
         );
         setSubmitted(true);
-        // setItemToOrder(null);
-        // setOrderInformation(null);
         // TODO: delete itemToOrder from the database
+    };
+
+    const getMonthAndYear = () => {
+        const [year, month] = orderInformation.expirationDate.split("-");
+        return mapMonth[month] + " " + year;
     };
 
     return (
         <div>
             <div className="form-wrapper">
                 <h1 className="form-name">Review your order</h1>
+                {error && <div className="message error">{error}</div>}
                 {message && <div className="message success">{message}</div>}
                 <div className="actual-form">
                     {orderInformation && (
@@ -49,7 +69,11 @@ const ReviewOrder = () => {
                                         <h2 className="review-order-attribute">
                                             {mapOrderKey[key]}
                                         </h2>
-                                        <span>{orderInformation[key]}</span>
+                                        <span>
+                                            {key === "expirationDate"
+                                                ? getMonthAndYear()
+                                                : orderInformation[key]}
+                                        </span>
                                     </div>
                                 );
                             })}
@@ -65,7 +89,9 @@ const ReviewOrder = () => {
                 </div>
             </div>
             <div className="after-form-text">
-                {submitted ? (
+                {error ? (
+                    <Link to="/items">Back to the items page</Link>
+                ) : submitted ? (
                     <Link to="/items">Continue searching</Link>
                 ) : (
                     <Link to="/order-context/order">Back to the order screen</Link>

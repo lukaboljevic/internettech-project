@@ -71,7 +71,7 @@ router.put("/items", async (request, response) => {
     try {
         const updatedItem = request.body;
         const result = await dynamoOperations.updateItem(updatedItem);
-        response.status(200).json(result.Attributes);
+        response.status(200).json(result);
     } catch (error) {
         // console.error(error);
         response.status(500).json({ error });

@@ -3,7 +3,7 @@ const uuid = require("uuid");
 const algolia = require("./algolia");
 const path = require("path");
 require("dotenv").config({
-    path: path.resolve(process.cwd(), ".env.local")
+    path: path.resolve(process.cwd(), ".env.local"),
 });
 
 AWS.config.update({
@@ -75,30 +75,51 @@ const deleteItem = async id => {
 };
 
 const updateItem = async updatedItem => {
+    /*
+    Yes, I will send the entire updated item, but if I change the item attributes 
+    at any point, I don't have to change this function too.
+    */
+    let updateExpr = "SET ";
+    let exprAttrNames = {};
+    let exprAttrValues = {};
+    const keys = Object.keys(updatedItem);
+
+    for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        if (key === "id") {
+            continue;
+        }
+        updateExpr += `#${key} = :${key}`
+        if (i < keys.length - 1) {
+            updateExpr += ", "
+        }
+        exprAttrNames[`#${key}`] = key;
+        exprAttrValues[`:${key}`] = updatedItem[key];
+    }
+
     const params = {
         TableName: tableName,
         Key: {
             id: updatedItem.id,
         },
         ReturnValues: "ALL_NEW",
-        // TODO: improve update logic
-        UpdateExpression:
-            "SET #city = :city, hourPrice = :hourPrice, #name = :name, #phone = :phone",
-        ExpressionAttributeNames: {
-            "#city": "city",
-            "#name": "name",
-            "#phone": "phone",
-        },
-        ExpressionAttributeValues: {
-            ":city": updatedItem.city,
-            ":hourPrice": updatedItem.hourPrice,
-            ":name": updatedItem.name,
-            ":phone": updatedItem.phone,
-        },
+        UpdateExpression: updateExpr,
+        ExpressionAttributeNames: exprAttrNames,
+        ExpressionAttributeValues: exprAttrValues,
     };
-    // TODO: update in algolia too.
-    const result = client.update(params).promise();
-    return result;
+
+    const result = await client.update(params).promise();
+
+    // Update in algolia too
+    const itemsIndex = await algolia.getItemsIndex();
+    await itemsIndex.saveObjects([
+        {
+            ...updatedItem,
+            objectID: updatedItem.id,
+        },
+    ]);
+
+    return result.Attributes;
 };
 
 module.exports = {
