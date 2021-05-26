@@ -124,7 +124,7 @@ const ListItems = () => {
             <div className="all-items">
                 {items &&
                     items.map(item => (
-                        <Link key={item.id} className="item-box" to={`/items/${item.id}`}>
+                        <Link key={item.id} className="item-box" to={`/order-context/items/${item.id}`}>
                             <img
                                 src={
                                     itemImages[item.id].length > 0

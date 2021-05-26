@@ -16,6 +16,7 @@ import Order from "./Order";
 import ReviewOrder from "./ReviewOrder";
 import PrivateRoute from "./PrivateRoute";
 import NewItem from "./NewItem";
+import { OrderProvider } from "../contexts/OrderContext";
 
 function App() {
     return (
@@ -25,14 +26,34 @@ function App() {
                 <Switch>
                     <Route exact path="/" component={Home} />
                     <Route exact path="/items" component={ListItems} />
-                    <Route exact path="/items/:itemId" component={ItemPage} />
+                    <Route
+                        path="/order-context"
+                        render={({ match: { url } }) => {
+                            // url is /order-context
+                            return (
+                                <OrderProvider>
+                                    <Route
+                                        exact
+                                        path={`${url}/items/:itemId`}
+                                        component={ItemPage}
+                                    />
+                                    <PrivateRoute
+                                        path={`${url}/order`}
+                                        component={Order}
+                                    />
+                                    <PrivateRoute
+                                        path={`${url}/review-order`}
+                                        component={ReviewOrder}
+                                    />
+                                </OrderProvider>
+                            );
+                        }}
+                    />
                     <PrivateRoute path="/new-item" component={NewItem} />
                     <Route path="/about" component={About} />
                     <Route path="/signup" component={Signup} />
                     <Route path="/login" component={Login} />
                     <PrivateRoute path="/profile" component={Profile} />
-                    <PrivateRoute path="/order" component={Order} />
-                    <PrivateRoute path="/review-order" component={ReviewOrder} />
                     <Route exact path="/forgot-password" component={ForgotPassword} />
                     <Route path="*" component={ErrorPage} />
                 </Switch>

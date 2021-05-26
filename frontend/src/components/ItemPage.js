@@ -2,6 +2,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { getFiles } from "../helper-functions";
+import { useOrder } from "../contexts/OrderContext";
 
 const ItemPage = () => {
     const { currentUser } = useAuth();
@@ -11,6 +12,8 @@ const ItemPage = () => {
     const [downloadedImages, setDownloadedImages] = useState(null);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+
+    const { setItemToOrder } = useOrder();
 
     const fetchItem = async () => {
         try {
@@ -29,6 +32,7 @@ const ItemPage = () => {
             const urls = await getFiles(item.images, itemId);
             setDownloadedImages(urls);
             setItem(item);
+            setItemToOrder(item);
         } catch (error) {
             setError(error.message);
         }
@@ -40,18 +44,9 @@ const ItemPage = () => {
         // TODO: cleanup!
     }, []);
 
-    // TODO: useEffect to the endpoint to fetch the item
-    // useEffect cleanup too
-    // TODO: if the item does not exist (look at the corresponding function in app.js)
-    // send him to the error page
-
-    const handleClick = event => {
-        // TODO: I'll probably use a state later, to see if the form was submitted
-        // and if so, I'll return a Redirect with this product's data to order
-        // 'cause I'll have to know what item to 'submit'
-        // maybe I could use a context too
+    const handleClick = () => {
         if (!currentUser) history.push("/login");
-        else history.push("/order");
+        else history.push("/order-context/order");
     };
 
     if (loading) {

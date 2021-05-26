@@ -1,13 +1,13 @@
 import { useRef, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { useOrder } from "../contexts/OrderContext";
 
 const Order = () => {
     const { currentUser } = useAuth();
     const [credit, setCredit] = useState(false);
     const [arrival, setArrival] = useState(false);
     const [review, setReview] = useState(false);
-    const [formData, setFormData] = useState(null);
 
     const nameSurnameRef = useRef();
     const cityAddressRef = useRef();
@@ -18,44 +18,51 @@ const Order = () => {
     const cvvRef = useRef();
     const cardholderRef = useRef();
 
-    const handleCreditClick = event => {
+    const { itemToOrder, orderInformation, setOrderInformation } = useOrder();
+    console.log(itemToOrder);
+
+    const handleCreditClick = () => {
         setCredit(true);
         setArrival(false);
     };
 
-    const handleArrivalClick = event => {
+    const handleArrivalClick = () => {
         setArrival(true);
         setCredit(false);
     };
 
     const handleSubmit = event => {
         event.preventDefault();
-        setReview(true);
         let formData = {
-            "Name and surname": nameSurnameRef.current.value,
-            "City and address": cityAddressRef.current.value,
-            "Phone number": phoneRef.current.value,
-            Email: emailRef.current.value,
+            nameSurname: nameSurnameRef.current.value,
+            cityAddress: cityAddressRef.current.value,
+            phone: phoneRef.current.value,
+            email: emailRef.current.value,
         };
         if (credit) {
             // if we want to pay with a credit card
             formData = {
                 ...formData,
-                "Credit card number": cardNumberRef.current.value,
-                "Card expiration date": expirationRef.current.value,
-                "CVV (Card Verification Value)": cvvRef.current.value,
-                "Cardholder name": cardholderRef.current.value,
+                cardNumber: cardNumberRef.current.value,
+                expirationDate: expirationRef.current.value,
+                cvv: cvvRef.current.value,
+                cardholderName: cardholderRef.current.value,
             };
         }
-        setFormData(formData);
+        setOrderInformation(formData);
+        setReview(true);
     };
 
     if (review) {
-        return <Redirect to={{ pathname: "/review-order", formData }} />;
+        return <Redirect to="/order-context/review-order" />;
     }
 
-    // TODO: disallow going here (to /order) if no item was passed in as a prop
-    // because I'll most probably do it like that
+    // TODO: disallow going here (to /order) if no item to order exists
+    // or if there is no item to order, show the error and make the 
+    // only option to go to /items
+    if (!itemToOrder) {
+        // alert("No item to order!");
+    }
 
     return (
         <div>
@@ -70,14 +77,16 @@ const Order = () => {
                         id="name-surname"
                         ref={nameSurnameRef}
                         required
+                        defaultValue={orderInformation && orderInformation.nameSurname}
                     />
-                    <label htmlFor="address-city">Address and city</label>
+                    <label htmlFor="city-address">City and address</label>
                     <input
                         type="text"
                         className="general-text-input"
-                        id="address-city"
+                        id="city-address"
                         ref={cityAddressRef}
                         required
+                        defaultValue={orderInformation && orderInformation.cityAddress}
                     />
                     <label htmlFor="phone-number">Phone number</label>
                     <input
@@ -88,6 +97,7 @@ const Order = () => {
                         ref={phoneRef}
                         required
                         pattern="06[789][0-9]{6}"
+                        defaultValue={orderInformation && orderInformation.phone}
                     />
                     <label htmlFor="email">Email</label>
                     <input
@@ -134,6 +144,9 @@ const Order = () => {
                                 title="This number is a 16 digit long number at the face of your credit card."
                                 pattern="[0-9]{16}"
                                 ref={cardNumberRef}
+                                defaultValue={
+                                    orderInformation && orderInformation.cardNumber
+                                }
                             />
                             <label htmlFor="expiry-date">Card expiration date</label>
                             <input
@@ -144,6 +157,9 @@ const Order = () => {
                                 ref={expirationRef}
                                 // get today's date in YYYY-MM format
                                 min={new Date().toISOString().split("T")[0].slice(0, -3)}
+                                defaultValue={
+                                    orderInformation && orderInformation.expirationDate
+                                }
                             />
                             <label
                                 htmlFor="cvv"
@@ -159,6 +175,7 @@ const Order = () => {
                                 pattern="[0-9]{3}"
                                 title="This number is the 3 digit number at the back of your card."
                                 ref={cvvRef}
+                                defaultValue={orderInformation && orderInformation.cvv}
                             />
                             <label htmlFor="cardholder-name">Cardholder name</label>
                             <input
@@ -167,6 +184,9 @@ const Order = () => {
                                 id="cardholder-name"
                                 required
                                 ref={cardholderRef}
+                                defaultValue={
+                                    orderInformation && orderInformation.cardholderName
+                                }
                             />
                             <button type="submit" className="general-button form-button">
                                 Review order

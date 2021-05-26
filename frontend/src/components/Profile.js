@@ -15,6 +15,9 @@ const Profile = () => {
         event.preventDefault(); // prevent from refreshing
         setError("");
         setMessage("");
+        if (!passwordRef.current.value) {
+            return;
+        }
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
             return setError("Passwords do not match.");
         }

@@ -46,7 +46,8 @@ export const getFiles = async (imageNames, itemId) => {
             urls.push(url);
         } catch (error) {
             throw new Error(
-                `There was an error retrieving the image ${name} for the item ${itemId}`
+                // `There was an error retrieving the image ${name} for the item ${itemId}`
+                error.message
             );
         }
     }
