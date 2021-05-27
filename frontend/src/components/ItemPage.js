@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { Redirect, useHistory, useParams } from "react-router-dom";
 import { getFiles } from "../helper-functions";
 import { useOrder } from "../contexts/OrderContext";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const ItemPage = () => {
     const { currentUser } = useAuth();
@@ -104,14 +106,17 @@ const ItemPage = () => {
             )}
             {item && (
                 <>
-                    <img
-                        src={
-                            downloadedImages?.length > 0
-                                ? downloadedImages[0]
-                                : "/images/noimage.png"
-                        }
-                        alt=""
-                    />
+                    <div className="item-images">
+                        <Carousel infiniteLoop="true" showThumbs={false} showStatus={false}>
+                            {downloadedImages && downloadedImages.length > 0 ? (
+                                downloadedImages.map((image, index) => (
+                                    <img key={index} src={image} alt="" />
+                                ))
+                            ) : (
+                                <img src="/images/noimage.png" alt="" />
+                            )}
+                        </Carousel>
+                    </div>
                     <div className="item-information">
                         <h1>{item.name}</h1>
                         <h2>

@@ -322,16 +322,21 @@ ul {
     font-weight: normal;
 }
 
-.item-page-wrapper img {
+.item-images {
     /* margin-left: 8%; */
     width: 500px;
     height: 500px;
-    background-color: white;
-    object-fit: contain;
 
     border: 3px solid var(--border-color-red);
     border-radius: 25px;
     box-shadow: 5px 5px var(--box-shadow-color);
+}
+
+.item-images img {
+    width: 500px;
+    height: 500px;
+    object-fit: contain;
+    border-radius: 25px;
 }
 
 .item-page-button {
@@ -340,6 +345,26 @@ ul {
     margin-bottom: 1.2em;
     width: 150px;
     height: 45px;
+}
+
+/* ---- React responsive carousel ---- */
+
+.control-prev {
+    /* Arrow for previous image */
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+.control-next {
+    /* Arrow for next image */
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+.carousel .control-dots li.dot {
+    /* Dots at the bottom of the images */
+    width: 10px;
+    height: 10px;
 }
 
 /* ------------- List items (all items page) --------------- */

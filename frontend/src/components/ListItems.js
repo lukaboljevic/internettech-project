@@ -10,7 +10,7 @@ const ListItems = () => {
     const [error, setError] = useState("");
     const [addNewItem, setAddNewItem] = useState(false);
 
-    const fetchItems = async (abortController) => {
+    const fetchItems = async abortController => {
         try {
             setLoading(true);
             setError("");
@@ -26,6 +26,13 @@ const ListItems = () => {
                 );
             }
             const items = await response.json(); // items is a list
+            items.sort((a, b) => {
+                if (a.name < b.name) {
+                    return -1;
+                } else if (a.name > b.name) {
+                    return 1;
+                } else return 0;
+            });
             const images = {};
             for (const item of items) {
                 const itemId = item.id;
@@ -55,6 +62,14 @@ const ListItems = () => {
         try {
             setError("");
             const hits = await performSearch(event.target.value);
+            console.log(hits);
+            hits.sort((a, b) => {
+                if (a.name < b.name) {
+                    return -1;
+                } else if (a.name > b.name) {
+                    return 1;
+                } else return 0;
+            });
             setItems(hits);
         } catch (error) {
             setError(error.message);
@@ -127,7 +142,11 @@ const ListItems = () => {
             <div className="all-items">
                 {items &&
                     items.map(item => (
-                        <Link key={item.id} className="item-box" to={`/order-context/items/${item.id}`}>
+                        <Link
+                            key={item.id}
+                            className="item-box"
+                            to={`/order-context/items/${item.id}`}
+                        >
                             <img
                                 src={
                                     itemImages[item.id].length > 0
