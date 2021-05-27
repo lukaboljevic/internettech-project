@@ -1,6 +1,6 @@
 import { useAuth } from "../contexts/AuthContext";
 import { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { Redirect, useHistory, useParams } from "react-router-dom";
 import { getFiles } from "../helper-functions";
 import { useOrder } from "../contexts/OrderContext";
 
@@ -12,17 +12,18 @@ const ItemPage = () => {
     const [downloadedImages, setDownloadedImages] = useState(null);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const [toUpdate, setToUpdate] = useState(false);
 
     const { setItemToOrder } = useOrder();
 
-    const fetchItem = async (abortController) => {
+    const fetchItem = async abortController => {
         try {
             setLoading(true);
             setError("");
             const endpoint = `http://localhost:5000/items/${itemId}`;
             const response = await fetch(endpoint, {
                 method: "GET",
-                signal: abortController.signal
+                signal: abortController.signal,
             });
             if (!response.ok) {
                 throw new Error(
@@ -48,10 +49,35 @@ const ItemPage = () => {
         return () => abortController.abort();
     }, []);
 
-    const handleClick = () => {
+    const handleRentClick = () => {
         if (!currentUser) history.push("/login");
-        else history.push("/order-context/order");
+        else {
+            if (currentUser.email === item.user) {
+                alert("You cannot rent your own item.")
+            }
+            else {
+                history.push("/order-context/order");
+            }
+        }
     };
+
+    const handleUpdateClick = () => {
+        setToUpdate(true)
+    };
+
+    const checkHidden = () => {
+        if (!currentUser) {
+            return true;
+        }
+        if (currentUser.email !== item.user) {
+            return true;
+        }
+        return false;
+    }
+
+    if (toUpdate) {
+        return <Redirect to={{ pathname: "/update-item", item: item}} />
+    }
 
     if (loading) {
         return (
@@ -78,7 +104,14 @@ const ItemPage = () => {
             )}
             {item && (
                 <>
-                    <img src={downloadedImages[0]} alt="" />
+                    <img
+                        src={
+                            downloadedImages?.length > 0
+                                ? downloadedImages[0]
+                                : "/images/noimage.png"
+                        }
+                        alt=""
+                    />
                     <div className="item-information">
                         <h1>{item.name}</h1>
                         <h2>
@@ -100,9 +133,17 @@ const ItemPage = () => {
                         </h2>
                         <button
                             className="general-button item-page-button"
-                            onClick={handleClick}
+                            onClick={handleRentClick}
                         >
                             Rent now
+                        </button>
+                        <button
+                            className="general-button item-page-button"
+                            style={{ width: "200px", marginLeft: "20px" }}
+                            hidden={checkHidden()}
+                            onClick={handleUpdateClick}
+                        >
+                            Update listing
                         </button>
                     </div>
                 </>

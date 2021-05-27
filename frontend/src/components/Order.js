@@ -14,7 +14,8 @@ const Order = () => {
     const [error, setError] = useState(
         itemToOrder
             ? ""
-            : "There is no item to order. Please return to the items page, select " +
+            : "There is no item to order. You must have come to this page in the way you are " +
+                  "not supposed to. Please return to the items page, select " +
                   "your item and try again. If you aren't logged in, be sure to do so."
     );
 

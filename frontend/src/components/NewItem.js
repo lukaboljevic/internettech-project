@@ -1,12 +1,14 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { uploadFiles } from "../helper-functions";
+import { useAuth } from "../contexts/AuthContext";
 
 const NewItem = () => {
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const [item, setItem] = useState(null);
+    const { currentUser } = useAuth();
 
     const itemNameRef = useRef();
     const cityRef = useRef();
@@ -22,7 +24,6 @@ const NewItem = () => {
             setError("");
             setMessage("");
             setLoading(true);
-            setItem(null);
 
             const games = gamesRef.current.value.split("\n");
             const imageNames = [];
@@ -38,6 +39,7 @@ const NewItem = () => {
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString(),
                 images: imageNames,
+                user: currentUser.email,
             };
 
             const response = await fetch(`http://localhost:5000/items`, {
@@ -54,12 +56,11 @@ const NewItem = () => {
                 );
             }
             const createdItem = await response.json();
-
             await uploadFiles(imagesRef.current.files, createdItem.id);
-            setMessage("Successfully inserted your item. Here is the link to your item:");
+            setMessage("Successfully inserted your item. Check it out on this link:");
             setItem(createdItem);
         } catch (error) {
-            setError("Failed to add your item :(\nError: " + error);
+            setError("Failed to add your item :(\nError: " + error.message);
         }
 
         setLoading(false);
@@ -114,13 +115,13 @@ const NewItem = () => {
                 />
                 <label
                     htmlFor="games"
-                    title="The list of games you are offering, with each game being in a new line."
+                    title="(Optional) The list of games you are offering, with each game being in a new line."
                 >
                     List of games (new line for each game)
                 </label>
                 <textarea
                     id="games"
-                    title="The list of games you are offering, with each game being in a new line."
+                    title="(Optional) The list of games you are offering, with each game being in a new line."
                     className="general-text-input"
                     ref={gamesRef}
                 />

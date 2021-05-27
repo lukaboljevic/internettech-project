@@ -9,7 +9,8 @@ const ReviewOrder = () => {
     const [error, setError] = useState(
         itemToOrder || orderInformation
             ? ""
-            : "There is no item to order and/or no order information. Please return to the items page, select " +
+            : "There is no item to order and/or no order information. You must have come to this page " +
+                  " in the way you are not supposed to. Please return to the items page, select " +
                   "your item and try again. If you aren't logged in, be sure to do so."
     );
 
@@ -89,7 +90,9 @@ const ReviewOrder = () => {
                 </div>
             </div>
             <div className="after-form-text">
-                {error ? (
+                {/* !(itemToOrder || orderInformation) is the negation of the condition
+                used for determining if there is an error when we initially come to this page */}
+                {!(itemToOrder || orderInformation) ? (
                     <Link to="/items">Back to the items page</Link>
                 ) : submitted ? (
                     <Link to="/items">Continue searching</Link>
