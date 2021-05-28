@@ -39,7 +39,8 @@ const NewItem = () => {
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString(),
                 images: imageNames,
-                user: currentUser.email,
+                createdBy: currentUser.email,
+                status: "published", // when it gets rented, status will be set to "rented" and will not be shown
             };
 
             const response = await fetch(`http://localhost:5000/items`, {

@@ -178,12 +178,37 @@ ul {
 .actual-form label {
     font-weight: 600;
     margin-bottom: 10px;
+    font-size: 1.15em;
 }
 
 .actual-form input {
     height: 30px;
     margin-bottom: 30px;
     font-size: 0.85em;
+}
+
+.dot {
+    background: black;
+    border-radius: 50%;
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    vertical-align: middle;
+}
+
+.rent-history-info {
+    font-size: 0.9em;
+}
+
+.rent-history-wrapper {
+    box-sizing: border-box;
+    min-height: 30px;
+    border: 2px solid black;
+    border-radius: 6px;
+    padding-left: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin-bottom: 30px;
 }
 
 .actual-form textarea {
@@ -454,6 +479,8 @@ ul {
     width: 250px;
     height: 250px;
     object-fit: contain;
+    margin-top: 5px;
+    border-radius: 10px;
 }
 
 /* ------------- Footer --------------- */

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -9,7 +9,9 @@ const Profile = () => {
     const { currentUser, changeEmail, changePassword } = useAuth();
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [loadingSubmit, setLoadingSubmit] = useState(false);
+    const [loadingInitial, setLoadingInitial] = useState(true);
+    const [rentHistory, setRentHistory] = useState(null);
 
     const handleSubmit = event => {
         event.preventDefault(); // prevent from refreshing
@@ -23,7 +25,7 @@ const Profile = () => {
         }
 
         const promises = [];
-        setLoading(true);
+        setLoadingSubmit(true);
         if (emailRef.current.value !== currentUser.email) {
             // if we've changed the email
             promises.push(changeEmail(emailRef.current.value));
@@ -42,9 +44,46 @@ const Profile = () => {
                 setError("Failed to update profile.");
             })
             .finally(() => {
-                setLoading(false);
+                setLoadingSubmit(false);
             });
     };
+
+    const fetchRentHistory = async abortController => {
+        try {
+            setError("");
+            const endpoint = `http://localhost:5000/rent-history/${currentUser.email}`;
+            const response = await fetch(endpoint, {
+                method: "GET",
+                signal: abortController.signal,
+            });
+            if (!response.ok) {
+                throw new Error(
+                    `There was an error getting the renting history from the database. Fetch returned status ${response.status}`
+                );
+            }
+            const history = await response.json();
+            setRentHistory(history);
+        } catch (error) {
+            if (error.name !== "AbortError") {
+                setError(error.message);
+            }
+        }
+        setLoadingInitial(false);
+    };
+
+    useEffect(() => {
+        const abortController = new AbortController();
+        fetchRentHistory(abortController);
+        return () => abortController.abort();
+    }, []);
+
+    if (loadingInitial) {
+        return (
+            <div className="item-page-wrapper" style={{ fontSize: "3em" }}>
+                Loading...
+            </div>
+        );
+    }
 
     return (
         <div>
@@ -78,10 +117,33 @@ const Profile = () => {
                         ref={passwordConfirmRef}
                         placeholder="Leave blank to keep your password"
                     />
+                    <label>Renting history</label>
+                    <div className="rent-history-wrapper">
+                        {rentHistory && rentHistory.length > 0 ? (
+                            rentHistory.map(item => {
+                                return (
+                                    <>
+                                        <div className="dot"></div>
+                                        <span className="rent-history-info" key={item.id}>
+                                            &nbsp;Name: <strong>{item.name}</strong>,
+                                            phone: <strong>{item.phone}</strong>
+                                        </span>
+                                        <br />
+                                    </>
+                                );
+                            })
+                        ) : (
+                            <>
+                                <span className="rent-history-info">
+                                    You have not rented any items.
+                                </span>
+                            </>
+                        )}
+                    </div>
                     <button
                         type="submit"
                         className="general-button form-button"
-                        disabled={loading}
+                        disabled={loadingSubmit}
                     >
                         Update profile
                     </button>

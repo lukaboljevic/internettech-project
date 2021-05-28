@@ -54,17 +54,18 @@ const ItemPage = () => {
     const handleRentClick = () => {
         if (!currentUser) history.push("/login");
         else {
-            if (currentUser.email === item.user) {
-                alert("You cannot rent your own item.")
-            }
-            else {
-                history.push("/order-context/order");
-            }
+            // TODO: uncomment
+            history.push("/order-context/order");
+            // if (currentUser.email === item.user) {
+            //     alert("You cannot rent your own item.");
+            // } else {
+            //     history.push("/order-context/order");
+            // }
         }
     };
 
     const handleUpdateClick = () => {
-        setToUpdate(true)
+        setToUpdate(true);
     };
 
     const checkHidden = () => {
@@ -75,10 +76,10 @@ const ItemPage = () => {
             return true;
         }
         return false;
-    }
+    };
 
     if (toUpdate) {
-        return <Redirect to={{ pathname: "/update-item", item: item}} />
+        return <Redirect to={{ pathname: "/update-item", item: item }} />;
     }
 
     if (loading) {
@@ -107,7 +108,12 @@ const ItemPage = () => {
             {item && (
                 <>
                     <div className="item-images">
-                        <Carousel infiniteLoop="true" showThumbs={false} showStatus={false}>
+                        <Carousel
+                            infiniteLoop={true}
+                            // try setting showThumbs to true lmao
+                            showThumbs={false}
+                            showStatus={false}
+                        >
                             {downloadedImages && downloadedImages.length > 0 ? (
                                 downloadedImages.map((image, index) => (
                                     <img key={index} src={image} alt="" />

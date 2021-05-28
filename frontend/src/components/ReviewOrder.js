@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useOrder } from "../contexts/OrderContext";
+import { useAuth } from "../contexts/AuthContext";
 
 const ReviewOrder = () => {
+    const { currentUser } = useAuth();
     const [message, setMessage] = useState("");
     const [submitted, setSubmitted] = useState(false);
     const { itemToOrder, orderInformation } = useOrder();
@@ -40,14 +42,52 @@ const ReviewOrder = () => {
         12: "December",
     };
 
-    const submitOrder = event => {
-        // TODO: actually submit the order
-        setError("");
-        setMessage(
-            "Order successfully submitted. View it on your profile, or continue searching."
-        );
-        setSubmitted(true);
-        // TODO: delete itemToOrder from the database
+    const submitOrder = async () => {
+        try {
+            setError("");
+            setMessage("");
+
+            // Update in items table and delete from Algolia
+            const response = await fetch("http://localhost:5000/rent-item", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(itemToOrder),
+            });
+            if (!response.ok) {
+                throw new Error(
+                    `Error while submitting your order. Fetch returned status ${response.status}`
+                );
+            }
+            const updatedItem = await response.json();
+
+            // Put this item in the rent history table for this user
+            const rentInfo = {
+                user: currentUser.email,
+                item: updatedItem,
+            };
+            const responseHistory = await fetch("http://localhost:5000/rent-item", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(rentInfo),
+            });
+            if (!responseHistory.ok) {
+                throw new Error(
+                    `Error while adding the order to your rent history. Fetch returned status ${responseHistory.status}`
+                );
+            }
+            await responseHistory.json();
+
+            setMessage(
+                "Order successfully submitted. View it on your profile, or continue searching."
+            );
+            setSubmitted(true);
+        } catch (error) {
+            setError(error.message);
+        }
     };
 
     const getMonthAndYear = () => {

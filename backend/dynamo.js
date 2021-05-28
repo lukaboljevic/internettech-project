@@ -12,11 +12,17 @@ AWS.config.update({
     region: "eu-central-1",
 });
 const client = new AWS.DynamoDB.DocumentClient();
-const tableName = process.env.ITEMS_TABLE_NAME;
 
 const getAllItems = async () => {
     const params = {
-        TableName: tableName,
+        TableName: process.env.ITEMS_TABLE_NAME,
+        FilterExpression: "#status = :status",
+        ExpressionAttributeNames: {
+            "#status": "status",
+        },
+        ExpressionAttributeValues: {
+            ":status": "published",
+        },
     };
     const items = await client.scan(params).promise();
     return items;
@@ -24,7 +30,7 @@ const getAllItems = async () => {
 
 const getItem = async id => {
     const params = {
-        TableName: tableName,
+        TableName: process.env.ITEMS_TABLE_NAME,
         Key: {
             id,
         },
@@ -33,10 +39,25 @@ const getItem = async id => {
     return item;
 };
 
+const getRentingHistory = async user => {
+    const params = {
+        TableName: process.env.RENT_HISTORY_TABLE_NAME,
+        KeyConditionExpression: "#user = :user",
+        ExpressionAttributeNames: {
+            "#user": "user",
+        },
+        ExpressionAttributeValues: {
+            ":user": user,
+        },
+    };
+    const result = await client.query(params).promise();
+    return result.Items;
+};
+
 const insertItem = async item => {
     const itemId = uuid.v4();
     const params = {
-        TableName: tableName,
+        TableName: process.env.ITEMS_TABLE_NAME,
         Item: {
             ...item,
             id: itemId,
@@ -57,9 +78,22 @@ const insertItem = async item => {
     return params.Item;
 };
 
+const insertRentHistory = async rentInfo => {
+    const params = {
+        TableName: process.env.RENT_HISTORY_TABLE_NAME,
+        Item: {
+            user: rentInfo.user, // hash key
+            itemId: rentInfo.item.id, // range key
+            ...rentInfo.item, // rest of the item
+        },
+    };
+    delete params.Item.id; // but remove the id property cause we set itemId
+    await client.put(params).promise();
+};
+
 const deleteItem = async id => {
     const params = {
-        TableName: tableName,
+        TableName: process.env.ITEMS_TABLE_NAME,
         Key: {
             id,
         },
@@ -89,16 +123,16 @@ const updateItem = async updatedItem => {
         if (key === "id") {
             continue;
         }
-        updateExpr += `#${key} = :${key}`
+        updateExpr += `#${key} = :${key}`;
         if (i < keys.length - 1) {
-            updateExpr += ", "
+            updateExpr += ", ";
         }
         exprAttrNames[`#${key}`] = key;
         exprAttrValues[`:${key}`] = updatedItem[key];
     }
 
     const params = {
-        TableName: tableName,
+        TableName: process.env.ITEMS_TABLE_NAME,
         Key: {
             id: updatedItem.id,
         },
@@ -122,10 +156,39 @@ const updateItem = async updatedItem => {
     return result.Attributes;
 };
 
+const rentItem = async itemToRent => {
+    const params = {
+        TableName: process.env.ITEMS_TABLE_NAME,
+        Key: {
+            id: itemToRent.id,
+        },
+        ReturnValues: "ALL_NEW",
+        UpdateExpression: "SET #status = :status, #updatedAt = :updatedAt",
+        ExpressionAttributeNames: {
+            "#status": "status",
+            "#updatedAt": "updatedAt",
+        },
+        ExpressionAttributeValues: {
+            ":status": "rented",
+            ":updatedAt": new Date().toISOString(),
+        },
+    };
+    const result = await client.update(params).promise();
+
+    // Delete from algolia because we can't search for it anymore
+    const itemsIndex = await algolia.getItemsIndex();
+    await itemsIndex.deleteObjects([itemToRent.id]);
+
+    return result.Attributes;
+};
+
 module.exports = {
     getAllItems,
     getItem,
+    getRentingHistory,
     insertItem,
     deleteItem,
     updateItem,
+    rentItem,
+    insertRentHistory,
 };

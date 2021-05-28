@@ -6,10 +6,12 @@ const algolia = require("./algolia");
 const app = express();
 const router = express.Router();
 
-app.use(cors({
-    origin: "http://localhost:3000",
-    methods: ["GET", "PUT", "POST", "DELETE"],
-}));
+app.use(
+    cors({
+        origin: "http://localhost:3000",
+        methods: ["GET", "PUT", "POST", "DELETE"],
+    })
+);
 app.use(express.json());
 
 // Good explanation of the difference between POST and PUT: https://stackoverflow.com/a/18243587
@@ -43,6 +45,16 @@ router.get("/items/:itemId", async (request, response) => {
     }
 });
 
+router.get("/rent-history/:user", async (request, response) => {
+    try {
+        const user = request.params.user;
+        const history = await dynamoOperations.getRentingHistory(user);
+        response.status(200).json(history);
+    } catch (error) {
+        response.status(500).json({ error });
+    }
+});
+
 router.post("/items", async (request, response) => {
     try {
         const item = request.body;
@@ -50,6 +62,20 @@ router.post("/items", async (request, response) => {
         response.status(200).json(newItem);
     } catch (error) {
         // console.error(error);
+        response.status(500).json({ error });
+    }
+});
+
+router.post("/rent-item", async (request, response) => {
+    try {
+        const rentInfo = request.body;
+        await dynamoOperations.insertRentHistory(rentInfo);
+        response
+            .status(200)
+            .json({
+                message: `User ${rentInfo.user} successfully rented the item ${rentInfo.item.id}`,
+            });
+    } catch (error) {
         response.status(500).json({ error });
     }
 });
@@ -72,6 +98,17 @@ router.put("/items", async (request, response) => {
     try {
         const updatedItem = request.body;
         const result = await dynamoOperations.updateItem(updatedItem);
+        response.status(200).json(result);
+    } catch (error) {
+        // console.error(error);
+        response.status(500).json({ error });
+    }
+});
+
+router.put("/rent-item", async (request, response) => {
+    try {
+        const itemToRent = request.body;
+        const result = await dynamoOperations.rentItem(itemToRent);
         response.status(200).json(result);
     } catch (error) {
         // console.error(error);

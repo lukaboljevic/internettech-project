@@ -47,7 +47,8 @@ const UpdateItem = props => {
                 createdAt: item.createdAt,
                 updatedAt: new Date().toISOString(),
                 images: item.images.concat(imageNames),
-                user: item.user, // or currentUser.email, same deal
+                createdBy: item.createdBy, // or currentUser.email, same deal
+                status: item.status, // will be published
             };
 
             const response = await fetch(`http://localhost:5000/items`, {
