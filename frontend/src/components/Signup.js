@@ -37,11 +37,11 @@ const Signup = () => {
 
     return (
         <div>
-            <div className="form-wrapper">
-                <h1 className="form-name">Sign Up</h1>
+            <div className="general-wrapper component-wrapper border">
+                <h1 className="component-name">Sign Up</h1>
                 {error && <div className="message error">{error}</div>}
                 {message && <div className="message success">{message}</div>}
-                <form className="actual-form" onSubmit={handleSubmit}>
+                <form className="component-info" onSubmit={handleSubmit}>
                     <label htmlFor="email">Email</label>
                     <input
                         type="email"
@@ -68,14 +68,14 @@ const Signup = () => {
                     />
                     <button
                         type="submit"
-                        className="general-button form-button"
+                        className="general-button component-button"
                         disabled={loading}
                     >
                         Sign up
                     </button>
                 </form>
             </div>
-            <div className="after-form-text">
+            <div className="after-component-wrapper-text">
                 Already have an account? <Link to="/login">Log in</Link>
             </div>
         </div>

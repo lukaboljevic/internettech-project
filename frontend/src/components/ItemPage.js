@@ -17,10 +17,10 @@ const ItemPage = () => {
     const [toUpdate, setToUpdate] = useState(false);
 
     const { setItemToOrder } = useOrder();
-    
+
     useEffect(() => {
         const abortController = new AbortController();
-        
+
         const fetchItem = async () => {
             try {
                 setLoading(true);
@@ -71,7 +71,7 @@ const ItemPage = () => {
         if (!currentUser) {
             return true;
         }
-        if (currentUser.email !== item.user) {
+        if (currentUser.email !== item.createdBy) {
             return true;
         }
         return false;
@@ -83,30 +83,18 @@ const ItemPage = () => {
 
     if (loading) {
         return (
-            <div className="item-page-wrapper" style={{ fontSize: "3em" }}>
+            <div className="general-wrapper loading" style={{ textAlign: "center" }}>
                 Loading...
             </div>
         );
     }
 
     return (
-        <div className="item-page-wrapper">
-            {error && (
-                <div
-                    className="message error"
-                    style={{
-                        width: "45%",
-                        fontWeight: "700",
-                        fontSize: "2em",
-                        marginTop: "20px",
-                    }}
-                >
-                    {error}
-                </div>
-            )}
+        <div className="general-wrapper item-page-wrapper">
+            {error && <div className="message error item-or-items-error">{error}</div>}
             {item && (
                 <>
-                    <div className="item-images">
+                    <div className="item-images border box-shadow">
                         <Carousel
                             infiniteLoop={true}
                             // try setting showThumbs to true lmao
@@ -122,25 +110,23 @@ const ItemPage = () => {
                             )}
                         </Carousel>
                     </div>
-                    <div className="item-information">
+                    <div className="item-information border box-shadow">
                         <h1>{item.name}</h1>
-                        <h2>
-                            City: <span>{item.city}</span>
-                        </h2>
-                        <h2 style={{ paddingRight: "30px" }}>
-                            Offered games:{" "}
+                        <h2>City</h2>
+                        <span>{item.city}</span>
+                        <h2>Offered games</h2>
+                        <div style={{ paddingRight: "30px" }}>
                             {item.games.map((game, index) => {
                                 if (index === item.games.length - 1)
                                     return <span key={index}>{game}</span>;
                                 return <span key={index}>{game + ", "}</span>;
                             })}
-                        </h2>
-                        <h2>
-                            Price per hour: <span>{item.hourPrice}</span>
-                        </h2>
-                        <h2>
-                            Phone number: <span>{item.phone}</span>
-                        </h2>
+                        </div>
+                        <h2>Price per hour</h2>
+                        <span>{item.hourPrice}&euro;</span>
+                        <h2>Phone number</h2>
+                        <span>{item.phone}</span>
+                        <br />
                         <button
                             className="general-button item-page-button"
                             onClick={handleRentClick}
@@ -149,7 +135,7 @@ const ItemPage = () => {
                         </button>
                         <button
                             className="general-button item-page-button"
-                            style={{ width: "200px", marginLeft: "20px" }}
+                            style={{ width: "200px" }}
                             hidden={checkHidden()}
                             onClick={handleUpdateClick}
                         >

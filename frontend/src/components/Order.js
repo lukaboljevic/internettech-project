@@ -66,12 +66,12 @@ const Order = () => {
 
     return (
         <div>
-            <div className="form-wrapper">
-                <h1 className="form-name">Your data and payment</h1>
+            <div className="general-wrapper component-wrapper border">
+                <h1 className="component-name">Your data and payment</h1>
                 {error ? (
                     <div className="message error">{error}</div>
                 ) : (
-                    <form className="actual-form" onSubmit={handleSubmit}>
+                    <form className="component-info" onSubmit={handleSubmit}>
                         <label htmlFor="name-surname">Name and surname</label>
                         <input
                             type="text"
@@ -114,18 +114,18 @@ const Order = () => {
                             ref={emailRef}
                             required
                         />
-                        <h2 className="payment-type">Choose your payment option</h2>
-                        <div className="two-elements-one-row">
+                        <h2 className="order-h2">Choose your payment option</h2>
+                        <div className="payment-option">
                             <button
                                 type="button"
-                                className="general-button form-button"
+                                className="general-button component-button"
                                 onClick={handleCreditClick}
                             >
                                 Credit card
                             </button>
                             <button
                                 type="button"
-                                className="general-button form-button"
+                                className="general-button component-button"
                                 onClick={handleArrivalClick}
                             >
                                 On arrival
@@ -133,7 +133,7 @@ const Order = () => {
                         </div>
                         {credit && (
                             <>
-                                <h2 className="payment-type">
+                                <h2 className="order-h2">
                                     Fill in your credit card information
                                 </h2>
                                 <label
@@ -203,7 +203,7 @@ const Order = () => {
                                 />
                                 <button
                                     type="submit"
-                                    className="general-button form-button"
+                                    className="general-button component-button"
                                 >
                                     Review order
                                 </button>
@@ -211,12 +211,12 @@ const Order = () => {
                         )}
                         {arrival && (
                             <>
-                                <h2 className="payment-type">
+                                <h2 className="order-h2">
                                     You will pay upon the arrival of your item
                                 </h2>
                                 <button
                                     type="submit"
-                                    className="general-button form-button"
+                                    className="general-button component-button"
                                 >
                                     Review order
                                 </button>
@@ -225,13 +225,9 @@ const Order = () => {
                     </form>
                 )}
             </div>
-            <div
-                className="after-form-text two-elements-one-row"
-                // the form inside its wrapper has max width of 65% of 600px
-                // so this has the same max width as that
-                style={{ maxWidth: "365px" }}
-            >
+            <div className="after-component-wrapper-text">
                 <Link to="/">Home page</Link>
+                <div style={{ display: "inline-block", width: "60px" }}></div>
                 <Link to="/items">Items page</Link>
             </div>
         </div>

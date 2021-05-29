@@ -2,20 +2,24 @@ import { useRef, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
-const ForgotPassword = (props) => {
-    const emailRef = useRef();
-    const { currentUser, resetPassword } = useAuth();
+const ForgotPassword = props => {
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
+
+    const emailRef = useRef();
     
+    const { currentUser, resetPassword } = useAuth();
+
     const handleSubmit = async event => {
         event.preventDefault(); // prevent from refreshing
         setMessage("");
         setError("");
         if (currentUser) {
-            setError("You can change your password through your profile page. Click " + 
-                "the \"Profile\" button in the navigation bar.");
+            setError(
+                "You can change your password through your profile page. Click " +
+                    'the "Profile" button in the navigation bar.'
+            );
             return;
         }
 
@@ -37,11 +41,11 @@ const ForgotPassword = (props) => {
 
     return (
         <div>
-            <div className="form-wrapper">
-                <h1 className="form-name">Password reset</h1>
+            <div className="general-wrapper component-wrapper border">
+                <h1 className="component-name">Password reset</h1>
                 {message && <div className="message success">{message}</div>}
                 {error && <div className="message error">{error}</div>}
-                <form className="actual-form" onSubmit={handleSubmit}>
+                <form className="component-info" onSubmit={handleSubmit}>
                     <label htmlFor="email">Email</label>
                     <input
                         type="email"
@@ -52,7 +56,7 @@ const ForgotPassword = (props) => {
                     />
                     <button
                         type="submit"
-                        className="general-button form-button"
+                        className="general-button component-button"
                         disabled={loading}
                     >
                         Reset password
@@ -62,7 +66,7 @@ const ForgotPassword = (props) => {
                     Remembered your password? <Link to="/login">Log in</Link>
                 </div>
             </div>
-            <div className="after-form-text">
+            <div className="after-component-wrapper-text">
                 Don't have an account? <Link to="/signup">Sign up</Link>
             </div>
         </div>

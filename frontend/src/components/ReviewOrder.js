@@ -97,11 +97,11 @@ const ReviewOrder = () => {
 
     return (
         <div>
-            <div className="form-wrapper">
-                <h1 className="form-name">Review your order</h1>
+            <div className="general-wrapper component-wrapper border">
+                <h1 className="component-name">Review your order</h1>
                 {error && <div className="message error">{error}</div>}
                 {message && <div className="message success">{message}</div>}
-                <div className="actual-form">
+                <div className="component-info">
                     {orderInformation && (
                         <>
                             {Object.keys(orderInformation).map(key => {
@@ -119,7 +119,7 @@ const ReviewOrder = () => {
                                 );
                             })}
                             <button
-                                className="general-button form-button"
+                                className="general-button component-button"
                                 onClick={submitOrder}
                                 disabled={submitted}
                             >
@@ -129,7 +129,7 @@ const ReviewOrder = () => {
                     )}
                 </div>
             </div>
-            <div className="after-form-text">
+            <div className="after-component-wrapper-text">
                 {/* !(itemToOrder || orderInformation) is the negation of the condition
                 used for determining if there is an error when we initially come to this page */}
                 {!(itemToOrder || orderInformation) ? (

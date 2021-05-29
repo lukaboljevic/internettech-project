@@ -58,7 +58,7 @@ const NewItem = () => {
             }
             const createdItem = await response.json();
             await uploadFiles(imagesRef.current.files, createdItem.id);
-            setMessage("Successfully inserted your item. Check it out on this link:");
+            setMessage("Successfully inserted your item. Check it out on this link: ");
             setItem(createdItem);
         } catch (error) {
             setError("Failed to add your item :(\nError: " + error.message);
@@ -68,8 +68,8 @@ const NewItem = () => {
     };
 
     return (
-        <div className="form-wrapper">
-            <h1 className="form-name">New item</h1>
+        <div className="general-wrapper component-wrapper border">
+            <h1 className="component-name">New item</h1>
             {error && <div className="message error">{error}</div>}
             {message && item && (
                 <div className="message success">
@@ -79,7 +79,7 @@ const NewItem = () => {
                     </Link>
                 </div>
             )}
-            <form className="actual-form" onSubmit={handleSubmit}>
+            <form className="component-info" onSubmit={handleSubmit}>
                 <label htmlFor="item-name" title="Name of the item you want to rent.">
                     Item name
                 </label>
@@ -151,15 +151,13 @@ const NewItem = () => {
                     type="file"
                     id="images"
                     title="(Optional) Upload the images of your item."
-                    // className="general-text-input"
-                    style={{ fontFamily: "Quicksand" }}
                     ref={imagesRef}
                     multiple
                     accept="image/*"
                 />
                 <button
                     type="submit"
-                    className="general-button form-button"
+                    className="general-button component-button"
                     disabled={loading}
                 >
                     Start renting now!

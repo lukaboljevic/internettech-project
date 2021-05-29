@@ -1,6 +1,6 @@
 const About = () => {
     return (
-        <div className="about-wrapper">
+        <div className="general-wrapper about-wrapper">
             <div className="title">About me</div>
             <p className="about-me">
                 My name is <strong>Luka Boljevic.</strong> I'm currently finishing my
@@ -48,12 +48,12 @@ const About = () => {
                 able to do.
             </p>
             <p className="about-me smaller">
-                As a finishing note, I just want to say, to whoever is reading is: if you ever
-                think there is something you can't do, can't overcome or can't achieve,
-                working hard, believing in yourself, and most importantly, surrounding
-                yourself with the right people <strong>will</strong>, at one point or
-                another, get you to your destination. You mustn't give up. I know it's a
-                cliche saying, but from my experience, it really is true:{" "}
+                As a finishing note, I just want to say, to whoever is reading is: if you
+                ever think there is something you can't do, can't overcome or can't
+                achieve, working hard, believing in yourself, and most importantly,
+                surrounding yourself with the right people <strong>will</strong>, at one
+                point or another, get you to your destination. You mustn't give up. I know
+                it's a cliche saying, but from my experience, it really is true:{" "}
                 <strong>
                     work hard and it <em>will</em> pay off
                 </strong>

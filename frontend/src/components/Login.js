@@ -41,10 +41,10 @@ const Login = () => {
 
     return (
         <div>
-            <div className="form-wrapper">
-                <h1 className="form-name">Log in</h1>
+            <div className="general-wrapper component-wrapper border">
+                <h1 className="component-name">Log in</h1>
                 {error && <div className="message error">{error}</div>}
-                <form className="actual-form" onSubmit={handleSubmit}>
+                <form className="component-info" onSubmit={handleSubmit}>
                     <label htmlFor="email">Email</label>
                     <input
                         type="email"
@@ -63,7 +63,7 @@ const Login = () => {
                     />
                     <button
                         type="submit"
-                        className="general-button form-button"
+                        className="general-button component-button"
                         disabled={loading}
                     >
                         Log in
@@ -76,7 +76,7 @@ const Login = () => {
                     Forgot password?
                 </Link>
             </div>
-            <div className="after-form-text">
+            <div className="after-component-wrapper-text">
                 Don't have an account? <Link to="/signup">Sign up</Link>
             </div>
         </div>

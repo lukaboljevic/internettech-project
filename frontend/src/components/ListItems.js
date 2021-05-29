@@ -86,12 +86,12 @@ const ListItems = () => {
 
     if (loading) {
         return (
-            <div className="list-items-wrapper">
+            <div className="general-wrapper">
                 <div className="search-wrapper">
                     <span style={{ fontSize: "2em" }}>Search </span>
                     <input
                         type="text"
-                        className="general-text-input list-items-search-box"
+                        className="general-text-input search-box"
                         onChange={handleTextChange}
                     />
                     <button
@@ -112,39 +112,25 @@ const ListItems = () => {
     }
 
     return (
-        <div className="list-items-wrapper">
+        <div className="general-wrapper">
             <div className="search-wrapper">
                 <span style={{ fontSize: "2em" }}>Search </span>
                 <input
                     type="text"
-                    className="general-text-input list-items-search-box"
+                    className="general-text-input search-box"
                     onChange={handleTextChange}
                 />
                 <button className="general-button add-item-button" onClick={handleClick}>
                     Add a new item
                 </button>
             </div>
-            {error && (
-                <div className="list-items-error">
-                    <div
-                        className="message error"
-                        style={{
-                            width: "45%",
-                            fontWeight: "700",
-                            margin: "0",
-                            marginBottom: "30px",
-                        }}
-                    >
-                        {error}
-                    </div>
-                </div>
-            )}
+            {error && <div className="message error item-or-items-error">{error}</div>}
             <div className="all-items">
                 {items &&
                     items.map(item => (
                         <Link
                             key={item.id}
-                            className="item-box"
+                            className="item-box border box-shadow"
                             to={`/order-context/items/${item.id}`}
                         >
                             <img
@@ -158,7 +144,7 @@ const ListItems = () => {
                             <div className="item-info">
                                 <h2>{item.name}</h2>
                                 <h4>
-                                    Some games :{" "}
+                                    Some games:{" "}
                                     {item.games.slice(0, 3).map((game, index) => {
                                         if (index === item.games.length - 1) {
                                             return game;
@@ -167,7 +153,7 @@ const ListItems = () => {
                                     })}
                                     {"..."}
                                 </h4>
-                                <h4>Price per hour: {item.hourPrice + " euros"}</h4>
+                                <h4>Price per hour: {item.hourPrice}&euro;</h4>
                                 <h4>City: {item.city}</h4>
                             </div>
                         </Link>

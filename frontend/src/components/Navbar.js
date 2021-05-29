@@ -75,13 +75,11 @@ const Navbar = () => {
                         // if there's a current user, show Profile and Log out
                         <>
                             <li>
-                                {/* is this only /profile ? */}
                                 <Link to="/profile">Profile</Link>
                             </li>
                             <li>
                                 <button
-                                    className="navbar-logout-button"
-                                    style={{ cursor: "pointer" }}
+                                    className="general-button navbar-logout-button"
                                     onClick={handleLogout}
                                 >
                                     Log out

@@ -26,12 +26,12 @@ const UpdateItem = props => {
     const handleSubmit = async event => {
         event.preventDefault();
         // TODO: don't update if there's no changes?
-        
+
         try {
             setError("");
             setMessage("");
             setLoading(true);
-            
+
             const games = gamesRef.current.value.split("\n");
             const imageNames = [];
             for (const file of imagesRef.current.files) {
@@ -67,7 +67,7 @@ const UpdateItem = props => {
             const updatedItem = await response.json();
             if (imageNames.length > 0)
                 await uploadFiles(imagesRef.current.files, updatedItem.id);
-            setMessage("Successfully updated your item. Check it out on this link:");
+            setMessage("Successfully updated your item. Check it out on this link: ");
             setItem(updatedItem);
         } catch (error) {
             setError("Failed to update your item :(\nError: " + error.message);
@@ -82,13 +82,13 @@ const UpdateItem = props => {
             if (index < item.games.length - 1) result += `${game}\n`;
             else result += `${game}`;
         });
-        return result
+        return result;
     };
 
     return (
         <>
-            <div className="form-wrapper">
-                <h1 className="form-name">Update item</h1>
+            <div className="general-wrapper component-wrapper border">
+                <h1 className="component-name">Update item</h1>
                 {error && <div className="message error">{error}</div>}
                 {message && item && (
                     <div className="message success">
@@ -102,7 +102,7 @@ const UpdateItem = props => {
                     </div>
                 )}
                 {item && (
-                    <form className="actual-form" onSubmit={handleSubmit}>
+                    <form className="component-info" onSubmit={handleSubmit}>
                         <label
                             htmlFor="item-name"
                             title="Name of the item you want to rent."
@@ -182,15 +182,13 @@ const UpdateItem = props => {
                             type="file"
                             id="images"
                             title="(Optional) Upload the images of your item."
-                            // className="general-text-input"
-                            style={{ fontFamily: "Quicksand" }}
                             ref={imagesRef}
                             multiple
                             accept="image/*"
                         />
                         <button
                             type="submit"
-                            className="general-button form-button"
+                            className="general-button component-button"
                             disabled={loading}
                         >
                             Update your listing
@@ -198,7 +196,7 @@ const UpdateItem = props => {
                     </form>
                 )}
             </div>
-            <div className="after-form-text">
+            <div className="after-component-wrapper-text">
                 <Link to="/items">Back to the items page</Link>
             </div>
         </>

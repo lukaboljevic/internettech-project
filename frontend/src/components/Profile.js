@@ -21,7 +21,8 @@ const Profile = () => {
             return;
         }
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-            return setError("Passwords do not match.");
+            setError("Passwords do not match.");
+            return;
         }
 
         const promises = [];
@@ -33,12 +34,13 @@ const Profile = () => {
         if (passwordRef.current.value) {
             promises.push(changePassword(passwordRef.current.value));
         }
+        if (promises.length === 0) {
+            return;
+        }
 
         Promise.all(promises)
             .then(() => {
-                if (promises.length > 0) {
-                    setMessage("Profile update successful.");
-                }
+                setMessage("Profile update successful.");
             })
             .catch(() => {
                 setError("Failed to update profile.");
@@ -80,7 +82,7 @@ const Profile = () => {
 
     if (loadingInitial) {
         return (
-            <div className="item-page-wrapper" style={{ fontSize: "3em" }}>
+            <div className="general-wrapper loading" style={{ textAlign: "center" }}>
                 Loading...
             </div>
         );
@@ -88,11 +90,11 @@ const Profile = () => {
 
     return (
         <div>
-            <div className="form-wrapper">
-                <h1 className="form-name">Profile</h1>
+            <div className="general-wrapper component-wrapper border">
+                <h1 className="component-name">Profile</h1>
                 {message && <div className="message success">{message}</div>}
                 {error && <div className="message error">{error}</div>}
-                <form className="actual-form" onSubmit={handleSubmit}>
+                <form className="component-info" onSubmit={handleSubmit}>
                     <label htmlFor="email">Email</label>
                     <input
                         type="email"
@@ -141,14 +143,14 @@ const Profile = () => {
                     </div>
                     <button
                         type="submit"
-                        className="general-button form-button"
+                        className="general-button component-button"
                         disabled={loadingSubmit}
                     >
                         Update profile
                     </button>
                 </form>
             </div>
-            <div className="after-form-text">
+            <div className="after-component-wrapper-text">
                 <Link to="/">Cancel</Link>
             </div>
         </div>
