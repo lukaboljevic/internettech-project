@@ -9,6 +9,9 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
+    // Context that shows the current user and provides
+    // functionalities such as signup, login, etc.
+
     const [currentUser, setCurrentUser] = useState();
     const [loading, setLoading] = useState(true);
 

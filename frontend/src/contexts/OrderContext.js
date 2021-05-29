@@ -8,7 +8,10 @@ export const useOrder = () => {
 };
 
 export const OrderProvider = ({ children }) => {
-    
+    // Context that provides information about
+    // the item to be ordered, and the order information
+    // (name, surname, address etc)
+
     const [itemToOrder, setItemToOrder] = useState(null);
     const [orderInformation, setOrderInformation] = useState(null);
 
@@ -20,9 +23,5 @@ export const OrderProvider = ({ children }) => {
         setOrderInformation,
     };
 
-    return (
-        <OrderContext.Provider value={value}>
-            {children}
-        </OrderContext.Provider>
-    );
+    return <OrderContext.Provider value={value}>{children}</OrderContext.Provider>;
 };

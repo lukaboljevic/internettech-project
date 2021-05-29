@@ -14,6 +14,8 @@ AWS.config.update({
 const client = new AWS.DynamoDB.DocumentClient();
 
 const getAllItems = async () => {
+    // Perform a scan on the items table, returning all the items
+
     const params = {
         TableName: process.env.ITEMS_TABLE_NAME,
         FilterExpression: "#status = :status",
@@ -29,6 +31,8 @@ const getAllItems = async () => {
 };
 
 const getItem = async id => {
+    // Get a single item from the database, with the given id
+
     const params = {
         TableName: process.env.ITEMS_TABLE_NAME,
         Key: {
@@ -40,6 +44,8 @@ const getItem = async id => {
 };
 
 const getRentingHistory = async user => {
+    // Get the entire renting history for the given user
+
     const params = {
         TableName: process.env.RENT_HISTORY_TABLE_NAME,
         KeyConditionExpression: "#user = :user",
@@ -55,6 +61,8 @@ const getRentingHistory = async user => {
 };
 
 const insertItem = async item => {
+    // Insert an item into the database
+
     const itemId = uuid.v4();
     const params = {
         TableName: process.env.ITEMS_TABLE_NAME,
@@ -79,6 +87,10 @@ const insertItem = async item => {
 };
 
 const insertRentHistory = async rentInfo => {
+    // Insert the given item into the given user's history.
+    // Both the email and the item are sent through the 'rentInfo' parameter.
+    // Check frontend/src/components/ReviewOrder.js
+
     const params = {
         TableName: process.env.RENT_HISTORY_TABLE_NAME,
         Item: {
@@ -91,28 +103,10 @@ const insertRentHistory = async rentInfo => {
     await client.put(params).promise();
 };
 
-const deleteItem = async id => {
-    const params = {
-        TableName: process.env.ITEMS_TABLE_NAME,
-        Key: {
-            id,
-        },
-        ReturnValues: "ALL_OLD",
-    };
-    const result = await client.delete(params).promise();
-
-    // Delete it from Algolia as well
-    const itemsIndex = await algolia.getItemsIndex();
-    await itemsIndex.deleteObjects([id]);
-
-    return result;
-};
-
 const updateItem = async updatedItem => {
-    /*
-    Yes, I will send the entire updated item, but if I change the item attributes 
-    at any point, I don't have to change this function too.
-    */
+    // Update the given item. The updated item is sent in its entirety
+    // I could have checked for/sent only the changes, but eh. =)
+
     let updateExpr = "SET ";
     let exprAttrNames = {};
     let exprAttrValues = {};
@@ -121,8 +115,11 @@ const updateItem = async updatedItem => {
     for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
         if (key === "id") {
+            // skip the id as that remains the same
             continue;
         }
+        // Construct the UpdateExpression, ExpressionAttributeNames and
+        // ExpressionAttributeValues in the required format
         updateExpr += `#${key} = :${key}`;
         if (i < keys.length - 1) {
             updateExpr += ", ";
@@ -144,7 +141,7 @@ const updateItem = async updatedItem => {
 
     const result = await client.update(params).promise();
 
-    // Update in algolia too
+    // Update the same item in algolia too
     const itemsIndex = await algolia.getItemsIndex();
     await itemsIndex.saveObjects([
         {
@@ -157,6 +154,10 @@ const updateItem = async updatedItem => {
 };
 
 const rentItem = async itemToRent => {
+    // Update the given item, setting it's status to 'rented' and
+    // it's updatedAt attribute to 'now'. Delete the item from
+    // Algolia as we can't search it anymore
+
     const params = {
         TableName: process.env.ITEMS_TABLE_NAME,
         Key: {
@@ -175,11 +176,30 @@ const rentItem = async itemToRent => {
     };
     const result = await client.update(params).promise();
 
-    // Delete from algolia because we can't search for it anymore
+    // Delete from Algolia
     const itemsIndex = await algolia.getItemsIndex();
     await itemsIndex.deleteObjects([itemToRent.id]);
 
     return result.Attributes;
+};
+
+const deleteItem = async id => {
+    // Delete the item with the given id from the database
+
+    const params = {
+        TableName: process.env.ITEMS_TABLE_NAME,
+        Key: {
+            id,
+        },
+        ReturnValues: "ALL_OLD",
+    };
+    const result = await client.delete(params).promise();
+
+    // Delete it from Algolia as well
+    const itemsIndex = await algolia.getItemsIndex();
+    await itemsIndex.deleteObjects([id]);
+
+    return result;
 };
 
 module.exports = {
@@ -187,8 +207,8 @@ module.exports = {
     getItem,
     getRentingHistory,
     insertItem,
-    deleteItem,
+    insertRentHistory,
     updateItem,
     rentItem,
-    insertRentHistory,
+    deleteItem,
 };

@@ -9,8 +9,9 @@ const appId = process.env.ALGOLIA_APP_ID;
 
 let itemsIndex;
 const getItemsIndex = async () => {
+    // Return the index containing all the items we can search
+
     if (!itemsIndex) {
-        console.log("THIS MESSAGE SHOULD NOT SHOW MORE THAN ONCE");
         const application = algoliasearch(appId, adminKey);
         itemsIndex = await application.initIndex(`dev-items`);
 
@@ -23,9 +24,9 @@ const getItemsIndex = async () => {
 };
 
 const search = async (query, limit) => {
-    // TODO: don't think I'll need to do it like this in the future
-    // this is only like this for testing purposes.
-    const index = await getItemsIndex();
+    // Perform a search with the given query and return the results
+
+    const index = await getItemsIndex(); // in case it wasn't set up before searching
     const { hits } = await index.search(query, { hitsPerPage: limit });
     return hits;
 };

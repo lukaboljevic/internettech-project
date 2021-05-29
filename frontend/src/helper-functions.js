@@ -1,6 +1,8 @@
 import { storage } from "./firebase";
 
 export const performSearch = async query => {
+    // Perform a search with the given query using Algolia
+
     if (!query) {
         // if it's empty/null, just set it to " " cause we want to get all results
         query = " ";
@@ -17,6 +19,8 @@ export const performSearch = async query => {
 };
 
 export const uploadFiles = async (files, itemId) => {
+    // Upload the images under the given item ID to Firebase Storage
+
     if (files.length === 0) {
         return;
     }
@@ -31,10 +35,11 @@ export const uploadFiles = async (files, itemId) => {
             );
         }
     }
-    // console.log("Image uploading successful.");
 };
 
 export const getFiles = async (imageNames, itemId) => {
+    // Get the download links of images under the given item ID from Firebase Storage
+
     if (!imageNames || imageNames.length === 0) {
         return [];
     }
@@ -45,10 +50,7 @@ export const getFiles = async (imageNames, itemId) => {
             const url = await imageDownload.getDownloadURL();
             urls.push(url);
         } catch (error) {
-            throw new Error(
-                // `There was an error retrieving the image ${name} for the item ${itemId}`
-                error.message
-            );
+            throw new Error(error.message);
         }
     }
     return urls;
