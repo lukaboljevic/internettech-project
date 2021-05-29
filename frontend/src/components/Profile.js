@@ -48,34 +48,35 @@ const Profile = () => {
             });
     };
 
-    const fetchRentHistory = async abortController => {
-        try {
-            setError("");
-            const endpoint = `http://localhost:5000/rent-history/${currentUser.email}`;
-            const response = await fetch(endpoint, {
-                method: "GET",
-                signal: abortController.signal,
-            });
-            if (!response.ok) {
-                throw new Error(
-                    `There was an error getting the renting history from the database. Fetch returned status ${response.status}`
-                );
-            }
-            const history = await response.json();
-            setRentHistory(history);
-        } catch (error) {
-            if (error.name !== "AbortError") {
-                setError(error.message);
-            }
-        }
-        setLoadingInitial(false);
-    };
-
     useEffect(() => {
         const abortController = new AbortController();
-        fetchRentHistory(abortController);
+
+        const fetchRentHistory = async () => {
+            try {
+                setError("");
+                const endpoint = `http://localhost:5000/rent-history/${currentUser.email}`;
+                const response = await fetch(endpoint, {
+                    method: "GET",
+                    signal: abortController.signal,
+                });
+                if (!response.ok) {
+                    throw new Error(
+                        `There was an error getting the renting history from the database. Fetch returned status ${response.status}`
+                    );
+                }
+                const history = await response.json();
+                setRentHistory(history);
+            } catch (error) {
+                if (error.name !== "AbortError") {
+                    setError(error.message);
+                }
+            }
+            setLoadingInitial(false);
+        };
+
+        fetchRentHistory();
         return () => abortController.abort();
-    }, []);
+    }, [currentUser.email]); // React said add this as a dependency
 
     if (loadingInitial) {
         return (
@@ -120,18 +121,16 @@ const Profile = () => {
                     <label>Renting history</label>
                     <div className="rent-history-wrapper">
                         {rentHistory && rentHistory.length > 0 ? (
-                            rentHistory.map(item => {
-                                return (
-                                    <>
-                                        <div className="dot"></div>
-                                        <span className="rent-history-info" key={item.id}>
-                                            &nbsp;Name: <strong>{item.name}</strong>,
-                                            phone: <strong>{item.phone}</strong>
-                                        </span>
-                                        <br />
-                                    </>
-                                );
-                            })
+                            rentHistory.map(item => (
+                                <div key={item.itemId}>
+                                    <div className="dot"></div>
+                                    <span className="rent-history-info">
+                                        &nbsp;Name: <strong>{item.name}</strong>, phone:{" "}
+                                        <strong>{item.phone}</strong>
+                                    </span>
+                                    <br />
+                                </div>
+                            ))
                         ) : (
                             <>
                                 <span className="rent-history-info">

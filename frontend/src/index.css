@@ -3,9 +3,9 @@
 /* ------------- General --------------- */
 
 :root {
-    --border-color-red: rgb(179, 0, 0);
-    --box-shadow-color: gray;
-    --item-information-background: rgb(235, 235, 235);
+    --darker-red: rgb(179, 0, 0);
+    --darker-gray: gray;
+    --lighter-gray: rgb(235, 235, 235);
     --lighter-blue: #006ce0;
     --darker-blue: #004794;
 }
@@ -70,7 +70,7 @@ ul {
     display: flex;
     justify-content: space-evenly;
 
-    border-bottom: 2px solid var(--border-color-red);
+    border-bottom: 2px solid var(--darker-red);
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
     font-weight: 700;
@@ -142,11 +142,37 @@ ul {
 
 /* ------------- About --------------- */
 
-.about {
-    max-width: 300px;
+.about-wrapper {
+    max-width: 1000px;
+    /* text-align: center; */
+    font-size: 3em;
+    margin: 30px auto;
+}
+
+.about-wrapper > p + p {
+    margin-top: 35px;
+}
+
+.about-wrapper > *:last-child {
+    margin-bottom: 50px;
+}
+
+.title {
     text-align: center;
-    font-size: 2em;
-    margin: 20px auto;
+    color: var(--darker-red);
+    font-weight: 900;
+    font-size: 1.4em;
+}
+
+.about-me {
+    margin: 0;
+    margin-top: 20px;
+    font-size: 0.68em;
+    line-height: 1.4em;
+}
+
+.smaller {
+    font-size: 0.52em;
 }
 
 /* ------------- Signup, login, forgot password, order --------------- */
@@ -158,7 +184,7 @@ ul {
 
     max-width: 600px;
     margin: 30px auto 20px auto;
-    border: 2px solid var(--border-color-red);
+    border: 2px solid var(--darker-red);
     border-radius: 25px;
     font-size: 1.4em;
 }
@@ -327,10 +353,10 @@ ul {
     padding-left: 20px;
     min-height: 420px;
 
-    background-color: var(--item-information-background);
-    border: 3px solid var(--border-color-red);
+    background-color: var(--lighter-gray);
+    border: 3px solid var(--darker-red);
     border-radius: 25px;
-    box-shadow: 5px 5px var(--box-shadow-color);
+    box-shadow: 5px 5px var(--darker-gray);
 }
 
 .item-page-wrapper h1 {
@@ -352,9 +378,9 @@ ul {
     width: 500px;
     height: 500px;
 
-    border: 3px solid var(--border-color-red);
+    border: 3px solid var(--darker-red);
     border-radius: 25px;
-    box-shadow: 5px 5px var(--box-shadow-color);
+    box-shadow: 5px 5px var(--darker-gray);
 }
 
 .item-images img {
@@ -444,10 +470,10 @@ ul {
     flex-direction: column;
     align-items: center;
 
-    border: 2px solid var(--border-color-red);
+    border: 2px solid var(--darker-red);
     border-radius: 25px;
-    box-shadow: 5px 5px var(--box-shadow-color);
-    background-color: var(--item-information-background);
+    box-shadow: 5px 5px var(--darker-gray);
+    background-color: var(--lighter-gray);
 
     width: 300px;
     min-height: 490px;
@@ -496,7 +522,7 @@ ul {
     flex-direction: row;
     justify-content: center;
 
-    border-top: 2px solid var(--border-color-red);
+    border-top: 2px solid var(--darker-red);
 }
 
 .footer ul {
