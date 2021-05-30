@@ -88,7 +88,8 @@ const insertItem = async item => {
 
 const insertRentHistory = async rentInfo => {
     // Insert the given item into the given user's history.
-    // Both the email and the item are sent through the 'rentInfo' parameter.
+    // Both the email and the item are sent through the 'rentInfo' parameter,
+    // as well as the payment type.
     // Check frontend/src/components/ReviewOrder.js
 
     const params = {
@@ -97,6 +98,7 @@ const insertRentHistory = async rentInfo => {
             user: rentInfo.user, // hash key
             itemId: rentInfo.item.id, // range key
             ...rentInfo.item, // rest of the item
+            paymentType: rentInfo.paymentType,
         },
     };
     delete params.Item.id; // but remove the id property cause we set itemId

@@ -128,8 +128,9 @@ const Profile = () => {
                                 <div key={item.itemId}>
                                     <div className="dot"></div>
                                     <span className="rent-history-info">
-                                        &nbsp;Name: <strong>{item.name}</strong>, phone:{" "}
-                                        <strong>{item.phone}</strong>
+                                        &nbsp; <strong>Name:</strong> {item.name},{" "}
+                                        <strong>phone:</strong> {item.phone},{" "}
+                                        <strong>payment type:</strong> {item.paymentType}
                                     </span>
                                     <br />
                                 </div>

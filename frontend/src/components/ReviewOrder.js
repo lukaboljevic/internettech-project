@@ -8,7 +8,7 @@ const ReviewOrder = () => {
     
     const [message, setMessage] = useState("");
     const [submitted, setSubmitted] = useState(false);
-    const { itemToOrder, orderInformation } = useOrder();
+    const { itemToOrder, orderInformation, paymentType } = useOrder();
     const [error, setError] = useState(
         itemToOrder || orderInformation
             ? ""
@@ -67,6 +67,7 @@ const ReviewOrder = () => {
             const rentInfo = {
                 user: currentUser.email,
                 item: updatedItem,
+                paymentType: paymentType,
             };
             const responseHistory = await fetch("http://localhost:5000/rent-item", {
                 method: "POST",
@@ -93,7 +94,7 @@ const ReviewOrder = () => {
 
     const getMonthAndYear = () => {
         const [year, month] = orderInformation.expirationDate.split("-");
-        return mapMonth[month] + " " + year;
+        return mapMonth[parseInt(month)] + " " + year;
     };
 
     return (

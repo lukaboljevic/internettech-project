@@ -14,13 +14,16 @@ export const OrderProvider = ({ children }) => {
 
     const [itemToOrder, setItemToOrder] = useState(null);
     const [orderInformation, setOrderInformation] = useState(null);
+    const [paymentType, setPaymentType] = useState(null);
 
     // these will be exported
     const value = {
         itemToOrder,
         orderInformation,
+        paymentType,
         setItemToOrder,
         setOrderInformation,
+        setPaymentType,
     };
 
     return <OrderContext.Provider value={value}>{children}</OrderContext.Provider>;

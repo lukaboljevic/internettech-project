@@ -74,7 +74,7 @@ router.post("/items", async (request, response) => {
 
 router.post("/rent-item", async (request, response) => {
     // Insert the item as the given user's rent history
-    // Body contains the item and the user (see frontend/src/components/ReviewOrder.js)
+    // Body contains the item, the user and the payment type (see frontend/src/components/ReviewOrder.js)
 
     try {
         const rentInfo = request.body;
