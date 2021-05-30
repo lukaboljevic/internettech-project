@@ -86,4 +86,8 @@ If you did everything correctly (and if I didn't forget anything), this should c
 (or `node app.js`) to start the server.
 
 In another terminal instance, navigate to the `frontend` folder and do `npm install` as well. And, if everything went according to plan, you 
-can run `npm start` and the website should fire up on `localhost:3000`.
+can run `npm start` and the website should fire up on `localhost:3000`. After that, you can start using the site.
+
+Create an account, make a new item or two, try updating the items, searching for them. Create a new account (so you can rent the items you
+created) and rent some of the items - either enter your super totally legit credit card information, or pay on arrival. After ordering,
+check your rent history on your profile page.
