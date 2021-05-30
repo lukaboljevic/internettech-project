@@ -55,7 +55,7 @@ const ItemPage = () => {
     const handleRentClick = () => {
         if (!currentUser) history.push("/login");
         else {
-            if (currentUser.email === item.user) {
+            if (currentUser.email === item.createdBy) {
                 alert("You cannot rent your own item.");
             } else {
                 history.push("/order-context/order");

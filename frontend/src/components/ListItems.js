@@ -9,51 +9,50 @@ const ListItems = () => {
     const [error, setError] = useState("");
     const [addNewItem, setAddNewItem] = useState(false);
 
-    const fetchItems = async abortController => {
-        try {
-            setLoading(true);
-            setError("");
-            const endpoint = "http://localhost:5000/items";
-            const response = await fetch(endpoint, {
-                method: "GET",
-                signal: abortController.signal,
-            });
-            if (!response.ok) {
-                throw new Error(
-                    "There was an error getting the items from the database. Fetch returned status " +
-                        response.status
-                );
-            }
-            const items = await response.json(); // items is a list
-            items.sort((a, b) => {
-                // sort the items by item name
-                if (a.name < b.name) {
-                    return -1;
-                } else if (a.name > b.name) {
-                    return 1;
-                } else return 0;
-            });
-
-            // Get the images for all items
-            const images = {};
-            for (const item of items) {
-                const itemId = item.id;
-                const urls = await getFiles(item.images, itemId);
-                images[itemId] = urls; // itemId: [downloadURL1, downloadURL2, ...]
-            }
-            setItemImages(images);
-            setItems(items);
-        } catch (error) {
-            if (error.name !== "AbortError") {
-                setError(error.message);
-            }
-        }
-        setLoading(false);
-    };
-
     useEffect(() => {
         const abortController = new AbortController();
-        fetchItems(abortController);
+        const fetchItems = async () => {
+            try {
+                setLoading(true);
+                setError("");
+                const endpoint = "http://localhost:5000/items";
+                const response = await fetch(endpoint, {
+                    method: "GET",
+                    signal: abortController.signal,
+                });
+                if (!response.ok) {
+                    throw new Error(
+                        "There was an error getting the items from the database. Fetch returned status " +
+                            response.status
+                    );
+                }
+                const items = await response.json(); // items is a list
+                items.sort((a, b) => {
+                    // sort the items by item name
+                    if (a.name < b.name) {
+                        return -1;
+                    } else if (a.name > b.name) {
+                        return 1;
+                    } else return 0;
+                });
+
+                // Get the images for all items
+                const images = {};
+                for (const item of items) {
+                    const itemId = item.id;
+                    const urls = await getFiles(item.images, itemId);
+                    images[itemId] = urls; // itemId: [downloadURL1, downloadURL2, ...]
+                }
+                setItemImages(images);
+                setItems(items);
+            } catch (error) {
+                if (error.name !== "AbortError") {
+                    setError(error.message);
+                }
+            }
+            setLoading(false);
+        };
+        fetchItems();
         return () => abortController.abort();
     }, []);
 
