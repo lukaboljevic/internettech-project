@@ -9,7 +9,7 @@ require("dotenv").config({
 AWS.config.update({
     accessKeyId: process.env.AWS_ACCOUNT_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_ACCOUNT_SECRET_ACCESS_KEY,
-    region: "eu-central-1",
+    region: process.env.AWS_ACCOUNT_REGION,
 });
 const client = new AWS.DynamoDB.DocumentClient();
 
