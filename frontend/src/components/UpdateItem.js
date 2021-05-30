@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { uploadFiles } from "../helper-functions";
-// import { useAuth } from "../contexts/AuthContext";
 
 const UpdateItem = props => {
     const [message, setMessage] = useState("");
@@ -14,8 +13,6 @@ const UpdateItem = props => {
                   "not supposed to. Please return to the items page, select your item and try again. " +
                   "If you aren't logged in, be sure to do so."
     );
-    // const { currentUser } = useAuth();
-
     const itemNameRef = useRef();
     const cityRef = useRef();
     const phoneRef = useRef();

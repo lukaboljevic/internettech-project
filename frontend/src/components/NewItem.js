@@ -4,12 +4,12 @@ import { uploadFiles } from "../helper-functions";
 import { useAuth } from "../contexts/AuthContext";
 
 const NewItem = () => {
+    const { currentUser } = useAuth();
+
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const [item, setItem] = useState(null);
-    const { currentUser } = useAuth();
-
     const itemNameRef = useRef();
     const cityRef = useRef();
     const phoneRef = useRef();

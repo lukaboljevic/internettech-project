@@ -1,5 +1,7 @@
 import "../index.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { AuthProvider } from "../contexts/AuthContext";
+import { OrderProvider } from "../contexts/OrderContext";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import ListItems from "./ListItems";
@@ -9,14 +11,12 @@ import ItemPage from "./ItemPage";
 import ErrorPage from "./ErrorPage";
 import Signup from "./Signup";
 import Login from "./Login";
-import { AuthProvider } from "../contexts/AuthContext";
 import ForgotPassword from "./ForgotPassword";
 import Profile from "./Profile";
 import Order from "./Order";
 import ReviewOrder from "./ReviewOrder";
 import PrivateRoute from "./PrivateRoute";
 import NewItem from "./NewItem";
-import { OrderProvider } from "../contexts/OrderContext";
 import UpdateItem from "./UpdateItem";
 
 function App() {

@@ -3,15 +3,16 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 const Profile = () => {
-    const emailRef = useRef();
-    const passwordRef = useRef();
-    const passwordConfirmRef = useRef();
     const { currentUser, changeEmail, changePassword } = useAuth();
+
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
     const [loadingSubmit, setLoadingSubmit] = useState(false);
     const [loadingInitial, setLoadingInitial] = useState(true);
     const [rentHistory, setRentHistory] = useState(null);
+    const emailRef = useRef();
+    const passwordRef = useRef();
+    const passwordConfirmRef = useRef();
 
     const handleSubmit = event => {
         event.preventDefault(); // prevent from refreshing

@@ -3,7 +3,6 @@ import { Link, Redirect } from "react-router-dom";
 import { getFiles, performSearch } from "../helper-functions";
 
 const ListItems = () => {
-    // item - id, name, games list, hour price, image(s), city, phone number
     const [items, setItems] = useState([]);
     const [itemImages, setItemImages] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -27,12 +26,15 @@ const ListItems = () => {
             }
             const items = await response.json(); // items is a list
             items.sort((a, b) => {
+                // sort the items by item name
                 if (a.name < b.name) {
                     return -1;
                 } else if (a.name > b.name) {
                     return 1;
                 } else return 0;
             });
+
+            // Get the images for all items
             const images = {};
             for (const item of items) {
                 const itemId = item.id;
@@ -64,6 +66,7 @@ const ListItems = () => {
             const hits = await performSearch(event.target.value);
             console.log(hits);
             hits.sort((a, b) => {
+                // sort the hits by item name
                 if (a.name < b.name) {
                     return -1;
                 } else if (a.name > b.name) {
@@ -76,7 +79,7 @@ const ListItems = () => {
         }
     };
 
-    const handleClick = event => {
+    const handleClick = () => {
         setAddNewItem(true);
     };
 
@@ -96,7 +99,6 @@ const ListItems = () => {
                     />
                     <button
                         className="general-button add-item-button"
-                        disabled
                         onClick={handleClick}
                     >
                         Add a new item
@@ -151,7 +153,6 @@ const ListItems = () => {
                                         }
                                         return game + ", ";
                                     })}
-                                    {"..."}
                                 </h4>
                                 <h4>Price per hour: {item.hourPrice}&euro;</h4>
                                 <h4>City: {item.city}</h4>

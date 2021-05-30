@@ -8,15 +8,15 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const ItemPage = () => {
     const { currentUser } = useAuth();
-    const { itemId } = useParams();
-    const history = useHistory();
+    const { setItemToOrder } = useOrder();
+
     const [item, setItem] = useState(null);
     const [downloadedImages, setDownloadedImages] = useState(null);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [toUpdate, setToUpdate] = useState(false);
-
-    const { setItemToOrder } = useOrder();
+    const { itemId } = useParams();
+    const history = useHistory();
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -68,6 +68,7 @@ const ItemPage = () => {
     };
 
     const checkHidden = () => {
+        // Check if the "Update listing" button is hidden or not
         if (!currentUser) {
             return true;
         }

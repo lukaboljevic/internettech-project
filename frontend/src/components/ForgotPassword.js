@@ -3,13 +3,12 @@ import { Link, Redirect } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 const ForgotPassword = props => {
+    const { currentUser, resetPassword } = useAuth();
+
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
-
     const emailRef = useRef();
-    
-    const { currentUser, resetPassword } = useAuth();
 
     const handleSubmit = async event => {
         event.preventDefault(); // prevent from refreshing
@@ -62,8 +61,8 @@ const ForgotPassword = props => {
                         Reset password
                     </button>
                 </form>
-                <div className="remembered-password">
-                    Remembered your password? <Link to="/login">Log in</Link>
+                <div className="password-text got-password">
+                    Got your password? <Link to="/login">Log in</Link>
                 </div>
             </div>
             <div className="after-component-wrapper-text">

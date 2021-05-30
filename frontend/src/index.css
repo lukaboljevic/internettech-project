@@ -198,20 +198,13 @@ ul {
     margin-bottom: 30px;
 }
 
-/* ------------- Login ------------- */
+/* ------------- Login, ForgotPassword ------------- */
 
-.forgot-password {
+.password-text {
     font-weight: 600;
     margin-top: -5px;
     margin-bottom: 20px;
-}
-
-/* ------------- ForgotPassword ------------- */
-
-.remembered-password {
-    font-weight: 600;
-    margin-top: -5px;
-    margin-bottom: 20px;
+    text-align: center;
 }
 
 /* ------------- NewItem, UpdateItem ------------- */
@@ -478,8 +471,8 @@ ul {
 }
 
 .forgot-password:hover,
+.got-password a:hover,
 .after-component-wrapper-text a:hover,
-.remembered-password a:hover,
 .link-to-item:hover {
     text-decoration: underline;
 }

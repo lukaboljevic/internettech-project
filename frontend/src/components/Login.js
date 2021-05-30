@@ -3,14 +3,15 @@ import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 const Login = () => {
-    const emailRef = useRef();
-    const passwordRef = useRef();
     const { login, currentUser } = useAuth();
+
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const emailRef = useRef();
+    const passwordRef = useRef();
     const history = useHistory();
 
-    // there's a bug with Login:
+    // TODO: there's a bug with Login:
     /*
     Can't perform a React state update on an unmounted component. 
     This is a no-op, but it indicates a memory leak in your application. 
@@ -71,7 +72,7 @@ const Login = () => {
                 </form>
                 <Link
                     to={{ pathname: "/forgot-password", data: "came from login" }}
-                    className="forgot-password"
+                    className="password-text forgot-password"
                 >
                     Forgot password?
                 </Link>

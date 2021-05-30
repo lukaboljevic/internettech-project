@@ -9,11 +9,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
             // the rest of the properties are passed in as if it were a normal route
             {...rest}
             render={props => {
-                return currentUser ? (
-                    <Component {...props} />
-                ) : (
-                    <Redirect to={{ pathname: "/login"/*, data: { from: props.location }*/}} />
-                );
+                return currentUser ? <Component {...props} /> : <Redirect to="/login" />;
             }}
         ></Route>
     );

@@ -18,7 +18,6 @@ const Order = () => {
                   "not supposed to. Please return to the items page, select " +
                   "your item and try again. If you aren't logged in, be sure to do so."
     );
-
     const nameSurnameRef = useRef();
     const cityAddressRef = useRef();
     const phoneRef = useRef();

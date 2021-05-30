@@ -4,6 +4,7 @@ import { performSearch } from "../helper-functions";
 
 const Navbar = () => {
     const { currentUser, logout } = useAuth();
+
     const history = useHistory();
 
     const handleLogout = async () => {
@@ -21,6 +22,7 @@ const Navbar = () => {
             return;
         }
         try {
+            // TODO: navbar search
             const hits = await performSearch(event.target.value);
             console.log("hits!", hits);
         } catch (error) {
@@ -30,6 +32,7 @@ const Navbar = () => {
 
     const handleClick = async () => {
         try {
+            // TODO: navbar search
             const hits = await performSearch(
                 document.querySelector(".navbar-search").value
             );
