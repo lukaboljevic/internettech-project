@@ -5,7 +5,8 @@ import { useOrder } from "../contexts/OrderContext";
 
 const Order = () => {
     const { currentUser } = useAuth();
-    const { itemToOrder, orderInformation, setOrderInformation, setPaymentType } = useOrder();
+    const { itemToOrder, orderInformation, setOrderInformation, setPaymentType } =
+        useOrder();
 
     const [credit, setCredit] = useState(false);
     const [arrival, setArrival] = useState(false);

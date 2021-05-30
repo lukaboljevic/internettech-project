@@ -1,0 +1,6 @@
+{
+    "printWidth": 90,
+    "arrowParens": "avoid",
+    "tabWidth": 4,
+    "endOfLine": "crlf"
+}

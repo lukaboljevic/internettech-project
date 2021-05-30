@@ -5,7 +5,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 const ReviewOrder = () => {
     const { currentUser } = useAuth();
-    
+
     const [message, setMessage] = useState("");
     const [submitted, setSubmitted] = useState(false);
     const { itemToOrder, orderInformation, paymentType } = useOrder();

@@ -11,7 +11,7 @@ const Signup = () => {
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
-    
+
     const handleSubmit = async event => {
         event.preventDefault(); // prevent from refreshing
         setError("");
