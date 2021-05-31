@@ -5,7 +5,6 @@ const algolia = require("./algolia");
 const router = express.Router();
 
 // Good explanation of the difference between POST and PUT: https://stackoverflow.com/a/18243587
-// TODO: better error handling, right now I'm just sending error code 500 every time
 
 router.get("/items", async (request, response) => {
     // Get all the items from the database

@@ -66,54 +66,50 @@ ul {
 /* ------------- Navbar --------------- */
 
 .navbar-wrapper {
-    display: flex;
-    justify-content: space-evenly;
-
     border-bottom: 3px solid var(--darker-red);
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
     font-weight: 700;
+    font-size: 1.3em;
     padding: 0 160px;
     background-color: var(--darker-blue);
 }
 
-.navbar-spacer {
-    width: 16em;
+.navbar-links {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    box-sizing: border-box;
+    padding: 7px 80px;
 }
 
-.navbar-button {
-    margin-left: -77px;
-    font-size: 0.99em;
+.navbar-links > * {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+}
+
+.navbar-links a {
+    color: white;
+}
+
+.navbar-links a:not(.navbar-title):hover {
+    color: black;
 }
 
 .navbar-title {
-    margin: 0;
     font-size: 1.9em;
+}
+
+.navbar-button {
+    margin-left: -79px;
+    font-size: 0.99em;
 }
 
 .navbar-search {
     width: 300px;
     height: 30px;
-}
-
-.navbar-links ul {
-    display: flex;
-    align-items: center;
-}
-
-.navbar-links li {
-    font-size: 1.2em;
-    padding-left: 20px;
-    padding-right: 15px;
-}
-
-.navbar-links li:not(:first-child) a:hover {
-    /* Selects every Link/anchor except "Renting" */
-    color: black;
-}
-
-.navbar-links a {
-    color: white;
 }
 
 .navbar-logout-button {
@@ -130,11 +126,65 @@ ul {
 
 /* ------------- Home --------------- */
 
-.home {
-    max-width: 1000px;
+.home-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.part-1 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.welcome {
+    width: 520px;
+    box-sizing: border-box;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.welcome h1 {
     text-align: center;
-    font-size: 2em;
-    margin: 20px auto;
+    color: var(--darker-red);
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.welcome p {
+    margin: 0;
+    font-size: 1.6em;
+    line-height: 1.4em;
+}
+
+.part-1 img {
+    width: 650px;
+    height: 460px;
+    border-radius: 25px;
+}
+
+.part-2 {
+    margin-top: 30px;
+    border-radius: 25px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.part-2 h1 {
+    font-size: 2.2em;
+}
+
+.columns {
+    font-size: 1.4em;
+    max-width: 90%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.columns p {
+    margin-top: 0;
+    line-height: 1.4em;
 }
 
 /* ------------- About --------------- */
@@ -382,33 +432,29 @@ ul {
 /* ------------- Footer --------------- */
 
 .footer {
-    font-size: 1.1em;
+    font-size: 1.5em;
     position: absolute;
     width: 100%;
+    height: 70px;
     background-color: var(--darker-blue);
-    font-weight: 700;
     border-top: 3px solid var(--darker-red);
+    font-weight: 700;
+    gap: 20px;
+    color: white;
 
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
 }
 
-.footer a {
+.fa {
+    font-size: 1.5em;
     color: white;
 }
 
-.footer a:hover {
+.fa:hover {
     color: black;
-}
-
-.footer ul {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 60px;
-    margin-right: 60px;
-    gap: 10px;
 }
 
 /* ------------- Multiple components --------------- */

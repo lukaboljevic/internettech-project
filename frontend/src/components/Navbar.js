@@ -45,62 +45,46 @@ const Navbar = () => {
     return (
         <div className="navbar-wrapper">
             <nav className="navbar-links">
-                <ul>
-                    <li>
-                        <h1 className="navbar-title">
-                            <Link to="/">Renting</Link>
-                        </h1>
-                    </li>
-                    <li>
-                        <Link to="/items">Items</Link>
-                    </li>
-                    <li>
-                        <input
-                            type="text"
-                            className="general-text-input navbar-search"
-                            placeholder="Search right away"
-                            onKeyDown={handleKeyDown}
-                        />
-                    </li>
-                    <li>
-                        <button
-                            className="general-button navbar-button"
-                            onClick={handleClick}
-                        >
-                            Go
-                        </button>
-                    </li>
-                    <div className="navbar-spacer"></div>
-                    <li>
-                        <Link to="/about">About</Link>
-                    </li>
+                <div>
+                    <Link to="/" className="navbar-title">
+                        Home
+                    </Link>
+                    <Link to="/items">Items</Link>
+                    <input
+                        type="text"
+                        className="general-text-input navbar-search"
+                        placeholder="Search right away"
+                        onKeyDown={handleKeyDown}
+                    />
+                    <button
+                        className="general-button navbar-button"
+                        onClick={handleClick}
+                    >
+                        Go
+                    </button>
+                </div>
+                {/* <div className="navbar-spacer"></div> */}
+                <div>
+                    <Link to="/about">About</Link>
                     {currentUser ? (
                         // if there's a current user, show Profile and Log out
                         <>
-                            <li>
-                                <Link to="/profile">Profile</Link>
-                            </li>
-                            <li>
-                                <button
-                                    className="general-button navbar-logout-button"
-                                    onClick={handleLogout}
-                                >
-                                    Log out
-                                </button>
-                            </li>
+                            <Link to="/profile">Profile</Link>
+                            <button
+                                className="general-button navbar-logout-button"
+                                onClick={handleLogout}
+                            >
+                                Log out
+                            </button>
                         </>
                     ) : (
                         // otherwise show Log in and Signup
                         <>
-                            <li>
-                                <Link to="/login">Log in</Link>
-                            </li>
-                            <li>
-                                <Link to="/signup">Sign up</Link>
-                            </li>
+                            <Link to="/login">Log in</Link>
+                            <Link to="/signup">Sign up</Link>
                         </>
                     )}
-                </ul>
+                </div>
             </nav>
         </div>
     );
