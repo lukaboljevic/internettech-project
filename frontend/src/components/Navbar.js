@@ -1,6 +1,5 @@
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { performSearch } from "../helper-functions";
 
 const Navbar = () => {
     const { currentUser, logout } = useAuth();
@@ -17,31 +16,6 @@ const Navbar = () => {
         }
     };
 
-    const handleKeyDown = async event => {
-        if (event.code !== "Enter") {
-            return;
-        }
-        try {
-            // TODO: navbar search
-            const hits = await performSearch(event.target.value);
-            console.log("hits!", hits);
-        } catch (error) {
-            alert(error.message);
-        }
-    };
-
-    const handleClick = async () => {
-        try {
-            // TODO: navbar search
-            const hits = await performSearch(
-                document.querySelector(".navbar-search").value
-            );
-            console.log("hits!", hits);
-        } catch (error) {
-            alert(error.message);
-        }
-    };
-
     return (
         <div className="navbar-wrapper">
             <nav className="navbar-links">
@@ -50,22 +24,9 @@ const Navbar = () => {
                         Home
                     </Link>
                     <Link to="/items">Items</Link>
-                    <input
-                        type="text"
-                        className="general-text-input navbar-search"
-                        placeholder="Search right away"
-                        onKeyDown={handleKeyDown}
-                    />
-                    <button
-                        className="general-button navbar-button"
-                        onClick={handleClick}
-                    >
-                        Go
-                    </button>
                 </div>
-                {/* <div className="navbar-spacer"></div> */}
                 <div>
-                    <Link to="/about">About</Link>
+                    <Link to="/about">About me</Link>
                     {currentUser ? (
                         // if there's a current user, show Profile and Log out
                         <>

@@ -81,7 +81,8 @@ ul {
     align-items: center;
 
     box-sizing: border-box;
-    padding: 7px 80px;
+    padding-top: 7px;
+    padding-bottom: 7px;
 }
 
 .navbar-links > * {
@@ -100,16 +101,6 @@ ul {
 
 .navbar-title {
     font-size: 1.9em;
-}
-
-.navbar-button {
-    margin-left: -79px;
-    font-size: 0.99em;
-}
-
-.navbar-search {
-    width: 300px;
-    height: 30px;
 }
 
 .navbar-logout-button {
