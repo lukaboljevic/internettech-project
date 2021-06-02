@@ -63,7 +63,6 @@ const ListItems = () => {
         try {
             setError("");
             const hits = await performSearch(event.target.value);
-            console.log(hits);
             hits.sort((a, b) => {
                 // sort the hits by item name
                 if (a.name < b.name) {
@@ -105,7 +104,9 @@ const ListItems = () => {
                 </div>
                 <div className="all-items">
                     <div></div>
-                    <div className="loading">Loading...</div>
+                    <div className="loading" style={{ marginBottom: "0" }}>
+                        Loading...
+                    </div>
                     <div></div>
                 </div>
             </div>
@@ -125,7 +126,14 @@ const ListItems = () => {
                     Add a new item
                 </button>
             </div>
-            {error && <div className="message error item-or-items-error">{error}</div>}
+            {error && (
+                <div
+                    className="message error item-or-items-error"
+                    style={{ marginBottom: "0" }}
+                >
+                    {error}
+                </div>
+            )}
             <div className="all-items">
                 {items &&
                     items.map(item => (

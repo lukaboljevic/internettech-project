@@ -26,12 +26,6 @@ a {
     color: black;
 }
 
-ul {
-    /* without this inline-start, it offsets the contents weirdly */
-    padding-inline-start: 0;
-    list-style-type: none;
-}
-
 .general-wrapper {
     margin: 30px auto;
     max-width: 1200px;
@@ -426,7 +420,7 @@ ul {
     font-size: 1.5em;
     position: absolute;
     width: 100%;
-    height: 70px;
+    height: 80px;
     background-color: var(--darker-blue);
     border-top: 3px solid var(--darker-red);
     font-weight: 700;

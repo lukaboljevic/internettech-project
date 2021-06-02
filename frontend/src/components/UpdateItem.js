@@ -22,7 +22,6 @@ const UpdateItem = props => {
 
     const handleSubmit = async event => {
         event.preventDefault();
-        // TODO: don't update if there's no changes?
 
         try {
             setError("");

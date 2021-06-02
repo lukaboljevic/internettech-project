@@ -18,7 +18,7 @@ const Login = () => {
     To fix, cancel all subscriptions and asynchronous tasks in a useEffect 
     cleanup function.
 
-    But there is no useEffect? and it's saying the error is on the line "const emailRef = useRef()"
+    But there is no useEffect? and it's saying the error is on the line with useAuth()
     */
 
     const handleSubmit = async event => {
