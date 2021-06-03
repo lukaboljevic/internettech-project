@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { getFiles, performSearch } from "../helper-functions";
+import { dropdownStyles, dropdownOptions } from "../dropdown";
+import Select from "react-select";
 
 const ListItems = () => {
     const [items, setItems] = useState([]);
@@ -8,6 +10,7 @@ const ListItems = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [addNewItem, setAddNewItem] = useState(false);
+    const [selectedOption, setSelectedOption] = useState(null);
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -26,25 +29,18 @@ const ListItems = () => {
                             response.status
                     );
                 }
-                const items = await response.json(); // items is a list
-                items.sort((a, b) => {
-                    // sort the items by item name
-                    if (a.name < b.name) {
-                        return -1;
-                    } else if (a.name > b.name) {
-                        return 1;
-                    } else return 0;
-                });
+                const retrievedItems = await response.json(); // items is a list
 
                 // Get the images for all items
                 const images = {};
-                for (const item of items) {
+                for (const item of retrievedItems) {
                     const itemId = item.id;
                     const urls = await getFiles(item.images, itemId);
                     images[itemId] = urls; // itemId: [downloadURL1, downloadURL2, ...]
                 }
                 setItemImages(images);
-                setItems(items);
+                // sort by name in ascending order by default
+                setItems(sortArray(retrievedItems, dropdownOptions[0]));
             } catch (error) {
                 if (error.name !== "AbortError") {
                     setError(error.message);
@@ -56,6 +52,44 @@ const ListItems = () => {
         return () => abortController.abort();
     }, []);
 
+    const sortArray = (array, option) => {
+        const { value } = option;
+        // attribute is name, price, createdAt or hourPrice
+        // order is ascending or descending
+        const [attribute, order] = value.split(" ");
+
+        // Arrays.prototype.sort() sorts the elements in ascending order if
+        // a negative value is returned when "a < b", a positive value is returned
+        // when "a > b" and 0 is returned when "a = b". If we want to sort in descending
+        // order, we just have to multiply what the function returns by -1.
+        const multiply = order === "ascending" ? 1 : -1;
+
+        array.sort((a, b) => {
+            let first, second;
+            if (attribute === "hourPrice") {
+                first = parseInt(a[attribute]);
+                second = parseInt(b[attribute]);
+            } else {
+                first = a[attribute];
+                second = b[attribute];
+            }
+            if (first < second) return multiply * -1;
+            else if (first > second) return multiply * 1;
+            else return 0;
+        });
+
+        return array;
+    };
+
+    const handleOptionChange = option => {
+        if (loading) {
+            // Disallow doing anything while the items are loading
+            return;
+        }
+        setSelectedOption(option);
+        setItems(sortArray(items, option));
+    };
+
     const handleTextChange = async event => {
         if (loading) {
             return;
@@ -63,15 +97,7 @@ const ListItems = () => {
         try {
             setError("");
             const hits = await performSearch(event.target.value);
-            hits.sort((a, b) => {
-                // sort the hits by item name
-                if (a.name < b.name) {
-                    return -1;
-                } else if (a.name > b.name) {
-                    return 1;
-                } else return 0;
-            });
-            setItems(hits);
+            setItems(sortArray(hits, selectedOption || dropdownOptions[0]));
         } catch (error) {
             setError(error.message);
         }
@@ -79,6 +105,18 @@ const ListItems = () => {
 
     const handleClick = () => {
         setAddNewItem(true);
+    };
+
+    const Dropdown = () => {
+        return (
+            <Select
+                options={dropdownOptions}
+                placeholder="Sort by..."
+                value={selectedOption}
+                styles={dropdownStyles}
+                onChange={handleOptionChange}
+            ></Select>
+        );
     };
 
     if (addNewItem) {
@@ -95,6 +133,7 @@ const ListItems = () => {
                         className="general-text-input search-box"
                         onChange={handleTextChange}
                     />
+                    <Dropdown />
                     <button
                         className="general-button add-item-button"
                         onClick={handleClick}
@@ -122,6 +161,7 @@ const ListItems = () => {
                     className="general-text-input search-box"
                     onChange={handleTextChange}
                 />
+                <Dropdown />
                 <button className="general-button add-item-button" onClick={handleClick}>
                     Add a new item
                 </button>

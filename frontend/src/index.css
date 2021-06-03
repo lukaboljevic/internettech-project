@@ -55,6 +55,7 @@ a {
 
 .general-text-input:focus-visible {
     outline: none;
+    border-color: var(--darker-gray);
 }
 
 /* ------------- Navbar --------------- */
@@ -362,8 +363,8 @@ a {
 }
 
 .search-box {
-    width: 450px;
-    height: 30px;
+    width: 380px;
+    height: 31px;
     font-size: 1.4em;
 }
 

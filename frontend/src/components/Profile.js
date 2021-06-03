@@ -14,6 +14,36 @@ const Profile = () => {
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
 
+    useEffect(() => {
+        const abortController = new AbortController();
+
+        const fetchRentHistory = async () => {
+            try {
+                setError("");
+                const endpoint = `http://localhost:5000/rent-history/${currentUser.email}`;
+                const response = await fetch(endpoint, {
+                    method: "GET",
+                    signal: abortController.signal,
+                });
+                if (!response.ok) {
+                    throw new Error(
+                        `There was an error getting the renting history from the database. Fetch returned status ${response.status}`
+                    );
+                }
+                const history = await response.json();
+                setRentHistory(history);
+            } catch (error) {
+                if (error.name !== "AbortError") {
+                    setError(error.message);
+                }
+            }
+            setLoadingInitial(false);
+        };
+
+        fetchRentHistory();
+        return () => abortController.abort();
+    }, [currentUser.email]); // React said add this as a dependency
+
     const handleSubmit = event => {
         event.preventDefault(); // prevent from refreshing
         setError("");
@@ -50,36 +80,6 @@ const Profile = () => {
                 setLoadingSubmit(false);
             });
     };
-
-    useEffect(() => {
-        const abortController = new AbortController();
-
-        const fetchRentHistory = async () => {
-            try {
-                setError("");
-                const endpoint = `http://localhost:5000/rent-history/${currentUser.email}`;
-                const response = await fetch(endpoint, {
-                    method: "GET",
-                    signal: abortController.signal,
-                });
-                if (!response.ok) {
-                    throw new Error(
-                        `There was an error getting the renting history from the database. Fetch returned status ${response.status}`
-                    );
-                }
-                const history = await response.json();
-                setRentHistory(history);
-            } catch (error) {
-                if (error.name !== "AbortError") {
-                    setError(error.message);
-                }
-            }
-            setLoadingInitial(false);
-        };
-
-        fetchRentHistory();
-        return () => abortController.abort();
-    }, [currentUser.email]); // React said add this as a dependency
 
     if (loadingInitial) {
         return (
