@@ -10,11 +10,11 @@ const ItemPage = () => {
     const { currentUser } = useAuth();
     const { setItemToOrder } = useOrder();
 
-    const [item, setItem] = useState(null);
-    const [downloadedImages, setDownloadedImages] = useState(null);
+    const [item, setItem] = useState(null); // the item to showcase
+    const [downloadedImages, setDownloadedImages] = useState(null); // images for the item
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-    const [toUpdate, setToUpdate] = useState(false);
+    const [toUpdate, setToUpdate] = useState(false); // whether the "Update listing" button was clicked
     const { itemId } = useParams();
     const history = useHistory();
 
@@ -22,6 +22,8 @@ const ItemPage = () => {
         const abortController = new AbortController();
 
         const fetchItem = async () => {
+            // Fetch the items with the given itemId
+
             try {
                 setLoading(true);
                 setError("");
@@ -36,7 +38,7 @@ const ItemPage = () => {
                     );
                 }
                 const item = await response.json();
-                const urls = await getFiles(item.images, itemId);
+                const urls = await getFiles(item.images, itemId); // get the images for the item
                 setDownloadedImages(urls);
                 setItem(item);
                 setItemToOrder(item);
@@ -53,6 +55,8 @@ const ItemPage = () => {
     }, [itemId, setItemToOrder]); // React said add these two as dependencies
 
     const handleRentClick = () => {
+        // Process what happens when the "Rent now" button is clicked
+
         if (!currentUser) history.push("/login");
         else {
             if (currentUser.email === item.createdBy) {
@@ -63,26 +67,28 @@ const ItemPage = () => {
         }
     };
 
-    const handleUpdateClick = () => {
-        setToUpdate(true);
-    };
-
     const checkHidden = () => {
         // Check if the "Update listing" button is hidden or not
+
         if (!currentUser) {
             return true;
         }
         if (currentUser.email !== item.createdBy) {
+            // If the current user didn't create the item
             return true;
         }
         return false;
     };
 
     if (toUpdate) {
+        // "Update listing" button was clicked
+
         return <Redirect to={{ pathname: "/update-item", item: item }} />;
     }
 
     if (loading) {
+        // We're fetching the item
+
         return (
             <div className="general-wrapper loading" style={{ textAlign: "center" }}>
                 Loading...
@@ -102,6 +108,7 @@ const ItemPage = () => {
                             showThumbs={false}
                             showStatus={false}
                         >
+                            {/* Set the images for the Carousel, or show noimage.png if there are no images */}
                             {downloadedImages && downloadedImages.length > 0 ? (
                                 downloadedImages.map((image, index) => (
                                     <img key={index} src={image} alt="" />
@@ -117,11 +124,16 @@ const ItemPage = () => {
                         <span>{item.city}</span>
                         <h2>Offered games</h2>
                         <div style={{ paddingRight: "30px" }}>
-                            {item.games.map((game, index) => {
-                                if (index === item.games.length - 1)
-                                    return <span key={index}>{game}</span>;
-                                return <span key={index}>{game + ", "}</span>;
-                            })}
+                            {/* Show the games if there are any */}
+                            {item.games.length > 0 ? (
+                                item.games.map((game, index) => {
+                                    if (index === item.games.length - 1)
+                                        return <span key={index}>{game}</span>;
+                                    return <span key={index}>{game + ", "}</span>;
+                                })
+                            ) : (
+                                <span>No games available</span>
+                            )}
                         </div>
                         <h2>Price per hour</h2>
                         <span>{item.hourPrice}&euro;</span>
@@ -138,7 +150,9 @@ const ItemPage = () => {
                             className="general-button item-page-button"
                             style={{ width: "200px" }}
                             hidden={checkHidden()}
-                            onClick={handleUpdateClick}
+                            onClick={() => {
+                                setToUpdate(true);
+                            }}
                         >
                             Update listing
                         </button>

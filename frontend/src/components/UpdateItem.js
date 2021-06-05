@@ -5,7 +5,7 @@ import { uploadFiles } from "../helper-functions";
 const UpdateItem = props => {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
-    const [item, setItem] = useState(props.location.item ? props.location.item : null);
+    const [item, setItem] = useState(props.location.item ? props.location.item : null); // check if there is an item to update
     const [error, setError] = useState(
         item
             ? ""
@@ -28,7 +28,10 @@ const UpdateItem = props => {
             setMessage("");
             setLoading(true);
 
-            const games = gamesRef.current.value.split("\n");
+            // Same check as in NewItem.js
+            const games = /\S/.test(gamesRef.current.value) // /\S/ is a regex in Javascript - \S = ^\s = ^[whitespace chars]
+                ? gamesRef.current.value.split("\n")
+                : [];
             const imageNames = [];
             for (const file of imagesRef.current.files) {
                 imageNames.push(file.name);
@@ -62,6 +65,7 @@ const UpdateItem = props => {
             }
             const updatedItem = await response.json();
             if (imageNames.length > 0)
+                // Upload any new images
                 await uploadFiles(imagesRef.current.files, updatedItem.id);
             setMessage("Successfully updated your item. Check it out on this link: ");
             setItem(updatedItem);

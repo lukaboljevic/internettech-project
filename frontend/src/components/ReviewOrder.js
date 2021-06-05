@@ -5,18 +5,23 @@ import { useAuth } from "../contexts/AuthContext";
 
 const ReviewOrder = () => {
     const { currentUser } = useAuth();
+    const { itemToOrder, orderInformation, paymentType } = useOrder();
 
     const [message, setMessage] = useState("");
-    const [submitted, setSubmitted] = useState(false);
-    const { itemToOrder, orderInformation, paymentType } = useOrder();
+    const [submitted, setSubmitted] = useState(false); // whether the order was submitted
+    // if there no order information, or an item to order, there will be no error
+    // a situation when this will be false is when we manually came from, for example,
+    // /items, to /order-context/review-order (or /order)
+    const thereIsNoError = itemToOrder && orderInformation;
     const [error, setError] = useState(
-        itemToOrder || orderInformation
+        thereIsNoError
             ? ""
             : "There is no item to order and/or no order information. You must have come to this page " +
                   " in the way you are not supposed to. Please return to the items page, select " +
                   "your item and try again. If you aren't logged in, be sure to do so."
     );
 
+    // Map the attributes from the order information to what is shown on the page
     const mapOrderKey = {
         nameSurname: "Name and surname",
         cityAddress: "City and address",
@@ -28,6 +33,7 @@ const ReviewOrder = () => {
         cardholderName: "Cardholder name",
     };
 
+    // Map month ordinal to its string representation
     const mapMonth = {
         1: "January",
         2: "February",
@@ -44,6 +50,8 @@ const ReviewOrder = () => {
     };
 
     const submitOrder = async () => {
+        // Submit the order when the "Submit order" button is clicked
+
         try {
             setError("");
             setMessage("");
@@ -67,7 +75,7 @@ const ReviewOrder = () => {
             const rentInfo = {
                 user: currentUser.email,
                 item: updatedItem,
-                paymentType: paymentType,
+                paymentType: paymentType, // "Credit card" or "On arrival"
             };
             const responseHistory = await fetch("http://localhost:5000/rent-item", {
                 method: "POST",
@@ -83,6 +91,7 @@ const ReviewOrder = () => {
             }
             await responseHistory.json();
 
+            // Finish up
             setMessage(
                 "Order successfully submitted. View it on your profile, or continue searching."
             );
@@ -93,6 +102,8 @@ const ReviewOrder = () => {
     };
 
     const getMonthAndYear = () => {
+        // Transform YYYY-MM, coming from card's expiration date, to "Month Year"
+
         const [year, month] = orderInformation.expirationDate.split("-");
         return mapMonth[parseInt(month)] + " " + year;
     };
@@ -113,6 +124,9 @@ const ReviewOrder = () => {
                                             {mapOrderKey[key]}
                                         </h2>
                                         <span>
+                                            {/* If the key is the expiration date of the credit card,
+                                            convert the current format the month and year are in to something
+                                            "more readable" so to say */}
                                             {key === "expirationDate"
                                                 ? getMonthAndYear()
                                                 : orderInformation[key]}
@@ -132,9 +146,7 @@ const ReviewOrder = () => {
                 </div>
             </div>
             <div className="after-component-wrapper-text">
-                {/* !(itemToOrder || orderInformation) is the negation of the condition
-                used for determining if there is an error when we initially come to this page */}
-                {!(itemToOrder || orderInformation) ? (
+                {!thereIsNoError ? ( // so there was an error
                     <Link to="/items">Back to the items page</Link>
                 ) : submitted ? (
                     <Link to="/items">Continue searching</Link>

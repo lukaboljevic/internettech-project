@@ -1,3 +1,4 @@
+// Options for the dropdown menu in ListItems component
 export const dropdownOptions = [
     { value: "name ascending", label: "By name (asc.)" },
     { value: "name descending", label: "By name (desc.)" },
@@ -9,6 +10,7 @@ export const dropdownOptions = [
     { value: "createdAt descending", label: "Publish date (desc.)" },
 ];
 
+// Styles for the dropdown menu in ListItems component
 export const dropdownStyles = {
     // Container
     container: (provided, state) => ({
@@ -58,6 +60,8 @@ export const dropdownStyles = {
             : provided.backgroundColor,
         // when we hover over an option
         ":hover": {
+            // if it's selected, then leave it's background color the same
+            // else make it the lighter gray we have declared in :root
             backgroundColor: state.isSelected
                 ? "var(--lighter-blue)"
                 : "var(--lighter-gray)",

@@ -24,8 +24,11 @@ const NewItem = () => {
             setError("");
             setMessage("");
             setLoading(true);
-
-            const games = gamesRef.current.value.split("\n");
+            // Get the games. If no games were input i.e. if we just have blank spaces, pass in an empty array
+            const games = /\S/.test(gamesRef.current.value) // /\S/ is a regex in Javascript - \S = ^\s = ^[whitespace chars]
+                ? gamesRef.current.value.split("\n")
+                : [];
+            // Get all image names
             const imageNames = [];
             for (const file of imagesRef.current.files) {
                 imageNames.push(file.name);
@@ -57,6 +60,7 @@ const NewItem = () => {
                 );
             }
             const createdItem = await response.json();
+            // Upload the images to Firebase Storage
             await uploadFiles(imagesRef.current.files, createdItem.id);
             setMessage("Successfully inserted your item. Check it out on this link: ");
             setItem(createdItem);

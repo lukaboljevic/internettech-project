@@ -6,6 +6,8 @@ require("dotenv").config({
     path: path.resolve(process.cwd(), ".env.local"),
 });
 
+// Update the AWS configuration with the necessary keys
+// and initialize the DynamoDB Document Client
 AWS.config.update({
     accessKeyId: process.env.AWS_ACCOUNT_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_ACCOUNT_SECRET_ACCESS_KEY,
@@ -114,14 +116,14 @@ const updateItem = async updatedItem => {
     let exprAttrValues = {};
     const keys = Object.keys(updatedItem);
 
+    // Construct the UpdateExpression, ExpressionAttributeNames and
+    // ExpressionAttributeValues in the required format
     for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
         if (key === "id") {
             // skip the id as that remains the same
             continue;
         }
-        // Construct the UpdateExpression, ExpressionAttributeNames and
-        // ExpressionAttributeValues in the required format
         updateExpr += `#${key} = :${key}`;
         if (i < keys.length - 1) {
             updateExpr += ", ";

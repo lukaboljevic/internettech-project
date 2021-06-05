@@ -6,15 +6,18 @@ import Select from "react-select";
 
 const ListItems = () => {
     const [items, setItems] = useState([]);
-    const [itemImages, setItemImages] = useState(null);
+    const [itemImages, setItemImages] = useState(null); // the images of all the items
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [addNewItem, setAddNewItem] = useState(false);
+    const [addNewItem, setAddNewItem] = useState(false); // state for the "Add a new item" button
     const [selectedOption, setSelectedOption] = useState(null);
 
     useEffect(() => {
         const abortController = new AbortController();
+
         const fetchItems = async () => {
+            // Fetch all the items from the database
+
             try {
                 setLoading(true);
                 setError("");
@@ -29,14 +32,14 @@ const ListItems = () => {
                             response.status
                     );
                 }
-                const retrievedItems = await response.json(); // items is a list
+                const retrievedItems = await response.json(); // retrievedItems is a list
 
                 // Get the images for all items
                 const images = {};
                 for (const item of retrievedItems) {
                     const itemId = item.id;
                     const urls = await getFiles(item.images, itemId);
-                    images[itemId] = urls; // itemId: [downloadURL1, downloadURL2, ...]
+                    images[itemId] = urls; // urls is a list of download urls for each image assigned to the item (i.e. item id)
                 }
                 setItemImages(images);
                 // sort by name in ascending order by default
@@ -48,12 +51,17 @@ const ListItems = () => {
             }
             setLoading(false);
         };
+
         fetchItems();
         return () => abortController.abort();
     }, []);
 
     const sortArray = (array, option) => {
+        // Sort the given array with the value from the given option
+
+        // value is "name ascending", "price ascending", ...
         const { value } = option;
+
         // attribute is name, price, createdAt or hourPrice
         // order is ascending or descending
         const [attribute, order] = value.split(" ");
@@ -67,9 +75,11 @@ const ListItems = () => {
         array.sort((a, b) => {
             let first, second;
             if (attribute === "hourPrice") {
+                // If we are sorting by price, transform the values into integers
                 first = parseInt(a[attribute]);
                 second = parseInt(b[attribute]);
             } else {
+                // Leave as is
                 first = a[attribute];
                 second = b[attribute];
             }
@@ -82,6 +92,8 @@ const ListItems = () => {
     };
 
     const handleOptionChange = option => {
+        // An option was selected from the dropdown menu
+
         if (loading) {
             // Disallow doing anything while the items are loading
             return;
@@ -91,12 +103,16 @@ const ListItems = () => {
     };
 
     const handleTextChange = async event => {
+        // Search every time the text inside the text input is changed
+
         if (loading) {
+            // Disallow searching while we are loading
             return;
         }
         try {
             setError("");
             const hits = await performSearch(event.target.value);
+            // sort by the selected option or the default option, if there is no selected option
             setItems(sortArray(hits, selectedOption || dropdownOptions[0]));
         } catch (error) {
             setError(error.message);
@@ -104,26 +120,30 @@ const ListItems = () => {
     };
 
     const handleClick = () => {
+        // "Add a new item" button was clicked
         setAddNewItem(true);
     };
 
     const Dropdown = () => {
+        // The dropdown menu
         return (
             <Select
                 options={dropdownOptions}
-                placeholder="Sort by..."
                 value={selectedOption}
                 styles={dropdownStyles}
                 onChange={handleOptionChange}
+                placeholder="Sort by..."
             ></Select>
         );
     };
 
     if (addNewItem) {
+        // If "Add a new item" button was clicked, redirect
         return <Redirect to="/new-item" />;
     }
 
     if (loading) {
+        // If we are fetching the items, show it's loading
         return (
             <div className="general-wrapper">
                 <div className="search-wrapper">
@@ -182,6 +202,7 @@ const ListItems = () => {
                             className="item-box border box-shadow"
                             to={`/order-context/items/${item.id}`}
                         >
+                            {/* Show the first image if it exists, else show noimage.png */}
                             <img
                                 src={
                                     itemImages[item.id].length > 0
@@ -193,6 +214,7 @@ const ListItems = () => {
                             <div className="item-info">
                                 <h2>{item.name}</h2>
                                 <h4>
+                                    {/* "Showcase" some games (first three games) */}
                                     Some games:{" "}
                                     {item.games.slice(0, 3).map((game, index) => {
                                         if (index === item.games.length - 1) {

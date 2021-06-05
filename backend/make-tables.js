@@ -4,6 +4,10 @@ require("dotenv").config({
     path: path.resolve(process.cwd(), ".env.local"),
 });
 
+// This script needs only be executed once, with the command
+// `node make-tables.js`
+// That will create both the tables required for this project
+
 AWS.config.update({
     accessKeyId: process.env.AWS_ACCOUNT_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_ACCOUNT_SECRET_ACCESS_KEY,
@@ -12,6 +16,7 @@ AWS.config.update({
 
 const dynamoDB = new AWS.DynamoDB();
 
+// Parameters to create the items table
 const itemsParams = {
     TableName: process.env.ITEMS_TABLE_NAME,
     KeySchema: [
@@ -29,6 +34,7 @@ const itemsParams = {
     ],
 };
 
+// Parameters to create the table for renting history
 const rentParams = {
     TableName: process.env.RENT_HISTORY_TABLE_NAME,
     KeySchema: [

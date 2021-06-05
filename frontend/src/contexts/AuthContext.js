@@ -40,7 +40,6 @@ export const AuthProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        // this useEffect is properly cleaned up
         const unsubscribe = auth.onAuthStateChanged(user => {
             setCurrentUser(user);
             setLoading(false);

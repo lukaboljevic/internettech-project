@@ -34,6 +34,8 @@ const ForgotPassword = props => {
     };
 
     // props.location.data is sent from login
+    // If there is no one logged in, and we are not on the login page
+    // (i.e. we didn't come from there), redirect to the login page
     if (!currentUser && props.location?.data !== "came from login") {
         return <Redirect to="/login" />;
     }

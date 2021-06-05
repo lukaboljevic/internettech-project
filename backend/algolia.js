@@ -10,14 +10,15 @@ const appId = process.env.ALGOLIA_APP_ID;
 let itemsIndex;
 const getItemsIndex = async () => {
     // Return the index containing all the items we can search
+    // Only invoke the Algolia API for initializing the index once
 
     if (!itemsIndex) {
         const application = algoliasearch(appId, adminKey);
         itemsIndex = await application.initIndex(`dev-items`);
 
         await itemsIndex.setSettings({
+            // We can search by name, games and city, in that order of importance
             searchableAttributes: ["name", "games", "city"],
-            // TODO: further modifications required? good for now though.
         });
     }
     return itemsIndex;

@@ -7,9 +7,9 @@ const Profile = () => {
 
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
-    const [loadingSubmit, setLoadingSubmit] = useState(false);
-    const [loadingInitial, setLoadingInitial] = useState(true);
-    const [rentHistory, setRentHistory] = useState(null);
+    const [loadingSubmit, setLoadingSubmit] = useState(false); // loading while submitting
+    const [loadingInitial, setLoadingInitial] = useState(true); // loading while fetching the rent history
+    const [rentHistory, setRentHistory] = useState(null); // rent history for the logged in user
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
@@ -18,6 +18,8 @@ const Profile = () => {
         const abortController = new AbortController();
 
         const fetchRentHistory = async () => {
+            // Get the rent history for the logged in user
+
             try {
                 setError("");
                 const endpoint = `http://localhost:5000/rent-history/${currentUser.email}`;
@@ -45,6 +47,8 @@ const Profile = () => {
     }, [currentUser.email]); // React said add this as a dependency
 
     const handleSubmit = event => {
+        // Update password and/or email
+
         event.preventDefault(); // prevent from refreshing
         setError("");
         setMessage("");
@@ -66,6 +70,7 @@ const Profile = () => {
             promises.push(changePassword(passwordRef.current.value));
         }
         if (promises.length === 0) {
+            // If we are not changing anything, return
             return;
         }
 
@@ -82,6 +87,7 @@ const Profile = () => {
     };
 
     if (loadingInitial) {
+        // If we're fetching the rent history
         return (
             <div className="general-wrapper loading" style={{ textAlign: "center" }}>
                 Loading...
@@ -123,6 +129,8 @@ const Profile = () => {
                     />
                     <label>Renting history</label>
                     <div className="rent-history-wrapper">
+                        {/* Show the rent history if the user has rented something, 
+                        otherwise say he hasn't rented anything */}
                         {rentHistory && rentHistory.length > 0 ? (
                             rentHistory.map(item => (
                                 <div key={item.itemId}>

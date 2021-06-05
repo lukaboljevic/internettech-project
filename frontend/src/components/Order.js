@@ -11,6 +11,7 @@ const Order = () => {
     const [credit, setCredit] = useState(false);
     const [arrival, setArrival] = useState(false);
     const [review, setReview] = useState(false);
+    // Disable next line cause I don't use setError anywhere else
     // eslint-disable-next-line
     const [error, setError] = useState(
         itemToOrder
@@ -29,16 +30,22 @@ const Order = () => {
     const cardholderRef = useRef();
 
     const handleCreditClick = () => {
+        // We want to pay with a credit card
+
         setCredit(true);
         setArrival(false);
     };
 
     const handleArrivalClick = () => {
+        // We want to pay on arrival
+
         setArrival(true);
         setCredit(false);
     };
 
     const handleSubmit = event => {
+        // Set the necessary information for /review-order and redirect there
+
         event.preventDefault();
         let formData = {
             nameSurname: nameSurnameRef.current.value,
@@ -47,7 +54,7 @@ const Order = () => {
             email: emailRef.current.value,
         };
         if (credit) {
-            // if we want to pay with a credit card
+            // if we want to pay with a credit card, append info about it
             formData = {
                 ...formData,
                 cardNumber: cardNumberRef.current.value,
@@ -56,13 +63,13 @@ const Order = () => {
                 cardholderName: cardholderRef.current.value,
             };
         }
-        // formData["paymentType"] = credit ? "Credit card" : "On arrival";
         setOrderInformation(formData);
         setPaymentType(credit ? "Credit card" : "On arrival");
         setReview(true);
     };
 
     if (review) {
+        // If "Review order" button was clicked
         return <Redirect to="/order-context/review-order" />;
     }
 
@@ -98,7 +105,6 @@ const Order = () => {
                         />
                         <label htmlFor="phone-number">Phone number</label>
                         <input
-                            // make this type="tel" and add pattern or smt
                             type="tel"
                             className="general-text-input"
                             id="phone-number"
@@ -229,6 +235,7 @@ const Order = () => {
             </div>
             <div className="after-component-wrapper-text">
                 <Link to="/">Home page</Link>
+                {/* an empty div to space them */}
                 <div style={{ display: "inline-block", width: "60px" }}></div>
                 <Link to="/items">Items page</Link>
             </div>
