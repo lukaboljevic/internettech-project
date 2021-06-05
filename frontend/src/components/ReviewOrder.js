@@ -9,9 +9,16 @@ const ReviewOrder = () => {
 
     const [message, setMessage] = useState("");
     const [submitted, setSubmitted] = useState(false); // whether the order was submitted
-    // if there no order information, or an item to order, there will be no error
-    // a situation when this will be false is when we manually came from, for example,
-    // /items, to /order-context/review-order (or /order)
+
+    /*
+    If there is order information AND an item to order, there will be no error.
+    A situation when this not the case is when we manually came from, for example,
+    /items, to /order-context/review-order - in this scenario, both itemToOrder and 
+    orderInformation from OrderContext.js have not been set and are still null
+    A similar scenario is if we manually came from /order to /review-order - the
+    "Review order" button has not been clicked, hence the orderInformation has not been set,
+    thus this is registered as an 'error'.
+    */
     const thereIsNoError = itemToOrder && orderInformation;
     const [error, setError] = useState(
         thereIsNoError
@@ -125,8 +132,8 @@ const ReviewOrder = () => {
                                         </h2>
                                         <span>
                                             {/* If the key is the expiration date of the credit card,
-                                            convert the current format the month and year are in to something
-                                            "more readable" so to say */}
+                                            convert the current format the month and year are in (YYYY-MM)
+                                            to something "more readable" so to say */}
                                             {key === "expirationDate"
                                                 ? getMonthAndYear()
                                                 : orderInformation[key]}
@@ -146,7 +153,7 @@ const ReviewOrder = () => {
                 </div>
             </div>
             <div className="after-component-wrapper-text">
-                {!thereIsNoError ? ( // so there was an error
+                {!thereIsNoError ? ( // so, there was an error
                     <Link to="/items">Back to the items page</Link>
                 ) : submitted ? (
                     <Link to="/items">Continue searching</Link>

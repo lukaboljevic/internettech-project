@@ -28,8 +28,8 @@ const UpdateItem = props => {
             setMessage("");
             setLoading(true);
 
-            // Same check as in NewItem.js
-            const games = /\S/.test(gamesRef.current.value) // /\S/ is a regex in Javascript - \S = ^\s = ^[whitespace chars]
+            // Same check as in NewItem.js, maybe unnecessary but it's okay
+            const games = /\S/.test(gamesRef.current.value)
                 ? gamesRef.current.value.split("\n")
                 : [];
             const imageNames = [];
