@@ -26,38 +26,13 @@ const About = () => {
                 Computer Science.
             </p>
             <p className="about-me smaller">
-                I've honestly always had some doubt in myself, thinking I won't be able to
-                finish my university, and that I won't be able to learn what I want. In my
-                primary school days, I was often bullied for being the "smart guy". It's
-                not how it's supposed to be, but that's how it was, and being the
-                introvert I was back then, it really did shatter my confidence going
-                forward. On top of that, I had little to no <em>good</em> friends to
-                "complain" to, or to listen to me out when it was hard.
-            </p>
-            <p className="about-me smaller">
-                Coming into high school, I met new people, that I still hang out to this
-                day, that helped me sky rocket my confidence and become less of an
-                introvert. And well, fast forward a few years, here I am, successfully
-                finishing my bachelor degree, and completely from scratch building my
-                first website. It's not the greatest idea by any stretch of the
-                imagination, it's not the prettiest site, but it's mine, and I'm proud of
-                it. I can quite confidently say that I have overcome my fears and doubts,
-                that I have found what I want to do in life, and that I have laid a solid
-                foundation for that. From this point on, I only want to learn more, work
-                harder, and be better at something I once thought I was never going to be
-                able to do.
-            </p>
-            <p className="about-me smaller">
-                As a finishing note, I just want to say, to whoever is reading is: if you
-                ever think there is something you can't do, can't overcome or can't
-                achieve, working hard, believing in yourself, and most importantly,
-                surrounding yourself with the right people <strong>will</strong>, at one
-                point or another, get you to your destination. You mustn't give up. I know
-                it's a cliche saying, but from my experience, it really is true:{" "}
-                <strong>
-                    work hard and it <em>will</em> pay off
-                </strong>
-                .
+                Fast forward a few years, here I am, successfully finishing my bachelor
+                degree, and completely from scratch building my first website. It's not
+                the greatest idea by any stretch of the imagination, it's not the
+                prettiest site, but it's mine, and I'm proud of it. I can quite
+                confidently say that this is something I want to pursue in life, and that
+                I can certainly see myself working as a full stack developer in the
+                relatively near future.
             </p>
         </div>
     );
